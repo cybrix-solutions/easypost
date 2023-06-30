@@ -5,24 +5,30 @@ declare(strict_types=1);
 use CybrixSolutions\EasyPost\CustomWorkflows\Factory;
 use CybrixSolutions\EasyPost\CustomWorkflows\FedexWorkflow;
 use CybrixSolutions\EasyPost\CustomWorkflows\UpsWorkflow;
+use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierResponses;
-use EasyPost\EasyPostObject;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 
-it('can resolve a custom workflow', function (EasyPostObject $carrierResponse, string $expectedWorkflow) {
-    $carrierService = new CarrierService($carrierResponse);
+beforeEach(function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+    ]);
+});
+
+it('can resolve a custom workflow', function (CarrierEnum $enum, string $expectedWorkflow) {
+    $carrierService = CarrierService::fromType($enum);
 
     $workflow = Factory::make($carrierService);
 
     expect($workflow)->toBeInstanceOf($expectedWorkflow);
 })->with([
-    [fn () => CarrierResponses::upsAccount(), UpsWorkflow::class],
-    [fn () => CarrierResponses::fedexAccount(), FedexWorkflow::class],
+    [CarrierEnum::Ups, UpsWorkflow::class],
+    [CarrierEnum::Fedex, FedexWorkflow::class],
 ]);
 
 it('throws an exception for unsupported carrier types', function () {
-    $carrierService = new CarrierService(CarrierResponses::speedeeAccount());
+    $carrierService = CarrierService::fromType(CarrierEnum::Speedee);
 
     Factory::make($carrierService);
 })->throws(InvalidCarrierForCustomWorkflow::class);
