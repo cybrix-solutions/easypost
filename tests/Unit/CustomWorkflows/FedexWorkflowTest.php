@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\CustomWorkflows\FedexWorkflow;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
+use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Services\CarrierService;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierResponses;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use Illuminate\Support\Collection;
 
 beforeEach(function () {
-    $this->workflow = new FedexWorkflow(new CarrierService(CarrierResponses::fedexAccount()));
+    mockProductionApi([
+        CarrierTypesMock::make(),
+    ]);
+
+    $this->workflow = new FedexWorkflow(CarrierService::fromType(CarrierEnum::Fedex));
 });
 
 it('returns placeholders for the workflow fields', function () {
