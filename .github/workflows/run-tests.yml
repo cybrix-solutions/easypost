@@ -2,11 +2,15 @@ name: Tests
 
 on:
     push:
-        paths-ignore:
-            - '**.md'
+        paths:
+            - '**.php'
+            - 'phpunit.xml.dist'
+            - './github/workflows/run-tests.yml'
     pull_request:
-        paths-ignore:
-            - '**.md'
+        paths:
+            - '**.php'
+            - 'phpunit.xml.dist'
+            - './github/workflows/run-tests.yml'
 
 jobs:
     test:
