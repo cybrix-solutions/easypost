@@ -6,16 +6,17 @@ use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierResponses;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
+
+beforeEach(function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+    ]);
+});
 
 it('can be created from a carrier type', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Speedee);
 
     expect($service->carrierEnum())->toBe(CarrierEnum::Speedee)
@@ -23,10 +24,6 @@ it('can be created from a carrier type', function () {
 });
 
 it('knows if the carrier type has test credentials', function () {
-    Cache::shouldReceive('remember')
-        ->twice()
-        ->andReturn(CarrierResponses::types());
-
     $speedee = CarrierService::fromType(CarrierEnum::Speedee);
     $betterTrucks = CarrierService::fromType(CarrierEnum::BetterTrucks);
 
@@ -35,50 +32,30 @@ it('knows if the carrier type has test credentials', function () {
 });
 
 it('can get the signup url for a carrier', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Speedee);
 
     expect($service->signupUrl())->toBe(CarrierEnum::Speedee->signupUrl());
 });
 
 it('can get the signup text for a carrier', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Speedee);
 
     expect($service->signupText())->toBe(CarrierEnum::Speedee->signupText());
 });
 
 it('can get the signup help url for a carrier', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Ups);
 
     expect($service->signupText())->toBe(CarrierEnum::Ups->signupText());
 });
 
 it('can get the signup instructions for a carrier', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Speedee);
 
     expect($service->signupInstructions())->toBe(CarrierEnum::Speedee->signupInstructions());
 });
 
 it('can determine if the carrier has a custom creation workflow', function () {
-    Cache::shouldReceive('remember')
-        ->twice()
-        ->andReturn(CarrierResponses::types());
-
     $speedee = CarrierService::fromType(CarrierEnum::Speedee);
     $ups = CarrierService::fromType(CarrierEnum::Ups);
 
@@ -87,10 +64,6 @@ it('can determine if the carrier has a custom creation workflow', function () {
 });
 
 it('can get the production credentials for adding a carrier account', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::BetterTrucks);
     $credentials = $service->productionCredentials();
 
@@ -102,10 +75,6 @@ it('can get the production credentials for adding a carrier account', function (
 });
 
 it('can get the test env credentials for adding a carrier account', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::BetterTrucks);
     $credentials = $service->testCredentials();
 
@@ -117,10 +86,6 @@ it('can get the test env credentials for adding a carrier account', function () 
 });
 
 it('can generate an array of validation rules for a carrier', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::BetterTrucks);
     $rules = $service->rulesForValidation();
 
@@ -140,10 +105,6 @@ it('can generate an array of validation rules for a carrier', function () {
 });
 
 it('can generate an array of human-readable attributes for validation', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::BetterTrucks);
     $attributes = $service->validationAttributes();
 
@@ -157,10 +118,6 @@ it('can generate an array of human-readable attributes for validation', function
 });
 
 it('can get the credentials for a custom workflow', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Ups);
     $credentials = $service->customCredentials();
 
@@ -170,20 +127,12 @@ it('can get the credentials for a custom workflow', function () {
 });
 
 it('will throw an exception when trying to retrieve custom credentials for non custom workflow carrier types', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Speedee);
 
     $service->customCredentials();
 })->throws(InvalidCarrierForCustomWorkflow::class);
 
 it('generates validation rules for custom workflow carrier types', function () {
-    Cache::shouldReceive('remember')
-        ->once()
-        ->andReturn(CarrierResponses::types());
-
     $service = CarrierService::fromType(CarrierEnum::Ups);
     $rules = $service->rulesForValidation();
 
