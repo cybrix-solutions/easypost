@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\CustomWorkflows\UpsWorkflow;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
+use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Services\CarrierService;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierCredentials;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierResponses;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
 
 beforeEach(function () {
-    $this->workflow = new UpsWorkflow(new CarrierService(CarrierResponses::upsAccount()));
+    mockProductionApi([
+        CarrierTypesMock::make(),
+    ]);
+
+    $this->workflow = new UpsWorkflow(CarrierService::fromType(CarrierEnum::Ups));
 });
 
 it('generates placeholders for the workflow fields', function () {
