@@ -61,8 +61,7 @@ class EasyPostServiceProvider extends PackageServiceProvider
     protected function bootApi(): self
     {
         $this->app->singleton(EasyPostClient::class, function () {
-            $testMode = EasyPostFacade::inTestMode();
-            $apiKey = $testMode
+            $apiKey = EasyPostFacade::inTestMode()
                 ? EasyPostFacade::testApiKey()
                 : EasyPostFacade::apiKey();
 
