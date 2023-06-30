@@ -6,8 +6,14 @@ use CybrixSolutions\EasyPost\CustomWorkflows\UpsWorkflow;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Services\CarrierService;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierCredentials;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierResponses;
+
+beforeEach(function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+    ]);
+});
 
 it('knows if it is a checkbox credential', function () {
     $credential = new EasyPostCredential(
@@ -154,7 +160,7 @@ it('returns the rules for validation', function () {
 });
 
 it('returns the rules for validation on a custom workflow field', function () {
-    $workflow = new UpsWorkflow(new CarrierService(CarrierResponses::upsAccount()));
+    $workflow = upsWorkflow();
     $credential = new EasyPostCredential(
         credential: CarrierCredentials::textCredential(),
         name: 'country',
@@ -171,7 +177,7 @@ it('returns the rules for validation on a custom workflow field', function () {
 });
 
 it('can generate a placeholder for custom workflow fields', function () {
-    $workflow = new UpsWorkflow(new CarrierService(CarrierResponses::upsAccount()));
+    $workflow = upsWorkflow();
     $credential = new EasyPostCredential(
         credential: CarrierCredentials::textCredential(),
         name: 'account_number',
@@ -183,7 +189,7 @@ it('can generate a placeholder for custom workflow fields', function () {
 });
 
 it('can determine if certain custom workflow fields are optional', function () {
-    $workflow = new UpsWorkflow(new CarrierService(CarrierResponses::upsAccount()));
+    $workflow = upsWorkflow();
     $credential = new EasyPostCredential(
         credential: CarrierCredentials::textCredential(),
         name: 'street2',
@@ -193,3 +199,10 @@ it('can determine if certain custom workflow fields are optional', function () {
 
     expect($credential->isRequired())->toBeFalse();
 });
+
+// Helpers
+
+function upsWorkflow(): UpsWorkflow
+{
+    return new UpsWorkflow(CarrierService::fromType(CarrierEnum::Ups));
+}
