@@ -3,30 +3,56 @@
 namespace CybrixSolutions\EasyPost\Tests;
 
 use CybrixSolutions\EasyPost\EasyPostServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use CybrixSolutions\EasyPost\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Tests\Fixtures\Models\User;
+use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
+use Dotenv\Dotenv;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    protected $loadEnvironmentVariables = true;
+
     protected function setUp(): void
     {
+        $this->loadEnvironmentVariables();
+
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'CybrixSolutions\\EasyPost\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
-        );
+        if ($this->needsDatabase()) {
+            $this->initDatabase();
+        }
+    }
+
+    public function getEnvironmentSetUp($app)
+    {
+        config()->set('easypost.table_names.carrier_accounts', 'carrier_accounts');
+        config()->set('easypost.models.carrier_account', CarrierAccount::class);
+        config()->set('auth.providers.users.model', User::class);
     }
 
     protected function getPackageProviders($app): array
     {
         return [
             EasyPostServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function loadEnvironmentVariables(): void
     {
-        // include_once __DIR__ . '/../database/migrations/create_easypost_table.php.stub';
-        // (new \CreatePackageTable())->up();
+        if (! file_exists(__DIR__ . '/../.env')) {
+            return;
+        }
+
+        $dotEnv = Dotenv::createImmutable(__DIR__ . '/..');
+
+        $dotEnv->load();
+    }
+
+    protected function needsDatabase(): bool
+    {
+        return in_array(UsesDatabase::class, class_uses_recursive(static::class), true);
     }
 }

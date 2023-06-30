@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create(config('easypost.table_names.carrier_accounts'), static function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('easypost_id')->unique();
+            $table->string('billing_type', 40)->default('carrier');
+            $table->boolean('default')->default(false);
+            $table->dateTime('deactivated_at')->nullable()->index();
+            $table->string('type')->comment('CarrierEnum');
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+        });
+    }
+};
