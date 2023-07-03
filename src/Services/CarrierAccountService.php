@@ -19,6 +19,14 @@ class CarrierAccountService
     {
     }
 
+    /**
+     * @return array<int, \EasyPost\CarrierAccount>
+     */
+    public function all(): array
+    {
+        return $this->api->carrierAccount->all();
+    }
+
     public function create(string $type, string $name, array $data, ?string $reference = null): CarrierAccount
     {
         try {

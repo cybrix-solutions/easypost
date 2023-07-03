@@ -9,6 +9,7 @@ use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountUpdateFail
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use CybrixSolutions\EasyPost\Services\CarrierAccountService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountsListMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\DeleteAccountMock;
 use EasyPost\CarrierAccount as EasyPostCarrierAccount;
 
@@ -124,6 +125,18 @@ it('throws an exception when trying to update a non-existent account', function 
         ],
     ]);
 })->throws(CarrierAccountUpdateFailed::class, 'The requested resource could not be found.');
+
+it('can list all of the registered carrier accounts', function () {
+    mockProductionApi([
+        CarrierAccountsListMock::make(),
+    ]);
+
+    $accounts = $this->service->all();
+
+    expect($accounts)->toHaveCount(2)
+        ->and($accounts[0]->id)->toBe('ca_speedee')
+        ->and($accounts[1]->id)->toBe('ca_ups');
+});
 
 // Helpers
 function makeAccount(string $type = null, array $data = null): EasyPostCarrierAccount
