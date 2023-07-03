@@ -7,6 +7,7 @@ return [
     'alerts' => [
         'created' => 'Your carrier account has been added!',
         'deleted' => 'Carrier account was deleted successfully!',
+        'updated' => 'Carrier account updated successfully!',
     ],
 
     'confirm_delete' => [

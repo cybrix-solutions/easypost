@@ -6,6 +6,7 @@ use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
+use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
@@ -141,4 +142,22 @@ it('generates validation rules for custom workflow carrier types', function () {
         'accepted_terms',
         'registration_data.account_number',
     ]);
+});
+
+it('can get the stored credentials for an account', function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()->forAccountType(CarrierEnum::Speedee)->forId('my_id'),
+    ]);
+
+    $account = CarrierService::fromAccount('my_id');
+
+    $storedValues = $account->storedValues();
+
+    expect($storedValues)->toBeArray()
+        ->and($storedValues['credentials'])->toMatchArray([
+            'account_number' => 'test',
+            'ftp_username' => 'test',
+            'ftp_password' => '*******',
+        ]);
 });

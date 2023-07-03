@@ -10,6 +10,7 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * CybrixSolutions\EasyPost\Models\CarrierAccount
@@ -107,7 +108,7 @@ class CarrierAccount extends Model implements CarrierAccountContract
      * @example An application has teams and each team has their own carrier accounts.
      *     -> $query->where('team_id', $account->team_id);
      */
-    public function scopeScoped(Builder $query, CarrierAccountContract $account): void
+    public function scopeScoped(Builder|QueryBuilder $query, CarrierAccountContract $account): void
     {
     }
 

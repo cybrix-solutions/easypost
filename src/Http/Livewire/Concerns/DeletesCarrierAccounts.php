@@ -7,7 +7,6 @@ namespace CybrixSolutions\EasyPost\Http\Livewire\Concerns;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
 use CybrixSolutions\EasyPost\Contracts\DeleteCarrierAction;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
-use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountRetrievalFailed;
 
 /**
  * @mixin \Livewire\Component
@@ -38,7 +37,7 @@ trait DeletesCarrierAccounts
 
         try {
             $deleter($this->deleting);
-        } catch (CarrierAccountDeletionFailed|CarrierAccountRetrievalFailed $e) {
+        } catch (CarrierAccountDeletionFailed $e) {
             $this->deleteError = $e->getMessage();
 
             return;

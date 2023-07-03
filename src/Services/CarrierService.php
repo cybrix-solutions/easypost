@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Services;
 
+use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use CybrixSolutions\EasyPost\CustomWorkflows\Factory as WorkflowFactory;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
@@ -11,7 +12,6 @@ use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use EasyPost\CarrierAccount;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 /**
  * @method string|null signupHelpUrl()
@@ -54,7 +54,7 @@ final class CarrierService
     public static function fromAccount(string $easypostId): self
     {
         $carrier = cache()->remember(
-            key: Str::replace('{account}', $easypostId, config('easypost.cache.carrier_account.key')),
+            key: carrierAccountCacheKey($easypostId),
             ttl: config('easypost.cache.carrier_account.ttl', 60 * 30), // 30 minutes
             callback: fn () => app(ProductionEasyPostClient::class)->carrierAccount->retrieve($easypostId),
         );
@@ -119,6 +119,22 @@ final class CarrierService
     public function hasTestCredentials(): bool
     {
         return $this->_hasTestCredentials ?? ($this->_hasTestCredentials = isset($this->fields()['test_credentials']));
+    }
+
+    public function storedValues(): array
+    {
+        $productionData = $this->productionCredentials()
+            ->mapWithKeys(fn (EasyPostCredential $credential, string $name): array => [$name => $credential->value()])
+            ->toArray();
+
+        $testData = $this->testCredentials()
+            ->mapWithKeys(fn (EasyPostCredential $credential, string $name): array => [$name => $credential->value()])
+            ->toArray();
+
+        return [
+            'credentials' => $productionData,
+            'test_credentials' => $testData,
+        ];
     }
 
     public function rulesForValidation(): array

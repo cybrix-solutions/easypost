@@ -22,6 +22,8 @@ final class CarrierAccountMock extends EasyPostMock
 
     protected CarrierEnum $type;
 
+    protected ?array $carrierPayload = null;
+
     protected static array $carrierPayloads = [
         CarrierEnum::Speedee->value => 'speedeePayload',
     ];
@@ -71,6 +73,13 @@ final class CarrierAccountMock extends EasyPostMock
         return $this;
     }
 
+    public function withCarrierPayload(array $payload): self
+    {
+        $this->carrierPayload = $payload;
+
+        return $this;
+    }
+
     public function forAccountType(CarrierEnum $type): self
     {
         $this->type = $type;
@@ -100,6 +109,10 @@ final class CarrierAccountMock extends EasyPostMock
 
     protected function accountCredentials(): array
     {
+        if ($this->carrierPayload) {
+            return $this->carrierPayload;
+        }
+
         $methodName = self::$carrierPayloads[$this->type->value] ?? null;
 
         throw_unless($methodName, new Exception('No carrier payload implemented for ' . $this->type->value));

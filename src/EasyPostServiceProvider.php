@@ -9,6 +9,7 @@ use CybrixSolutions\EasyPost\Contracts\CarrierAccount as CarrierAccountContract;
 use CybrixSolutions\EasyPost\Contracts\DeactivateCarrierAccountAction as DeactivateCarrierAccountActionContract;
 use CybrixSolutions\EasyPost\Contracts\DeleteCarrierAction as DeleteCarrierActionContract;
 use CybrixSolutions\EasyPost\Contracts\MakeCarrierDefaultAction as MakeCarrierDefaultActionContract;
+use CybrixSolutions\EasyPost\Contracts\UpdateCarrierAction as UpdateCarrierActionContract;
 use CybrixSolutions\EasyPost\Facades\EasyPost as EasyPostFacade;
 use CybrixSolutions\EasyPost\Services\Api\EasyPostClient;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
@@ -117,6 +118,7 @@ class EasyPostServiceProvider extends PackageServiceProvider
         $this->app->bind(DeactivateCarrierAccountActionContract::class, fn ($app) => $app->make(config('easypost.actions.deactivate_carrier_account')));
         $this->app->bind(MakeCarrierDefaultActionContract::class, fn ($app) => $app->make(config('easypost.actions.make_carrier_default')));
         $this->app->bind(DeleteCarrierActionContract::class, fn ($app) => $app->make(config('easypost.actions.delete_carrier_account')));
+        $this->app->bind(UpdateCarrierActionContract::class, fn ($app) => $app->make(config('easypost.actions.update_carrier_account')));
 
         return $this;
     }

@@ -7,6 +7,7 @@ namespace CybrixSolutions\EasyPost\Services;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountRetrievalFailed;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountUpdateFailed;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use EasyPost\CarrierAccount;
 use EasyPost\Exception\Api\ApiException;
@@ -49,6 +50,17 @@ class CarrierAccountService
         }
     }
 
+    public function update(string $id, array $data): CarrierAccount
+    {
+        try {
+            $account = $this->find($id);
+
+            return $this->api->carrierAccount->update($account->id, $data);
+        } catch (CarrierAccountRetrievalFailed|ApiException $e) {
+            throw CarrierAccountUpdateFailed::because($e->getMessage());
+        }
+    }
+
     public function destroy(string $id): bool
     {
         try {
@@ -57,7 +69,7 @@ class CarrierAccountService
             $this->api->carrierAccount->delete($account->id);
 
             return true;
-        } catch (ApiException $e) {
+        } catch (CarrierAccountRetrievalFailed|ApiException $e) {
             throw CarrierAccountDeletionFailed::because($e->getMessage());
         }
     }
