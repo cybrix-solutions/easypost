@@ -6,6 +6,19 @@ return [
     'custom_workflow_help' => 'Please consult [this article](:url) from EasyPost if you need more details on registering this account.',
     'need_carrier_account_title' => 'Need an account?',
 
+    'carrier_account' => [
+        'account_id' => 'Account ID: :id',
+        'is_easypost_account' => 'Default account provided by EasyPost',
+        'is_active' => 'Active',
+        'is_inactive' => 'Inactive',
+        'is_default' => 'Default',
+        'make_default_button' => 'Make Default',
+        'activate_button' => 'Activate',
+        'deactivate_button' => 'Deactivate',
+        'no_results_title' => 'No accounts',
+        'no_results_text' => 'Get started with shipping by adding a carrier account.',
+    ],
+
     'carrier_account_form' => [
         'account_details' => 'Account Details',
         'account_name' => 'Account Nickname',
@@ -14,6 +27,8 @@ return [
         'general_add_title' => 'Add Carrier Account',
         'carrier_add_title' => 'Add Your :name Account',
         'add_submit_button' => 'Add Carrier',
+
+        'edit_title' => ':type Account',
 
         'search_placeholder' => 'Search carrier by name',
         'no_search_results' => 'No carriers found',
