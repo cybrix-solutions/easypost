@@ -5,6 +5,7 @@ declare(strict_types=1);
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeleteCarrierAction;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeleted;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountRetrievalFailed;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
@@ -60,7 +61,7 @@ it('throws an exception for an account that does not exist on EasyPost', functio
     $otherAccount = CarrierAccount::factory()->create(['easypost_id' => 'fake-id']);
 
     app(DeleteCarrierAction::class)($otherAccount);
-})->throws(CarrierAccountRetrievalFailed::class);
+})->throws(CarrierAccountDeletionFailed::class);
 
 it('does not dispatch the deleted event if the api call fails', function () {
     mockProductionApi([
