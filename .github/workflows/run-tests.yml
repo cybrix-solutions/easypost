@@ -52,7 +52,7 @@ jobs:
                 run: composer show -D
 
             -   name: Execute tests
-                run: vendor/bin/pest -p
+                run: vendor/bin/pest --stop-on-failure --parallel --display-skipped --processes=10
                 env:
                     EASYPOST_API_KEY: ${{ secrets.EASYPOST_API_KEY }}
                     EASYPOST_TEST_API_KEY: ${{ secrets.EASYPOST_TEST_API_KEY }}
