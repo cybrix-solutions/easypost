@@ -6,7 +6,6 @@ use CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeleteCarrierAction;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeleted;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
-use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountRetrievalFailed;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\DeleteAccountMock;
@@ -72,7 +71,7 @@ it('does not dispatch the deleted event if the api call fails', function () {
 
     try {
         app(DeleteCarrierAction::class)($otherAccount);
-    } catch (CarrierAccountRetrievalFailed) {
+    } catch (CarrierAccountDeletionFailed) {
     }
 
     Event::assertNotDispatched(CarrierAccountWasDeleted::class);
