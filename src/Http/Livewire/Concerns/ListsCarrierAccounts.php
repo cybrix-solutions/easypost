@@ -40,6 +40,13 @@ trait ListsCarrierAccounts
 
     public function onSync(): void
     {
+        if ($this->usesDeletesCarrierAccounts()) {
+            $this->reset('showDelete', 'deleting', 'deleteError');
+        }
+    }
 
+    protected function usesDeletesCarrierAccounts(): bool
+    {
+        return in_array(DeletesCarrierAccounts::class, class_uses_recursive($this), true);
     }
 }

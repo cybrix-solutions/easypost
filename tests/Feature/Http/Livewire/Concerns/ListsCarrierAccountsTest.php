@@ -25,3 +25,14 @@ it('can be rendered', function () {
         ->assertSee($this->accounts[1]->name)
         ->assertSee($this->accounts[2]->name);
 });
+
+it('resets some variables from DeletesCarrierAccounts trait if it is used on the component when a sync event is emitted', function () {
+    livewire(TestCarrierAccountList::class)
+        ->set('showDelete', true)
+        ->set('deleting', $this->accounts->first())
+        ->set('deleteError', 'someError')
+        ->emit('carrier_account.synced')
+        ->assertSet('showDelete', false)
+        ->assertSet('deleting', null)
+        ->assertSet('deleteError', null);
+});
