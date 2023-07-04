@@ -44,7 +44,9 @@ trait UsesDatabase
     {
         // We're not concerned with how the policies work since it should be customized in each application
         Gate::before(function ($user) {
-            return $user->email !== 'not-allowed@example.com';
+            if ($user->email === 'not-allowed@example.com') {
+                return false;
+            }
         });
     }
 }

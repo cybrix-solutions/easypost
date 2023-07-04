@@ -95,6 +95,7 @@ return [
         'make_carrier_default' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\MakeCarrierDefaultAction::class,
         'delete_carrier_account' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeleteCarrierAction::class,
         'update_carrier_account' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\UpdateCarrierAction::class,
+        'sync_carriers' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\SyncCarriersAction::class,
     ],
 
     /*

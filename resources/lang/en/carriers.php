@@ -8,12 +8,20 @@ return [
         'created' => 'Your carrier account has been added!',
         'deleted' => 'Carrier account was deleted successfully!',
         'updated' => 'Carrier account updated successfully!',
+        'synced' => 'Carrier accounts were synced!',
     ],
 
     'confirm_delete' => [
         'title' => 'Delete Carrier Account',
         'text' => 'Are you sure you want to delete your :carrier account with ID **:id**?',
         'warning' => "Deleting a Carrier account will make it so that you can **no longer track, refund, cancel, or manifest shipments** created using that carrier account. It will also **disassociate any rate tables** on it. \n\nIf you are having issues or have questions please contact support@easypost.com first.",
+    ],
+
+    'confirm_sync' => [
+        'title' => 'Sync Carrier Accounts',
+        'text' => 'We will attempt to sync any carrier accounts that were created outside of this dashboard. Do you wish to proceed?',
+        'trigger' => 'Sync carrier accounts',
+        'button' => 'Yes',
     ],
 
     'apc' => [

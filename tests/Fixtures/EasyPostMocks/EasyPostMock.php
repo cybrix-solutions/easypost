@@ -6,7 +6,7 @@ namespace CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks;
 
 abstract class EasyPostMock
 {
-    protected int $statusCode = 200;
+    protected int|string $statusCode = 200;
 
     protected string $method = 'get';
 
@@ -18,6 +18,10 @@ abstract class EasyPostMock
     {
         if ($this->statusCode === 404) {
             return $this->notFoundPayload();
+        }
+
+        if ($this->statusCode === 'BAD_REQUEST') {
+            return $this->badRequestPayload();
         }
 
         return $this->getPayload();
@@ -33,8 +37,14 @@ abstract class EasyPostMock
         return $this->method;
     }
 
-    public function statusCode(): int
+    public function statusCode(): int|string
     {
+        if (is_string($this->statusCode)) {
+            return [
+                'BAD_REQUEST' => 422,
+            ][$this->statusCode];
+        }
+
         return $this->statusCode;
     }
 
@@ -45,7 +55,7 @@ abstract class EasyPostMock
         return $this;
     }
 
-    public function usingStatusCode(int $statusCode): self
+    public function usingStatusCode(int|string $statusCode): self
     {
         $this->statusCode = $statusCode;
 
@@ -62,12 +72,28 @@ abstract class EasyPostMock
         return static::make()->usingStatusCode(404);
     }
 
+    public static function badRequest(): self
+    {
+        return static::make()->usingStatusCode('BAD_REQUEST');
+    }
+
     protected function notFoundPayload(): array
     {
         return [
             'error' => [
                 'code' => 404,
                 'message' => 'The requested resource could not be found.',
+            ],
+        ];
+    }
+
+    protected function badRequestPayload(): array
+    {
+        return [
+            'error' => [
+                'code' => 'BAD_REQUEST',
+                'message' => 'Malformed request. Please check the contents and retry.',
+                'errors' => [],
             ],
         ];
     }

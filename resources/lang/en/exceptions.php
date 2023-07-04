@@ -7,4 +7,5 @@ return [
     'carrier_account_delete_api_fail' => 'We were unable to delete your carrier account at this time - message from EasyPost: :message',
     'carrier_account_retrieve_fail' => 'We were unable to retrieve your carrier account at this time - message from EasyPost: :message',
     'carrier_account_update_api_fail' => 'We were unable to update your carrier account at this time - message from EasyPost: :message',
+    'carrier_sync_api_fail' => 'We were unable to sync your carrier accounts at this time - message from EasyPost: :message',
 ];

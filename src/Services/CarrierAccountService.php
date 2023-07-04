@@ -21,6 +21,8 @@ class CarrierAccountService
 
     /**
      * @return array<int, \EasyPost\CarrierAccount>
+     *
+     * @throws \EasyPost\Exception\Api\ApiException
      */
     public function all(): array
     {

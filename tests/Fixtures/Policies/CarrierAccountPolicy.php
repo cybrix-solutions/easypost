@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Policies;
+namespace CybrixSolutions\EasyPost\Tests\Fixtures\Policies;
 
 use CybrixSolutions\EasyPost\Contracts\CarrierAccount as CarrierAccountContract;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Auth\Authenticatable as User;
 
-class CarrierAccountPolicy
+final class CarrierAccountPolicy
 {
     use HandlesAuthorization;
 
