@@ -8,10 +8,14 @@ use CybrixSolutions\EasyPost\Services\CarrierService;
 
 interface AddCarrierAccountAction
 {
-    public function withCarrierService(CarrierService $service): self;
-
     /**
      * @throws \CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed
      */
     public function __invoke(array $input): CarrierAccount;
+
+    public function withCarrierService(CarrierService $service): self;
+
+    public function withContext(array $context): self;
+
+    public function withReference(?string $reference): self;
 }

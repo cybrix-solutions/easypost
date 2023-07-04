@@ -31,6 +31,8 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @method static Builder|CarrierAccount otherActiveAccounts(\self $account)
  * @method static Builder|CarrierAccount otherDefaultedAccounts(\self $account)
  * @method static Builder|CarrierAccount otherInactiveAccounts(\self $account)
+ * @method static Builder|CarrierAccount shouldBeDefaultFromContext(array $context)
+ * @method static Builder|CarrierAccount newAccountUniqueValidationFromContext(array $context)
  * @method static Builder|CarrierAccount query()
  *
  * @mixin \Eloquent
@@ -109,6 +111,24 @@ class CarrierAccount extends Model implements CarrierAccountContract
      *     -> $query->where('team_id', $account->team_id);
      */
     public function scopeScoped(Builder|QueryBuilder $query, CarrierAccountContract $account): void
+    {
+    }
+
+    /**
+     * This scope is meant to be overridden in a child class to be able to scope the query based on
+     * an array of custom context given to an action class for determining if the new account should
+     * be marked as default.
+     */
+    public function scopeShouldBeDefaultFromContext(Builder $query, array $context): void
+    {
+    }
+
+    /**
+     * This scope is meant to be overridden in a child class to be able to scope the query based on
+     * an array of custom context given to an action class for determining if the new account has
+     * a unique name.
+     */
+    public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void
     {
     }
 

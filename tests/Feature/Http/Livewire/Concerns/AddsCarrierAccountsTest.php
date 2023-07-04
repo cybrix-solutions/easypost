@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
+use CybrixSolutions\EasyPost\Actions\CarrierAccounts\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Actions\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Livewire\TestAddCarrierAccountForm;
+use CybrixSolutions\EasyPost\Tests\Fixtures\Models\CustomCarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Models\User;
 use CybrixSolutions\EasyPost\Tests\Fixtures\RequestData\CarrierAccountRequestData;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 
@@ -112,8 +115,6 @@ it('provides a way to remove the selected carrier and go back to the carrier sea
         ->assertDontSee('carrier-account-fields');
 });
 
-// Note: The tests for storing are under the assumption that the trait is using the stubbed out AddCarrierAccountAction class.
-
 it('can add a new carrier account to the api and database', function () {
     Event::fake();
 
@@ -182,3 +183,246 @@ it('authorizes for creating a carrier account', function () {
 
     Event::assertNotDispatched(CarrierAccountWasCreated::class);
 });
+
+it('applies custom context to the action', function () {
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    livewire(TestAddAccountWithContext::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful();
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'name' => 'Mocked Account',
+        'team_id' => 'my_team',
+    ]);
+});
+
+it('allows extra context for authorization', function () {
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    $policy = new class
+    {
+        use HandlesAuthorization;
+
+        public function create($user, string $teamId = ''): bool
+        {
+            return $teamId !== 'other_team';
+        }
+    };
+
+    Gate::policy(CustomCarrierAccount::class, $policy::class);
+
+    livewire(TestAddWithAuthorization::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->call('setTeam', 'my_team')
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful()
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('setTeam', 'other_team')
+        ->call('store')
+        ->assertForbidden();
+});
+
+it('can execute extra code once an account has been added', function () {
+    livewire(TestAddCarrierAccountForm::class)
+        ->assertDontSeeText('Account added!')
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSeeText('Account added!');
+});
+
+test('the unique validation utilizes the custom context provided to the action', function () {
+    Event::fake();
+
+    $account = CustomCarrierAccount::factory()->create(['name' => 'Mocked Account', 'team_id' => 'my_team']);
+
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    livewire(TestAddAccountWithContext::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertHasErrors([
+            'name' => 'unique',
+        ]);
+
+    Event::assertNotDispatched(CarrierAccountWasCreated::class);
+
+    $account->update(['team_id' => 'other_team']);
+
+    livewire(TestAddAccountWithContext::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful();
+
+    $this->assertDatabaseCount(CustomCarrierAccount::class, 2);
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'my_team',
+        'name' => 'Mocked Account',
+    ]);
+});
+
+it('applies a custom context in the action when checking if a new account should be marked as default', function () {
+    $account = CustomCarrierAccount::factory()->isDefault()->create(['name' => 'Other Account', 'team_id' => 'other_team']);
+
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    livewire(TestAddAccountWithContext::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful();
+
+    $this->assertDatabaseCount(CustomCarrierAccount::class, 2);
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'my_team',
+        'name' => 'Mocked Account',
+        'default' => true,
+    ]);
+
+    CustomCarrierAccount::where('team_id', 'my_team')->update(['easypost_id' => 'foo']);
+
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()
+            ->usingMethod('post')
+            ->forAccountType(CarrierEnum::Speedee)
+            ->usingDescription('My New Account')
+            ->forId('ca_123456'),
+    ]);
+
+    livewire(TestAddAccountWithContext::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->usingName('My New Account')
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful();
+
+    $this->assertDatabaseCount(CustomCarrierAccount::class, 3);
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'my_team',
+        'name' => 'My New Account',
+        'default' => false,
+    ]);
+});
+
+it('adds a reference to the account', function () {
+    Event::fake();
+
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()
+            ->usingMethod('post')
+            ->forAccountType(CarrierEnum::Speedee)
+            ->usingReference('my_reference')
+            ->forId('ca_123456'),
+    ]);
+
+    livewire(TestAddAccountWithReference::class)
+        ->call('add')
+        ->call('selectCarrier', CarrierEnum::Speedee->value)
+        ->set(
+            'state',
+            CarrierAccountRequestData::make()
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->data()
+        )
+        ->call('store')
+        ->assertSuccessful();
+
+    Event::assertDispatched(function (CarrierAccountWasCreated $event) {
+        return $event->easyPostCarrierAccount->reference === 'my_reference'
+            && $event->reference === 'my_reference';
+    });
+});
+
+// Helpers
+
+class TestAddAccountWithContext extends TestAddCarrierAccountForm
+{
+    protected function addContext(): array
+    {
+        return [
+            'team_id' => 'my_team',
+        ];
+    }
+}
+
+class TestAddAccountWithReference extends TestAddCarrierAccountForm
+{
+    protected function addReference(): string
+    {
+        return 'my_reference';
+    }
+}
+
+class TestAddWithAuthorization extends TestAddAccountWithContext
+{
+    public string $teamId = 'my_team';
+
+    public function setTeam(string $teamId): void
+    {
+        $this->teamId = $teamId;
+    }
+
+    protected function authorizeAddWith(): array
+    {
+        return [$this->teamId];
+    }
+}

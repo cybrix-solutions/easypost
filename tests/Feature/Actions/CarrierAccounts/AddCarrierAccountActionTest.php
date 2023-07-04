@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-// Note: These tests are based on the stub in resources/stubs/Actions/AddCarrierAccountAction.php.stub
-
+use CybrixSolutions\EasyPost\Actions\CarrierAccounts\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Contracts\AddCarrierAccountAction as AddCarrierAccountActionContract;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Services\CarrierService;
-use CybrixSolutions\EasyPost\Tests\Fixtures\Actions\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
+use CybrixSolutions\EasyPost\Tests\Fixtures\Models\CustomCarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\RequestData\CarrierAccountRequestData;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -50,7 +50,7 @@ it('creates a carrier account in the api and stores it in the database', functio
 
     expect($account->easypost_id)->toBe('ca_123456');
 
-    $this->assertDatabaseHas('carrier_accounts', [
+    $this->assertDatabaseHas(CarrierAccount::class, [
         'easypost_id' => 'ca_123456',
         'name' => 'Mocked Account',
         'type' => CarrierEnum::Speedee->value,
@@ -61,6 +61,27 @@ it('creates a carrier account in the api and stores it in the database', functio
         return $event->carrierAccount->id === $account->id
             && $event->easyPostCarrierAccount->id === 'ca_123456';
     });
+});
+
+it('accepts custom context for the internal carrier account', function () {
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    $action = $this->action;
+    $action->withContext(['team_id' => 'my_team']);
+
+    $action(
+        CarrierAccountRequestData::make(CarrierEnum::Speedee)
+            ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+            ->data()
+    );
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'easypost_id' => 'ca_123456',
+        'name' => 'Mocked Account',
+        'type' => CarrierEnum::Speedee->value,
+        'default' => true,
+        'team_id' => 'my_team',
+    ]);
 });
 
 it('will not set an account as default if there already is a default, active account created', function () {
@@ -74,7 +95,7 @@ it('will not set an account as default if there already is a default, active acc
             ->data()
     );
 
-    $this->assertDatabaseHas('carrier_accounts', [
+    $this->assertDatabaseHas(CarrierAccount::class, [
         'id' => $account->id,
         'easypost_id' => 'ca_123456',
         'name' => 'Mocked Account',
@@ -96,7 +117,7 @@ it('will set an account as default even if there is a defaulted account already 
             ->data()
     );
 
-    $this->assertDatabaseHas('carrier_accounts', [
+    $this->assertDatabaseHas(CarrierAccount::class, [
         'id' => $account->id,
         'easypost_id' => 'ca_123456',
         'name' => 'Mocked Account',
@@ -105,6 +126,57 @@ it('will set an account as default even if there is a defaulted account already 
     ]);
 
     $this->assertDatabaseCount('carrier_accounts', 2);
+});
+
+it('will apply custom context given when determining if a new account should be marked as default', function () {
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    CarrierAccount::factory()->isDefault()->create(['team_id' => 'other_team']);
+
+    $action = $this->action;
+    $action->withContext(['team_id' => 'my_team']);
+
+    $action(
+        CarrierAccountRequestData::make(CarrierEnum::Speedee)
+            ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+            ->data()
+    );
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'my_team',
+        'default' => true,
+        'easypost_id' => 'ca_123456',
+    ]);
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'other_team',
+        'default' => true,
+    ]);
+});
+
+it('can be given a reference', function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()
+            ->usingMethod('post')
+            ->forAccountType(CarrierEnum::Speedee)
+            ->usingReference('my_reference')
+            ->forId('ca_123456'),
+    ]);
+
+    $action = $this->action;
+    $action->withReference('my_reference');
+
+    $action(
+        CarrierAccountRequestData::make(CarrierEnum::Speedee)
+            ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+            ->data()
+    );
+
+    Event::assertDispatched(function (CarrierAccountWasCreated $event) {
+        return $event->easyPostCarrierAccount->reference === 'my_reference'
+            && $event->reference === 'my_reference';
+    });
 });
 
 it('requires a name', function () {
@@ -124,7 +196,7 @@ it('requires a name', function () {
             'name' => 'The name field is required.',
         ]);
 
-    $this->assertDatabaseCount('carrier_accounts', 0);
+    $this->assertDatabaseCount(CarrierAccount::class, 0);
 
     Event::assertNotDispatched(CarrierAccountWasCreated::class);
 });
@@ -148,7 +220,42 @@ it('requires a unique name', function () {
             'name' => 'The name has already been taken.',
         ]);
 
-    $this->assertDatabaseCount('carrier_accounts', 1);
+    $this->assertDatabaseCount(CarrierAccount::class, 1);
+});
+
+it('scopes the unique rule validation based on the context given to it', function () {
+    config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
+
+    CustomCarrierAccount::factory()->create(['name' => 'Mocked Account', 'team_id' => 'other_team']);
+
+    Route::post('/_test', function (Request $request) {
+        $action = $this->action;
+        $action->withContext(['team_id' => $request->input('team_id')]);
+
+        $action(
+            CarrierAccountRequestData::make(CarrierEnum::Speedee)
+                ->usingCarrierCredentials(CarrierAccountRequestData::speedeeCredentials())
+                ->usingName('Mocked Account')
+                ->data()
+        );
+    });
+
+    post('/_test', ['team_id' => 'other_team'])
+        ->assertSessionHasErrors([
+            'name' => 'The name has already been taken.',
+        ]);
+
+    $this->assertDatabaseCount(CustomCarrierAccount::class, 1);
+
+    post('/_test', ['team_id' => 'my_team'])
+        ->assertSuccessful();
+
+    $this->assertDatabaseCount(CustomCarrierAccount::class, 2);
+
+    $this->assertDatabaseHas(CustomCarrierAccount::class, [
+        'team_id' => 'my_team',
+        'name' => 'Mocked Account',
+    ]);
 });
 
 it('validates the fields for a carrier account type', function (string $fieldToOmit) {

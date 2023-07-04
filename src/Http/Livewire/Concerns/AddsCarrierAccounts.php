@@ -104,13 +104,18 @@ trait AddsCarrierAccounts
             return;
         }
 
-        $this->authorize('create', app(CarrierAccount::class)::class);
+        $this->authorize('create', [app(CarrierAccount::class)::class, ...$this->authorizeAddWith()]);
 
         $this->resetErrorBag();
         $this->reset('errorMessage');
 
+        $action
+            ->withCarrierService($this->carrierService)
+            ->withContext($this->addContext())
+            ->withReference($this->addReference());
+
         try {
-            $account = $action->withCarrierService($this->carrierService)($this->state);
+            $account = $action($this->state);
         } catch (CarrierAccountCreationFailed $e) {
             $this->errorMessage = $e->getMessage();
 
@@ -119,10 +124,34 @@ trait AddsCarrierAccounts
 
         $this->reset('state', 'show', 'errorMessage', 'carrierType', 'carrierSearch');
         $this->emit('carrier_account.added', $account->easypost_id);
+        $this->onAdded();
     }
 
     public function hydrateAddsCarrierAccounts(): void
     {
         $this->listeners['add-carrier'] = 'add';
+    }
+
+    /*
+     * To be overridden in the consuming application, if necessary.
+     */
+
+    protected function authorizeAddWith(): array
+    {
+        return [];
+    }
+
+    protected function addContext(): array
+    {
+        return [];
+    }
+
+    protected function addReference(): ?string
+    {
+        return null;
+    }
+
+    protected function onAdded(): void
+    {
     }
 }

@@ -89,7 +89,7 @@ return [
     |
     */
     'actions' => [
-        'add_carrier_account' => \App\Actions\EasyPost\AddCarrierAccountAction::class,
+        'add_carrier_account' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\AddCarrierAccountAction::class,
         'activate_carrier_account' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\ActivateCarrierAccountAction::class,
         'deactivate_carrier_account' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeactivateCarrierAccountAction::class,
         'make_carrier_default' => \CybrixSolutions\EasyPost\Actions\CarrierAccounts\MakeCarrierDefaultAction::class,

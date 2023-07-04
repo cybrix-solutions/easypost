@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CybrixSolutions\EasyPost\Tests\Fixtures\Actions;
+namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
 use CybrixSolutions\EasyPost\Contracts\AddCarrierAccountAction as AddCarrierAccountActionContract;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
@@ -11,21 +11,19 @@ use CybrixSolutions\EasyPost\Services\CarrierAccountService;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use EasyPost\CarrierAccount as EasyPostCarrierAccount;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class AddCarrierAccountAction implements AddCarrierAccountActionContract
 {
-    protected CarrierService $service;
+    protected CarrierService $carrierService;
 
-    public function withCarrierService(CarrierService $service): AddCarrierAccountActionContract
-    {
-        $this->service = $service;
+    protected array $context = [];
 
-        return $this;
-    }
+    protected ?string $reference = null;
 
-    public function __construct(protected CarrierAccountService $accountService)
+    public function __construct(protected CarrierAccountService $api)
     {
     }
 
@@ -36,23 +34,50 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
         $account = $this->createAccountInApi($data);
 
         return tap(app(CarrierAccount::class)::make(), function (CarrierAccount $model) use ($account) {
+            DB::beginTransaction();
+
             $model->fill([
                 'easypost_id' => $account->id,
                 'name' => $account->description,
-                'type' => $this->service->carrierEnum()->value,
+                'type' => $this->carrierService->carrierEnum()->value,
                 'default' => $this->shouldBeDefaultedAccount(),
+                ...$this->context,
             ])->save();
 
-            CarrierAccountWasCreated::dispatch($model, $account);
+            CarrierAccountWasCreated::dispatch($model, $account, $this->reference);
+
+            DB::commit();
         });
+    }
+
+    public function withCarrierService(CarrierService $service): AddCarrierAccountActionContract
+    {
+        $this->carrierService = $service;
+
+        return $this;
+    }
+
+    public function withContext(array $context): AddCarrierAccountActionContract
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    public function withReference(?string $reference): AddCarrierAccountActionContract
+    {
+        $this->reference = $reference;
+
+        return $this;
     }
 
     protected function createAccountInApi(array $data): EasyPostCarrierAccount
     {
-        return $this->accountService->create(
-            type: $this->service->carrierEnum()->value,
+        return $this->api->create(
+            type: $this->carrierService->carrierEnum()->value,
             name: $data['name'],
             data: Arr::except($data, ['name', 'accepted_terms']),
+            reference: $this->reference,
         );
     }
 
@@ -64,16 +89,19 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
                 'string',
                 'max:255',
                 'min:3',
-                Rule::unique(app(CarrierAccount::class)->getTable(), 'name'),
+                Rule::unique(app(CarrierAccount::class)::class, 'name')
+                    ->where(fn ($query) => app(CarrierAccount::class)->scopeNewAccountUniqueValidationFromContext($query, $this->context)),
             ],
-            ...$this->service->rulesForValidation(),
-        ], attributes: $this->service->validationAttributes())->validate();
+            ...$this->carrierService->rulesForValidation(),
+        ], attributes: $this->carrierService->validationAttributes())->validate();
     }
 
     protected function shouldBeDefaultedAccount(): bool
     {
         return ! app(CarrierAccount::class)::query()
-            ->where(fn ($query) => $query->active()->where('default', true))
+            ->active()
+            ->where('default', true)
+            ->shouldBeDefaultFromContext($this->context)
             ->exists();
     }
 }

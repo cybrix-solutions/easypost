@@ -88,3 +88,42 @@ it('respects the scoped scope when updating default statuses on account creation
         ->and($otherTeamAccount->fresh()->default)->toBeTrue()
         ->and($nonTeamAccount->fresh()->default)->toBeTrue();
 });
+
+it('can be scoped to a team when determining if a new account should be marked as default', function () {
+    $teamAccount = CustomCarrierAccount::factory()->create(['team_id' => 'my_team']);
+    $otherTeamAccount = CustomCarrierAccount::factory()->isDefault()->create(['team_id' => 'other_team']);
+    $globalAccount = CustomCarrierAccount::factory()->isDefault()->create(['team_id' => null]);
+
+    $executeExistsQuery = function (?string $teamId): bool {
+        return CustomCarrierAccount::query()
+            ->shouldBeDefaultFromContext(['team_id' => $teamId])
+            ->where('default', true)
+            ->exists();
+    };
+
+    expect($executeExistsQuery('my_team'))->toBeFalse()
+        ->and($executeExistsQuery('other_team'))->toBeTrue();
+
+    $globalAccount->update(['default' => false]);
+    expect($executeExistsQuery(null))->toBeFalse();
+});
+
+it('can be scoped for unique validation for new accounts', function () {
+    $teamAccount = CustomCarrierAccount::factory()->create(['name' => 'My Name', 'team_id' => 'my_team']);
+    $otherTeamAccount = CustomCarrierAccount::factory()->create(['name' => 'Other Team Account', 'team_id' => 'other_team']);
+
+    $executeExistsQuery = function (?string $teamId, string $name): bool {
+        return CustomCarrierAccount::query()
+            ->newAccountUniqueValidationFromContext(['team_id' => $teamId])
+            ->where('name', $name)
+            ->exists();
+    };
+
+    expect($executeExistsQuery('my_team', 'Other Team Account'))->toBeFalse()
+        ->and($executeExistsQuery('other_team', 'Other Team Account'))->toBeTrue()
+        ->and($executeExistsQuery(null, 'Other Team Account'))->toBeTrue();
+
+    $globalAccount = CustomCarrierAccount::factory()->create(['name' => 'Other Team Account', 'team_id' => null]);
+
+    expect($executeExistsQuery('my_team', 'Other Team Account'))->toBeTrue();
+});

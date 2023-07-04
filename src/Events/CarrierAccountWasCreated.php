@@ -16,7 +16,10 @@ final class CarrierAccountWasCreated
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public CarrierAccount $carrierAccount, public EasyPostCarrierAccount $easyPostCarrierAccount)
-    {
+    public function __construct(
+        public CarrierAccount $carrierAccount,
+        public EasyPostCarrierAccount $easyPostCarrierAccount,
+        public ?string $reference = null,
+    ) {
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Contracts;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * @property int $id
@@ -30,6 +31,12 @@ interface CarrierAccount
     public function scopeOtherDefaultedAccounts(Builder $query, self $account): void;
 
     public function scopeOtherActiveAccounts(Builder $query, self $account): void;
+
+    public function scopeScoped(Builder|QueryBuilder $query, self $account): void;
+
+    public function scopeShouldBeDefaultFromContext(Builder $query, array $context): void;
+
+    public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void;
 
     public static function findByEasyPostId(string $id): self;
 }

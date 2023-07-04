@@ -29,11 +29,6 @@ final class PublishStubsCommand extends Command
         $this->ensureDirectoriesExist();
 
         $this->publishStub(
-            __DIR__ . '/../../resources/stubs/Actions/AddCarrierAccountAction.php.stub',
-            app_path('Actions/EasyPost/AddCarrierAccountAction.php')
-        );
-
-        $this->publishStub(
             __DIR__ . '/../../resources/stubs/Policies/CarrierAccountPolicy.php.stub',
             app_path('Policies/CarrierAccountPolicy.php')
         );
@@ -43,7 +38,6 @@ final class PublishStubsCommand extends Command
 
     protected function ensureDirectoriesExist(): void
     {
-        $this->filesystem->ensureDirectoryExists(app_path('Actions/EasyPost'));
         $this->filesystem->ensureDirectoryExists(app_path('Policies'));
     }
 
