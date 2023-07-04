@@ -16,7 +16,6 @@ use CybrixSolutions\EasyPost\Services\Api\EasyPostClient;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Blade;
-use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -50,7 +49,6 @@ class EasyPostServiceProvider extends PackageServiceProvider
         $this->bootApi()
             ->bootAboutCommand()
             ->bootBladeComponents()
-            ->bootLivewireComponents()
             ->bootModelBindings()
             ->bootClassBindings();
     }
@@ -92,17 +90,6 @@ class EasyPostServiceProvider extends PackageServiceProvider
         Blade::componentNamespace('CybrixSolutions\\EasyPost\\View\\Components', 'easypost');
 
         return $this;
-    }
-
-    protected function bootLivewireComponents(): self
-    {
-        if (! class_exists(Livewire::class)) {
-            return $this;
-        }
-
-        return $this;
-
-        //        Livewire::component('easypost-add-carrier-account-form', AddCarrierAccountForm::class);
     }
 
     protected function bootModelBindings(): self
