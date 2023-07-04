@@ -9,4 +9,7 @@
     @error($inputName)
         aria-invalid="true"
     @enderror
+    @if ($credential->isReadonly())
+        readonly
+    @endif
 />

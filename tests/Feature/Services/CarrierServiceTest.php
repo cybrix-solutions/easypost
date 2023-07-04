@@ -161,3 +161,20 @@ it('can get the stored credentials for an account', function () {
             'ftp_password' => '*******',
         ]);
 });
+
+it('can get a list of readonly credential field names', function () {
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()
+            ->forAccountType(CarrierEnum::Fedex)
+            ->forId('ca_fedex'),
+    ]);
+
+    $service = CarrierService::fromAccount('ca_fedex');
+
+    expect($service->readonlyFields())->toBeArray()
+        ->and($service->readonlyFields())->toMatchArray([
+            'credentials.account_number',
+            'test_credentials.account_number',
+        ]);
+});

@@ -25,7 +25,9 @@ final class CarrierAccountMock extends EasyPostMock
     protected ?array $carrierPayload = null;
 
     protected static array $carrierPayloads = [
+        CarrierEnum::Fedex->value => 'fedexPayload',
         CarrierEnum::Speedee->value => 'speedeePayload',
+        CarrierEnum::Ups->value => 'upsPayload',
     ];
 
     public function __construct()
@@ -138,6 +140,39 @@ final class CarrierAccountMock extends EasyPostMock
                     'visibility' => 'password',
                     'label' => 'Spee-Dee FTP Password',
                     'value' => '*******',
+                ],
+            ],
+        ];
+    }
+
+    protected function upsPayload(): array
+    {
+        return [
+            'credentials' => [
+                'account_number' => [
+                    'visibility' => 'readonly',
+                    'label' => 'UPS Account Number',
+                    'value' => '123456',
+                ],
+            ],
+        ];
+    }
+
+    protected function fedexPayload(): array
+    {
+        return [
+            'credentials' => [
+                'account_number' => [
+                    'visibility' => 'readonly',
+                    'label' => 'FedEx Account Number',
+                    'value' => '123456',
+                ],
+            ],
+            'test_credentials' => [
+                'account_number' => [
+                    'visibility' => 'readonly',
+                    'label' => 'FedEx Account Number',
+                    'value' => '123456',
                 ],
             ],
         ];

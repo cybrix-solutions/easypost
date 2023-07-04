@@ -33,6 +33,14 @@ final class CarrierCredentials
         ]);
     }
 
+    public static function readonlyCredential(): EasyPostObject
+    {
+        return self::newCredential([
+            'visibility' => 'readonly',
+            'label' => 'Readonly Credential',
+        ]);
+    }
+
     public static function selectCredential(): EasyPostObject
     {
         return self::newCredential([

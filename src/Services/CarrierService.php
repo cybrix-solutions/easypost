@@ -123,17 +123,17 @@ final class CarrierService
 
     public function storedValues(): array
     {
-        $productionData = $this->productionCredentials()
-            ->mapWithKeys(fn (EasyPostCredential $credential, string $name): array => [$name => $credential->value()])
-            ->toArray();
-
-        $testData = $this->testCredentials()
-            ->mapWithKeys(fn (EasyPostCredential $credential, string $name): array => [$name => $credential->value()])
-            ->toArray();
-
         return [
-            'credentials' => $productionData,
-            'test_credentials' => $testData,
+            'credentials' => $this->sectionStoredValues($this->productionCredentials()),
+            'test_credentials' => $this->sectionStoredValues($this->testCredentials()),
+        ];
+    }
+
+    public function readonlyFields(): array
+    {
+        return [
+            ...$this->sectionReadonlyFields($this->productionCredentials(), 'credentials'),
+            ...$this->sectionReadonlyFields($this->testCredentials(), 'test_credentials'),
         ];
     }
 
@@ -192,5 +192,21 @@ final class CarrierService
         }
 
         return null;
+    }
+
+    private function sectionReadonlyFields(Collection $credentials, string $fieldSection): array
+    {
+        return $credentials
+            ->filter(fn (EasyPostCredential $credential) => $credential->isReadonly())
+            ->map(fn (EasyPostCredential $credential) => "{$fieldSection}.{$credential->name()}")
+            ->values()
+            ->toArray();
+    }
+
+    private function sectionStoredValues(Collection $credentials): array
+    {
+        return $credentials
+            ->mapWithKeys(fn (EasyPostCredential $credential, string $name): array => [$name => $credential->value()])
+            ->toArray();
     }
 }

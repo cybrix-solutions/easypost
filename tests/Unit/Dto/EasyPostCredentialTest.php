@@ -87,6 +87,34 @@ it('knows if it is required', function () {
     expect($credential->isRequired())->toBeFalse();
 });
 
+it('knows if the field is readonly', function () {
+    $credential = new EasyPostCredential(
+        CarrierCredentials::readonlyCredential(),
+        'my_credential',
+        CarrierEnum::Ups,
+    );
+
+    expect($credential->isReadonly())->toBeTrue();
+
+    $credential = new EasyPostCredential(
+        CarrierCredentials::textCredential(),
+        'my_credential',
+        CarrierEnum::Ups,
+    );
+
+    expect($credential->isReadonly())->toBeFalse();
+});
+
+test('readonly credentials are not required', function () {
+    $credential = new EasyPostCredential(
+        CarrierCredentials::readonlyCredential(),
+        'my_credential',
+        CarrierEnum::Ups,
+    );
+
+    expect($credential->isRequired())->toBeFalse();
+});
+
 test('test env credentials are always optional', function () {
     $credential = new EasyPostCredential(
         CarrierCredentials::textCredential(),
@@ -157,6 +185,16 @@ it('returns the rules for validation', function () {
         'nullable',
         'string',
     ]);
+});
+
+it('generates the correct validation rules for readonly fields', function () {
+    $credential = new EasyPostCredential(
+        CarrierCredentials::readonlyCredential(),
+        'my_credential',
+        CarrierEnum::Ups,
+    );
+
+    expect($credential->rulesForValidation())->toBe([]);
 });
 
 it('returns the rules for validation on a custom workflow field', function () {

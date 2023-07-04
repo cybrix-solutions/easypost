@@ -94,6 +94,12 @@ class UpdateCarrierAction implements UpdateCarrierActionContract
             $this->flattenValues($this->storedValues),
         );
 
+        $changes = array_filter(
+            $changes,
+            fn (string $key) => ! in_array($key, $this->carrierService->readonlyFields(), true),
+            ARRAY_FILTER_USE_KEY,
+        );
+
         return Arr::undot($changes);
     }
 

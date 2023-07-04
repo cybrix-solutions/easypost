@@ -46,7 +46,16 @@ final class EasyPostCredential
             return $this->workflow->fieldIsRequired($this->name, $this->credential);
         }
 
+        if ($this->isReadonly()) {
+            return false;
+        }
+
         return ! Str::contains($this->credential['label'], 'optional', true);
+    }
+
+    public function isReadonly(): bool
+    {
+        return $this->credential['visibility'] === 'readonly';
     }
 
     public function label(): string
@@ -85,6 +94,10 @@ final class EasyPostCredential
 
     public function rulesForValidation(): array
     {
+        if ($this->isReadonly()) {
+            return [];
+        }
+
         $rules = [
             $this->isRequired() ? 'required' : 'nullable',
             $this->isCheckbox() ? 'boolean' : 'string',

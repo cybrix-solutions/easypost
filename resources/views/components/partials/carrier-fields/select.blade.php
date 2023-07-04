@@ -7,6 +7,7 @@
         aria-invalid="true"
     @enderror
     @if (! $isTestEnv && $credential->isRequired()) required @endif
+    @if ($credential->isReadonly()) readonly @endif
 >
     <option value="">{{ __('easypost::labels.carrier_account_form.select_option_none') }}</option>
     @foreach ($credential->selectOptions() as $value => $text)

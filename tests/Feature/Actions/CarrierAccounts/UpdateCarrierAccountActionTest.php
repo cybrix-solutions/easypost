@@ -191,6 +191,39 @@ it('only sends the changed credentials to the api', function () {
     ]);
 });
 
+it('does not send readonly fields to the api', function () {
+    // UPS and FedEx both have fields on accounts that are readonly for existing accounts.
+    mockProductionApi([
+        CarrierTypesMock::make(),
+        CarrierAccountMock::make()
+            ->forAccountType(CarrierEnum::Ups)
+            ->forId('ca_ups'),
+        CarrierAccountMock::make()
+            ->usingMethod('patch')
+            ->forAccountType(CarrierEnum::Ups)
+            ->forId('ca_ups'),
+    ]);
+
+    $account = CarrierAccount::factory()->make(['name' => 'Mocked Account', 'type' => CarrierEnum::Ups, 'easypost_id' => 'ca_ups']);
+
+    $carrierService = CarrierService::fromAccount('ca_ups');
+    $action = app(UpdateCarrierActionContract::class);
+    $action
+        ->withCarrierService($carrierService)
+        ->withStoredValues($carrierService->storedValues());
+
+    $changes = [
+        'credentials' => [
+            'account_number' => 'changed',
+        ],
+        'test_credentials' => [],
+    ];
+
+    $changedValues = invade($action)->changedValues($changes);
+
+    expect($changedValues)->toBe([]);
+});
+
 it('validates the fields for a carrier account type', function (string $fieldToOmit) {
     Cache::spy();
 
