@@ -79,6 +79,10 @@ return [
         'name' => 'DHL Parcel',
     ],
 
+    'evri' => [
+        'name' => 'Evri',
+    ],
+
     'fedex' => [
         'name' => 'FedEx',
     ],
