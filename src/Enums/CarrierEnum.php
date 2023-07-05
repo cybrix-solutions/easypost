@@ -32,6 +32,7 @@ enum CarrierEnum: string
     case Parcll = 'ParcllAccount';
     case PassportGlobal = 'PassportGlobalAccount';
     case Purolator = 'PurolatorAccount';
+    case RoyalMail = 'RoyalMailAccount';
     case Sendle = 'SendleAccount';
     case SfExpress = 'SfExpressAccount';
     case SmartKargo = 'SmartKargoAccount';

@@ -123,6 +123,11 @@ return [
         'name' => 'Purolator',
     ],
 
+    'royal_mail' => [
+        'name' => 'Royal Mail',
+        'signup_text' => 'Register for a Royal Mail account',
+    ],
+
     'sendle' => [
         'name' => 'Sendle',
     ],
