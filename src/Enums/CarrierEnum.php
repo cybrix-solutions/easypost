@@ -34,6 +34,7 @@ enum CarrierEnum: string
     case Purolator = 'PurolatorAccount';
     case Sendle = 'SendleAccount';
     case Speedee = 'SpeedeeAccount';
+    case Swyft = 'SwyftAccount';
     case Tforce = 'TforceConciseAccount';
     case Toll = 'TollAccount';
     case Uds = 'UdsAccount';

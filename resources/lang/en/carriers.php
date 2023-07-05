@@ -132,6 +132,11 @@ return [
         'signup_instructions' => 'You will need to contact Spee-Dee sales at 800-862-5578 to establish a shipping account.',
     ],
 
+    'swyft' => [
+        'name' => 'Swyft',
+        'signup_text' => 'Contact Swyft to create an account',
+    ],
+
     'tforce_concise' => [
         'name' => 'TForce',
     ],
