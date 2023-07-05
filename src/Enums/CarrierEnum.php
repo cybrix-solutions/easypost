@@ -28,6 +28,7 @@ enum CarrierEnum: string
     case LoomisExpress = 'LoomisExpressAccount';
     case Lso = 'LsoAccount';
     case Ontrac = 'OntracAccount';
+    case Optima = 'OptimaAccount';
     case OsmWorldwide = 'OsmWorldwideAccount';
     case ParcelForce = 'ParcelForceAccount';
     case Parcll = 'ParcllAccount';

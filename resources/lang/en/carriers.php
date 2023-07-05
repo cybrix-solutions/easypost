@@ -107,6 +107,11 @@ return [
         'name' => 'OnTrac',
     ],
 
+    'optima' => [
+        'name' => 'Optima',
+        'signup_text' => 'Contact Optima to create an account',
+    ],
+
     'osm_worldwide' => [
         'name' => 'OSM Worldwide',
     ],
