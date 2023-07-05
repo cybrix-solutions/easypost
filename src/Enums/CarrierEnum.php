@@ -22,6 +22,7 @@ enum CarrierEnum: string
     case DeliverIt = 'DeliverItAccount';
     case DhlExpress = 'DhlExpressAccount';
     case DhlParcel = 'DhlParcelAccount';
+    case EpostGlobal = 'RRDonnelleyAccount';
     case Estafeta = 'EstafetaAccount';
     case Evri = 'HermesAccount';
     case Fedex = 'FedexAccount';

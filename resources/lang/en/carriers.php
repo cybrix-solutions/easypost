@@ -79,6 +79,10 @@ return [
         'name' => 'DHL Parcel',
     ],
 
+    'epost_global' => [
+        'name' => 'ePost Global',
+    ],
+
     'estafeta' => [
         'name' => 'Estafeta',
     ],
