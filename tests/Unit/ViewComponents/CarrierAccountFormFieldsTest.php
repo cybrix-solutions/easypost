@@ -18,7 +18,7 @@ beforeEach(function () {
 });
 
 it('renders the fields for a carrier', function () {
-    setupRoute(CarrierService::fromType(CarrierEnum::Speedee));
+    setupCarrierAccountFormFieldsRoute(CarrierService::fromType(CarrierEnum::Speedee));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -33,7 +33,7 @@ it('renders the fields for a carrier', function () {
 });
 
 it('renders test credentials if a carrier has them', function () {
-    setupRoute(CarrierService::fromType(CarrierEnum::BetterTrucks));
+    setupCarrierAccountFormFieldsRoute(CarrierService::fromType(CarrierEnum::BetterTrucks));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -48,7 +48,7 @@ it('renders test credentials if a carrier has them', function () {
 });
 
 it('renders the custom workflow for fedex', function () {
-    setupRoute(CarrierService::fromType(CarrierEnum::Fedex));
+    setupCarrierAccountFormFieldsRoute(CarrierService::fromType(CarrierEnum::Fedex));
 
     get('/_test')
         ->assertElementExists('[type="checkbox"]', function (AssertElement $checkbox) {
@@ -69,7 +69,7 @@ it('renders the custom workflow for fedex', function () {
 });
 
 it('renders the custom workflow for ups', function () {
-    setupRoute(CarrierService::fromType(CarrierEnum::Ups));
+    setupCarrierAccountFormFieldsRoute(CarrierService::fromType(CarrierEnum::Ups));
 
     get('/_test')
         ->assertElementExists('[type="checkbox"]', function (AssertElement $checkbox) {
@@ -91,7 +91,7 @@ it('renders the custom workflow for ups', function () {
 
 // Helpers
 
-function setupRoute(CarrierService $service): void
+function setupCarrierAccountFormFieldsRoute(CarrierService $service): void
 {
     $template = <<<'HTML'
     <x-easypost::carrier-account-form-fields

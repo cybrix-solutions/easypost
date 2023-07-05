@@ -15,7 +15,7 @@ beforeEach(function () {
 });
 
 it('can be rendered as a text field', function () {
-    setupRoute(newCredential());
+    setupCarrierAccountFieldRoute(newCredential());
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -32,7 +32,7 @@ it('can be rendered as a text field', function () {
 });
 
 it('can be rendered as a password field', function () {
-    setupRoute(newCredential(CarrierCredentials::passwordCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::passwordCredential()));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -51,7 +51,7 @@ it('can be rendered as a password field', function () {
 });
 
 it('can be rendered as a select field', function () {
-    setupRoute(newCredential(CarrierCredentials::selectCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::selectCredential()));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -67,7 +67,7 @@ it('can be rendered as a select field', function () {
 });
 
 it('can be rendered as a checkbox field', function () {
-    setupRoute(newCredential(CarrierCredentials::checkboxCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::checkboxCredential()));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -86,7 +86,7 @@ it('can be rendered as a checkbox field', function () {
 });
 
 it('renders a masked field info for password fields when editing an account', function () {
-    setupRoute(credential: newCredential(CarrierCredentials::passwordCredential()), isCreate: false);
+    setupCarrierAccountFieldRoute(credential: newCredential(CarrierCredentials::passwordCredential()), isCreate: false);
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -97,7 +97,7 @@ it('renders a masked field info for password fields when editing an account', fu
 });
 
 it('renders a readonly attribute for readonly credentials', function () {
-    setupRoute(newCredential(CarrierCredentials::readonlyCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::readonlyCredential()));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -108,7 +108,7 @@ it('renders a readonly attribute for readonly credentials', function () {
 });
 
 it('only renders the required attribute for production credentials', function () {
-    setupRoute(newCredential(CarrierCredentials::textCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::textCredential()));
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -117,7 +117,7 @@ it('only renders the required attribute for production credentials', function ()
             });
         });
 
-    setupRoute(credential: newCredential(CarrierCredentials::textCredential()), isTestEnv: true);
+    setupCarrierAccountFieldRoute(credential: newCredential(CarrierCredentials::textCredential()), isTestEnv: true);
 
     get('/_test')
         ->assertElementExists('div', function (AssertElement $div) {
@@ -128,7 +128,7 @@ it('only renders the required attribute for production credentials', function ()
 });
 
 it('renders an error message when a field has validation errors', function () {
-    setupRoute(newCredential(CarrierCredentials::textCredential()));
+    setupCarrierAccountFieldRoute(newCredential(CarrierCredentials::textCredential()));
 
     $this->withViewErrors(['__namePrefix__.my_credential' => 'The my credential field is required.']);
 
@@ -154,7 +154,7 @@ function newCredential(?EasyPostObject $type = null, ?CarrierEnum $enum = null):
     );
 }
 
-function setupRoute(
+function setupCarrierAccountFieldRoute(
     EasyPostCredential $credential,
     string $namePrefix = '__namePrefix__',
     string $idPrefix = '__idPrefix__',
