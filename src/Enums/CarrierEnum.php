@@ -38,6 +38,7 @@ enum CarrierEnum: string
     case Toll = 'TollAccount';
     case Uds = 'UdsAccount';
     case Ups = 'UpsAccount';
+    case UpsIparcel = 'UpsIparcelAccount';
     case UpsMailInnovations = 'UpsMailInnovationsAccount';
     case Usps = 'UspsAccount';
     case Veho = 'VehoAccount';

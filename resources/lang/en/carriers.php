@@ -149,6 +149,10 @@ return [
         'name' => 'UPS',
     ],
 
+    'ups_i_parcel' => [
+        'name' => 'UPS i-Parcel',
+    ],
+
     'ups_mail_innovations' => [
         'name' => 'UPS Mail Innovations',
     ],
