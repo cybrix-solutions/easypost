@@ -103,6 +103,10 @@ return [
         'name' => 'LSO',
     ],
 
+    'maergo' => [
+        'name' => 'Maergo',
+    ],
+
     'omni_parcel' => [
         'name' => 'OmniParcel',
         'signup_text' => 'Contact OmniParcel to create an account',
