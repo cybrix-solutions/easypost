@@ -91,10 +91,6 @@ return [
         'name' => 'FedEx MailView',
     ],
 
-    'ghl_concise' => [
-        'name' => 'Grand Husky Logistics',
-    ],
-
     'hailify' => [
         'name' => 'Hailify',
         'signup_text' => 'Contact Hailify to create an account',
