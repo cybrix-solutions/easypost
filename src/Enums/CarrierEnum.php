@@ -19,6 +19,7 @@ enum CarrierEnum: string
     case ColumbusLastMile = 'ColumbusLastMileAccount';
     case CourierExpress = 'CourierExpressAccount';
     case CouriersPlease = 'CouriersPleaseAccount';
+    case DaiPost = 'DaiPostAccount';
     case DeliverIt = 'DeliverItAccount';
     case DeutschePostUk = 'DeutschePostUKAccount';
     case DhlEcs = 'DhlEcsAccount';

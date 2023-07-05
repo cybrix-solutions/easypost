@@ -67,6 +67,10 @@ return [
         'name' => 'CouriersPlease',
     ],
 
+    'dai_post' => [
+        'name' => 'Dai Post',
+    ],
+
     'deliver_it' => [
         'name' => 'Deliver-It',
     ],
