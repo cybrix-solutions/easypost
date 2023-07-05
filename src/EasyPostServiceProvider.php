@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost;
 
+use CybrixSolutions\EasyPost\Commands\PublishAssetsCommand;
 use CybrixSolutions\EasyPost\Commands\PublishStubsCommand;
 use CybrixSolutions\EasyPost\Contracts\ActivateCarrierAccountAction as ActivateCarrierAccountActionContract;
 use CybrixSolutions\EasyPost\Contracts\AddCarrierAccountAction as AddCarrierAccountContract;
@@ -34,7 +35,10 @@ final class EasyPostServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasRoute('web')
             ->hasMigration('create_easypost_tables')
-            ->hasCommand(PublishStubsCommand::class)
+            ->hasCommands([
+                PublishStubsCommand::class,
+                PublishAssetsCommand::class,
+            ])
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->publishAssets()
                     ->publishConfigFile()
