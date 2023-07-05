@@ -75,6 +75,10 @@ return [
         'name' => 'DHL Express',
     ],
 
+    'dhl_paket' => [
+        'name' => 'DHL Paket',
+    ],
+
     'dhl_parcel' => [
         'name' => 'DHL Parcel',
     ],
