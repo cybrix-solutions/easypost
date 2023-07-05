@@ -71,6 +71,11 @@ return [
         'name' => 'Deliver-It',
     ],
 
+    'dhl_ecs' => [
+        'name' => 'DHL eCommerce Solutions',
+        'signup_text' => 'Contact DHL to create an account',
+    ],
+
     'dhl_express' => [
         'name' => 'DHL Express',
     ],
