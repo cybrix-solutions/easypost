@@ -33,6 +33,7 @@ enum CarrierEnum: string
     case PassportGlobal = 'PassportGlobalAccount';
     case Purolator = 'PurolatorAccount';
     case Sendle = 'SendleAccount';
+    case SmartKargo = 'SmartKargoAccount';
     case Sonic = 'SonicAccount';
     case Speedee = 'SpeedeeAccount';
     case Swyft = 'SwyftAccount';

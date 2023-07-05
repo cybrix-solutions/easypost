@@ -127,6 +127,11 @@ return [
         'name' => 'Sendle',
     ],
 
+    'smart_kargo' => [
+        'name' => 'SmartKargo',
+        'signup_text' => 'Contact SmartKargo to create an account',
+    ],
+
     'sonic' => [
         'name' => 'Sonic',
     ],
