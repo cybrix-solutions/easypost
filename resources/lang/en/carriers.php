@@ -103,6 +103,11 @@ return [
         'name' => 'LSO',
     ],
 
+    'omni_parcel' => [
+        'name' => 'OmniParcel',
+        'signup_text' => 'Contact OmniParcel to create an account',
+    ],
+
     'ontrac' => [
         'name' => 'OnTrac',
     ],
