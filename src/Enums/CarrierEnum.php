@@ -29,6 +29,7 @@ enum CarrierEnum: string
     case Lso = 'LsoAccount';
     case Ontrac = 'OntracAccount';
     case OsmWorldwide = 'OsmWorldwideAccount';
+    case ParcelForce = 'ParcelForceAccount';
     case Parcll = 'ParcllAccount';
     case PassportGlobal = 'PassportGlobalAccount';
     case Purolator = 'PurolatorAccount';

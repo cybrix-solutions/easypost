@@ -111,6 +111,11 @@ return [
         'name' => 'OSM Worldwide',
     ],
 
+    'parcel_force' => [
+        'name' => 'Parcel Force',
+        'signup_text' => 'Register for a Parcel Force account',
+    ],
+
     'parcll' => [
         'name' => 'Parcll',
     ],

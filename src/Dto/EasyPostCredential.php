@@ -50,7 +50,7 @@ final class EasyPostCredential
             return false;
         }
 
-        return ! Str::contains($this->credential['label'], 'optional', true);
+        return ! Str::contains($this->credential['label'], ['optional', '- not required'], true);
     }
 
     public function isReadonly(): bool
