@@ -2,7 +2,7 @@
     'licenseUrl' => route('easypost::legal.ups_license'),
 ])
 
-<div class="grid gap-10 sm:grid-cols-3">
+<div class="grid gap-10 sm:grid-cols-3" id="new-ups-account-fields">
     {{-- account information --}}
     <x-easypost::carrier-field-section
         :title="__('easypost::labels.carrier_account_form.ups.account_info')"

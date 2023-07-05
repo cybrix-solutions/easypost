@@ -17,6 +17,8 @@ class TestCase extends Orchestra
 {
     protected $loadEnvironmentVariables = true;
 
+    protected $enablesPackageDiscoveries = true;
+
     protected function setUp(): void
     {
         $this->loadEnvironmentVariables();
