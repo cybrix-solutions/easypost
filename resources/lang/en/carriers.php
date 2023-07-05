@@ -91,6 +91,11 @@ return [
         'name' => 'FedEx MailView',
     ],
 
+    'first_mile' => [
+        'name' => 'First Mile',
+        'signup_text' => 'Request a quote',
+    ],
+
     'gso' => [
         'name' => 'GSO',
         'signup_text' => 'Open an account',
