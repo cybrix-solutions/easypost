@@ -71,6 +71,11 @@ return [
         'name' => 'Deliver-It',
     ],
 
+    'deutsche_post_uk' => [
+        'name' => 'Deutsche Post UK',
+        'signup_instructions' => 'You will need to contact Deutsche Post UK at +49 228 4333112 to establish a shipping account.',
+    ],
+
     'dhl_ecs' => [
         'name' => 'DHL eCommerce Solutions',
         'signup_text' => 'Contact DHL to create an account',
