@@ -140,6 +140,11 @@ return [
         'name' => 'Toll',
     ],
 
+    'uds' => [
+        'name' => 'UDS',
+        'signup_text' => 'Request a quote to ship with UDS',
+    ],
+
     'ups' => [
         'name' => 'UPS',
     ],
