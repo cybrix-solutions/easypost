@@ -95,6 +95,11 @@ return [
         'name' => 'Grand Husky Logistics',
     ],
 
+    'hailify' => [
+        'name' => 'Hailify',
+        'signup_text' => 'Contact Hailify to create an account',
+    ],
+
     'loomis_express' => [
         'name' => 'Loomis Express',
     ],
