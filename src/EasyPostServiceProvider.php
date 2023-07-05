@@ -20,7 +20,7 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class EasyPostServiceProvider extends PackageServiceProvider
+final class EasyPostServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
