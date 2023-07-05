@@ -91,6 +91,11 @@ return [
         'name' => 'FedEx MailView',
     ],
 
+    'gso' => [
+        'name' => 'GSO',
+        'signup_text' => 'Open an account',
+    ],
+
     'hailify' => [
         'name' => 'Hailify',
         'signup_text' => 'Contact Hailify to create an account',

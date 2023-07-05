@@ -25,6 +25,7 @@ enum CarrierEnum: string
     case Fedex = 'FedexAccount';
     case FedexCrossBorder = 'FedexCrossBorderAccount';
     case FedexMailView = 'FedexMailviewAccount';
+    case Gso = 'GsoAccount';
     case Hailify = 'HailifyAccount';
     case LoomisExpress = 'LoomisExpressAccount';
     case Lso = 'LsoAccount';
