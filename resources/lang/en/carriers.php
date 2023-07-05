@@ -127,6 +127,10 @@ return [
         'name' => 'Sendle',
     ],
 
+    'sonic' => [
+        'name' => 'Sonic',
+    ],
+
     'speedee' => [
         'name' => 'Spee-Dee',
         'signup_instructions' => 'You will need to contact Spee-Dee sales at 800-862-5578 to establish a shipping account.',
