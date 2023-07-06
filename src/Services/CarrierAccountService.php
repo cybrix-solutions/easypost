@@ -13,7 +13,7 @@ use EasyPost\CarrierAccount;
 use EasyPost\Exception\Api\ApiException;
 use EasyPost\Exception\Api\NotFoundException;
 
-class CarrierAccountService
+final readonly class CarrierAccountService
 {
     public function __construct(protected ProductionEasyPostClient $api)
     {
