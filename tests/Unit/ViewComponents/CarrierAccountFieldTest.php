@@ -142,7 +142,7 @@ it('renders an error message when a field has validation errors', function () {
 
 // Helpers
 
-function newCredential(?EasyPostObject $type = null, ?CarrierEnum $enum = null): EasyPostCredential
+function newCredential(EasyPostObject $type = null, CarrierEnum $enum = null): EasyPostCredential
 {
     $type ??= CarrierCredentials::textCredential();
     $enum ??= CarrierEnum::Speedee;

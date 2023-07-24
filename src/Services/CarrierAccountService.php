@@ -29,7 +29,7 @@ class CarrierAccountService
         return $this->api->carrierAccount->all();
     }
 
-    public function create(string $type, string $name, array $data, ?string $reference = null): CarrierAccount
+    public function create(string $type, string $name, array $data, string $reference = null): CarrierAccount
     {
         try {
             return $this->api->carrierAccount->create(array_filter([
