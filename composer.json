@@ -4,7 +4,9 @@
     "keywords": [
         "cybrix-solutions",
         "laravel",
-        "easypost"
+        "easypost",
+        "shipping",
+        "shipment tracking"
     ],
     "homepage": "https://github.com/cybrix-solutions/easypost",
     "license": "MIT",
