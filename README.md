@@ -1,7 +1,6 @@
 # EasyPost Api Wrapper
 
 ![Tests](https://github.com/cybrix-solutions/easypost/workflows/Tests/badge.svg?style=flat-square)
-[![License](https://img.shields.io/github/license/cybrix-solutions/easypost?style=flat-square)](https://github.com/cybrix-solutions/easypost/blob/main/LICENSE.md)
 
 `easypost` is a paid package that offers shipment functionality for your Laravel application utilizing the [EasyPost](https://www.easypost.com/) Api.
 Our package wraps the `easypost/easypost-php` package for ease of interacting with the EasyPost Api.
