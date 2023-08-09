@@ -18,7 +18,7 @@
     "require": {
         "php": "^8.2",
         "easypost/easypost-php": "^6.7",
-        "illuminate/contracts": "^10.0",
+        "illuminate/support": "^10.0",
         "spatie/laravel-package-tools": "^1.14.2|^1.15"
     },
     "require-dev": {
