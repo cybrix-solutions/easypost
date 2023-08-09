@@ -57,4 +57,5 @@ jobs:
                     EASYPOST_API_KEY: ${{ secrets.EASYPOST_API_KEY }}
                     EASYPOST_TEST_API_KEY: ${{ secrets.EASYPOST_TEST_API_KEY }}
                     EASYPOST_TEST_MODE: ${{ secrets.EASYPOST_TEST_MODE }}
+                    EASYPOST_WEBHOOK_SECRET: ${{ secrets.EASYPOST_WEBHOOK_SECRET }}
                     APP_KEY: ${{ secrets.APP_KEY }}
