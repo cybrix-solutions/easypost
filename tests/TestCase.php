@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CybrixSolutions\EasyPost\Tests;
 
 use CybrixSolutions\EasyPost\EasyPostServiceProvider;
