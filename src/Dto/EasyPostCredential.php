@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Dto;
 
-use CybrixSolutions\EasyPost\Contracts\CustomWorkflow;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\CustomWorkflow;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Str;

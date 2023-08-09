@@ -33,6 +33,11 @@ final class PublishStubsCommand extends Command
             app_path('Policies/CarrierAccountPolicy.php')
         );
 
+        $this->publishStub(
+            __DIR__ . '/../../resources/stubs/Policies/ShipmentPolicy.php.stub',
+            app_path('Policies/ShipmentPolicy.php')
+        );
+
         $this->info('Stubs published.');
     }
 

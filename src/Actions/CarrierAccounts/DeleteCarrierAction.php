@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\DeleteCarrierAction as DeleteCarrierActionContract;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeleted;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\DeleteCarrierAction as DeleteCarrierActionContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasDeleted;
 use CybrixSolutions\EasyPost\Services\CarrierAccountService;
 use Illuminate\Support\Facades\DB;
 

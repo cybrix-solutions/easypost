@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\MakeCarrierDefaultAction as MakeCarrierDefaultActionContract;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasMadeDefault;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\MakeCarrierDefaultAction as MakeCarrierDefaultActionContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasMadeDefault;
 use Illuminate\Support\Facades\DB;
 
 class MakeCarrierDefaultAction implements MakeCarrierDefaultActionContract

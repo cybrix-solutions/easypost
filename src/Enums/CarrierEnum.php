@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Enums;
 
-use CybrixSolutions\EasyPost\Contracts\Carrier;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\Carrier;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -99,6 +99,11 @@ enum CarrierEnum: string
         return $this->carrier()->name();
     }
 
+    public function nameForTracker(): string
+    {
+        return $this->carrier()->nameForTracker();
+    }
+
     public function companyField(): string
     {
         return $this->carrier()->companyField();
@@ -169,5 +174,18 @@ enum CarrierEnum: string
     public function optionsFor(string $field): array
     {
         return $this->carrier()->optionsFor($field);
+    }
+
+    /**
+     * The daily rate divisor set by the carrier for calculating dimensional weights.
+     */
+    public function dailyRateDivisor(): int|float
+    {
+        return $this->carrier()->dailyRateDivisor();
+    }
+
+    public function maxRefNumberLength(): int
+    {
+        return $this->carrier()->maxRefNumberLength();
     }
 }

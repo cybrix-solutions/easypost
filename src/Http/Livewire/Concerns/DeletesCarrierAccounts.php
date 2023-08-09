@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Http\Livewire\Concerns;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\DeleteCarrierAction;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\DeleteCarrierAction;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
 
 /**

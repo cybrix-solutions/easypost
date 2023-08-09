@@ -16,6 +16,11 @@ final readonly class Tforce extends Carrier
         return __('easypost::carriers.tforce_concise.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'TForce';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.tforcelogistics.com/service/e-commerce/';

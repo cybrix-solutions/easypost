@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Tests\Fixtures\Models;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount as CarrierAccountContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount as CarrierAccountContract;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\database\factories\CustomCarrierAccountFactory;
 use Illuminate\Database\Eloquent\Builder;

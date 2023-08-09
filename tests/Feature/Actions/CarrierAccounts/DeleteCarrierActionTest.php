@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeleteCarrierAction;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeleted;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasDeleted;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountDeletionFailed;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;

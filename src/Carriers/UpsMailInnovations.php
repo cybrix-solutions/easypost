@@ -16,6 +16,11 @@ final readonly class UpsMailInnovations extends Carrier
         return __('easypost::carriers.ups_mail_innovations.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'UPSMailInnovations';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.ups.com/us/en/supplychain/solutions/mail-innovations.page';

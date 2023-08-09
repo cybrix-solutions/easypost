@@ -16,6 +16,11 @@ final readonly class Uds extends Carrier
         return __('easypost::carriers.uds.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'UDS';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.uniteddeliveryservice.com/request-a-quote.html';

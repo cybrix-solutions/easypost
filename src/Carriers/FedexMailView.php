@@ -16,6 +16,11 @@ final readonly class FedexMailView extends Carrier
         return __('easypost::carriers.fedex_mail_view.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'FedExMailView';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.fedex.com/en-us/shipping/international-mail-service.html';

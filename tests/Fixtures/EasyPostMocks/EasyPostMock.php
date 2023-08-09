@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks;
 
+use EasyPost\Test\Mocking\MockRequest;
+use EasyPost\Test\Mocking\MockRequestMatchRule;
+use EasyPost\Test\Mocking\MockRequestResponseInfo;
+
 abstract class EasyPostMock
 {
     protected int|string $statusCode = 200;
@@ -13,6 +17,20 @@ abstract class EasyPostMock
     protected string $urlPattern = '';
 
     abstract protected function getPayload(): array;
+
+    public function asMockRequest(): MockRequest
+    {
+        return new MockRequest(
+            new MockRequestMatchRule(
+                $this->method(),
+                $this->urlPattern(),
+            ),
+            new MockRequestResponseInfo(
+                $this->statusCode(),
+                json_encode($this->payload()),
+            ),
+        );
+    }
 
     public function payload(): array
     {
@@ -42,6 +60,7 @@ abstract class EasyPostMock
         if (is_string($this->statusCode)) {
             return [
                 'BAD_REQUEST' => 422,
+                'ADDRESS.VERIFY.FAILURE' => 422,
             ][$this->statusCode];
         }
 

@@ -16,6 +16,11 @@ final readonly class Fedex extends Carrier
         return __('easypost::carriers.fedex.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'FedEx';
+    }
+
     public function signupHelpUrl(): ?string
     {
         return 'https://support.easypost.com/hc/en-us/articles/360041148012-FedEx-Account-Registration-Guide';

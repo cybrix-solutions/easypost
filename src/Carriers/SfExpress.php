@@ -16,6 +16,11 @@ final readonly class SfExpress extends Carrier
         return __('easypost::carriers.sf_express.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'SFExpress';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.sf-express.com/chn/en';

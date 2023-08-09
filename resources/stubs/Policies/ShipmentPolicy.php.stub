@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Policies;
+
+use CybrixSolutions\EasyPost\Contracts\Models\Shipment;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Contracts\Auth\Authenticatable as User;
+
+class ShipmentPolicy
+{
+    use HandlesAuthorization;
+
+    public function edit(User $user, Shipment $shipment): bool
+    {
+        return true;
+    }
+
+    public function delete(User $user, Shipment $shipment): bool
+    {
+        return true;
+    }
+
+    public function refund(User $user, Shipment $shipment): bool
+    {
+        return true;
+    }
+}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\CustomWorkflows;
 
-use CybrixSolutions\EasyPost\Contracts\CustomWorkflow as CustomWorkflowContract;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\CustomWorkflow as CustomWorkflowContract;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use EasyPost\EasyPostObject;

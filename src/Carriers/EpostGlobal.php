@@ -16,6 +16,11 @@ final readonly class EpostGlobal extends Carrier
         return __('easypost::carriers.epost_global.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'ePostGlobal';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://epostglobalshipping.com/contact-us/';

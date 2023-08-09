@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\CustomWorkflows;
 
-use CybrixSolutions\EasyPost\Contracts\CustomWorkflow as CustomWorkflowContract;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\CustomWorkflow as CustomWorkflowContract;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 
 final class Factory

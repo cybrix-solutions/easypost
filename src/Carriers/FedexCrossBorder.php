@@ -16,6 +16,11 @@ final readonly class FedexCrossBorder extends Carrier
         return __('easypost::carriers.fedex_cross_border.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'FedExCrossBorder';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://crossborder.fedex.com/us/';

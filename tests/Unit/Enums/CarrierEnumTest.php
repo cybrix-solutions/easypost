@@ -44,13 +44,13 @@ it('provides a signup help url for some carriers', function () {
 });
 
 it('provides the field name of the name field for carriers', function () {
-    expect(CarrierEnum::Ups->nameField())->toBe('attention')
-        ->and(CarrierEnum::Lso->nameField())->toBe('name');
+    expect(CarrierEnum::Ups->nameField())->toBe('name')
+        ->and(CarrierEnum::Lso->nameField())->toBe('company');
 });
 
 it('provides the field name of the company field for carriers', function () {
-    expect(CarrierEnum::Ups->companyField())->toBe('name')
-        ->and(CarrierEnum::Lso->companyField())->toBe('attention');
+    expect(CarrierEnum::Ups->companyField())->toBe('company')
+        ->and(CarrierEnum::Lso->companyField())->toBe('name');
 });
 
 it('provides the number of days a carrier may void a label for', function () {

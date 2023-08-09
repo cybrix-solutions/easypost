@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Http\Livewire\Concerns;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\SyncCarriersAction;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\SyncCarriersAction;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed;
 use function CybrixSolutions\EasyPost\hasApiKey;
 

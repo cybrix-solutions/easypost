@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\View\Components;
 
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;

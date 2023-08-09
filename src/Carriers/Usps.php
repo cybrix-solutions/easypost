@@ -16,8 +16,18 @@ final readonly class Usps extends Carrier
         return __('easypost::carriers.usps.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'USPS';
+    }
+
     public function voidableDays(): int
     {
         return config('easypost.voidable_days.usps', 30);
+    }
+
+    public function dailyRateDivisor(): int|float
+    {
+        return 166;
     }
 }

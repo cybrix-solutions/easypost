@@ -16,6 +16,11 @@ final readonly class DhlExpress extends Carrier
         return __('easypost::carriers.dhl_express.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'DHLExpress';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://mydhl.express.dhl/gb/en/forms/open-account.html';

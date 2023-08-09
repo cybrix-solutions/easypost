@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\DeactivateCarrierAccountAction as DeactivateCarrierAccountActionContract;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeactivated;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\DeactivateCarrierAccountAction as DeactivateCarrierAccountActionContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasDeactivated;
 use Illuminate\Support\Facades\DB;
 
 class DeactivateCarrierAccountAction implements DeactivateCarrierAccountActionContract

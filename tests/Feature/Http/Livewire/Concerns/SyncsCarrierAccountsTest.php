@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\SyncCarriersAction;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountsListMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Livewire\TestCarrierSyncComponent;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;

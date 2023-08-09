@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;

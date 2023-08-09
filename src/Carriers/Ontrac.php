@@ -16,6 +16,11 @@ final readonly class Ontrac extends Carrier
         return __('easypost::carriers.ontrac.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'OnTrac';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.ontrac.com/openfreeaccount.asp';

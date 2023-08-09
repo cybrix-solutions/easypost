@@ -16,6 +16,11 @@ final readonly class Lso extends Carrier
         return __('easypost::carriers.lso.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'LSO';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.lso.com/create-account';
@@ -23,11 +28,11 @@ final readonly class Lso extends Carrier
 
     public function companyField(): string
     {
-        return 'attention';
+        return 'name';
     }
 
     public function nameField(): string
     {
-        return 'name';
+        return 'company';
     }
 }

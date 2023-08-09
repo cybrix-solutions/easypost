@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use CybrixSolutions\EasyPost\Contracts\ActivateCarrierAccountAction as ActivateCarrierAccountActionContract;
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasActivated;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\ActivateCarrierAccountAction as ActivateCarrierAccountActionContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasActivated;
 use Illuminate\Support\Facades\DB;
 
 class ActivateCarrierAccountAction implements ActivateCarrierAccountActionContract

@@ -16,6 +16,11 @@ final readonly class Ups extends Carrier
         return __('easypost::carriers.ups.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'UPS';
+    }
+
     public function signupHelpUrl(): ?string
     {
         return 'https://support.easypost.com/hc/en-us/articles/360024355712-Setting-up-your-UPS-Account';

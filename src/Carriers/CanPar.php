@@ -16,6 +16,11 @@ final readonly class CanPar extends Carrier
         return __('easypost::carriers.canpar.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'Canpar';
+    }
+
     public function signupText(): ?string
     {
         return __('easypost::carriers.canpar.signup_text');

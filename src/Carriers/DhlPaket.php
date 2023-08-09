@@ -16,6 +16,11 @@ final readonly class DhlPaket extends Carrier
         return __('easypost::carriers.dhl_paket.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'DHLPaket';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.dhl.de/en/privatkunden/kundenkonto/registrierung.html';

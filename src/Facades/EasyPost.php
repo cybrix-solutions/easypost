@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CybrixSolutions\EasyPost\Facades;
 
 use Illuminate\Support\Facades\Facade;
@@ -8,6 +10,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null apiKey()
  * @method static string|null testApiKey()
  * @method static bool inTestMode()
+ * @method static string productionWebhookUrl()
+ * @method static mixed authenticatedUserId()
  *
  * @see \CybrixSolutions\EasyPost\EasyPost
  */

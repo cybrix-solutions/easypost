@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Carriers;
 
-use CybrixSolutions\EasyPost\Contracts\Carrier as CarrierContract;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\Carrier as CarrierContract;
 
 abstract readonly class Carrier implements CarrierContract
 {
     abstract protected function image(): string;
+
+    public function nameForTracker(): string
+    {
+        return class_basename($this);
+    }
 
     public function imageUrl(): string
     {
@@ -17,12 +22,12 @@ abstract readonly class Carrier implements CarrierContract
 
     public function companyField(): string
     {
-        return 'name';
+        return 'company';
     }
 
     public function nameField(): string
     {
-        return 'attention';
+        return 'name';
     }
 
     public function signupHelpUrl(): ?string
@@ -58,5 +63,18 @@ abstract readonly class Carrier implements CarrierContract
     public function optionsFor(string $field): array
     {
         return [];
+    }
+
+    /**
+     * The divisor used for calculating dimensional weights for a carrier.
+     */
+    public function dailyRateDivisor(): int|float
+    {
+        return 139;
+    }
+
+    public function maxRefNumberLength(): int
+    {
+        return 30;
     }
 }

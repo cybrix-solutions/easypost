@@ -16,6 +16,11 @@ final readonly class Gso extends Carrier
         return __('easypost::carriers.gso.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'GSO';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.gls-us.com/create-account';

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\DeactivateCarrierAccountAction;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasDeactivated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasDeactivated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Models\CustomCarrierAccount;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;

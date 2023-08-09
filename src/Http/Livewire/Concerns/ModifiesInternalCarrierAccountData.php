@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Http\Livewire\Concerns;
 
-use CybrixSolutions\EasyPost\Contracts\ActivateCarrierAccountAction;
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Contracts\DeactivateCarrierAccountAction;
-use CybrixSolutions\EasyPost\Contracts\MakeCarrierDefaultAction;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\ActivateCarrierAccountAction;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\DeactivateCarrierAccountAction;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\MakeCarrierDefaultAction;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 
 /**
  * @mixin \Livewire\Component

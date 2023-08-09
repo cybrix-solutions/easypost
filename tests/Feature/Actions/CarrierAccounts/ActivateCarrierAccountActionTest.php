@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\ActivateCarrierAccountAction;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasActivated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasActivated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
 use Illuminate\Support\Facades\Event;

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\UpdateCarrierAction;
-use CybrixSolutions\EasyPost\Contracts\UpdateCarrierAction as UpdateCarrierActionContract;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\UpdateCarrierAction as UpdateCarrierActionContract;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasUpdated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasUpdated;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountMock;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\MakeCarrierDefaultAction;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasMadeDefault;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasMadeDefault;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Models\CustomCarrierAccount;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;

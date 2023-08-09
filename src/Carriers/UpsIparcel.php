@@ -15,4 +15,9 @@ final readonly class UpsIparcel extends Carrier
     {
         return __('easypost::carriers.ups_i_parcel.name');
     }
+
+    public function nameForTracker(): string
+    {
+        return 'UPSIparcel';
+    }
 }

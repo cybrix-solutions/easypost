@@ -16,6 +16,11 @@ final readonly class ParcelForce extends Carrier
         return __('easypost::carriers.parcel_force.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'Parcelforce';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.parcelforce.com/user/register';

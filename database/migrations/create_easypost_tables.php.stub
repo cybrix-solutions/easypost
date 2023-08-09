@@ -1,5 +1,6 @@
 <?php
 
+use CybrixSolutions\EasyPost\Enums\WeightUom;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('easypost.table_names.carrier_accounts'), static function (Blueprint $table) {
+        Schema::create(config('easypost.table_names.carrier_accounts'), function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('easypost_id')->unique();
@@ -16,6 +17,120 @@ return new class extends Migration
             $table->boolean('default')->default(false);
             $table->dateTime('deactivated_at')->nullable()->index();
             $table->string('type')->comment('CarrierEnum');
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+        });
+
+        Schema::create(config('easypost.table_names.webhook_calls'), function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('url');
+            $table->json('headers')->nullable();
+            $table->json('payload')->nullable();
+            $table->text('exception')->nullable();
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+        });
+
+        Schema::create(config('easypost.table_names.shipments'), function (Blueprint $table) {
+            $table->id();
+            $table->string('easypost_id')->nullable()->index();
+            $table->string('carrier')->nullable();
+            $table->string('carrier_account_id')
+                ->nullable()
+                ->index()
+                ->comment('References easypost_id on carrier_accounts table');
+            $table->nullableMorphs('shippable');
+            $table->string('tracking_number')->index();
+            $table->string('delivery_confirmation', 50)->nullable();
+            $table->string('description')->nullable();
+            $table->boolean('is_residential')->default(true);
+            $table->unsignedDouble('weight', 8, 2)->default(0.00);
+            $table->string('weight_uom')->default(WeightUom::Ounce->value);
+            $table->boolean('is_return')->default(false)->index();
+            $table->unsignedDouble('cost', 8, 2)->default(0.00);
+            $table->dateTime('picked_up_at')->nullable();
+            $table->dateTime('delivered_at')->nullable();
+            $table->string('signed_by')->nullable();
+            $table->string('status')->nullable();
+            $table->string('refund_status')->nullable();
+            $table->string('easypost_label_url')->nullable();
+            $table->string('tracker_url')->nullable();
+            $table->dateTime('voided_at')->nullable();
+            $table->unsignedBigInteger('voided_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->json('sender')->nullable();
+            $table->json('receiver')->nullable();
+            $table->string('email')->nullable();
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+
+            $table->foreign('voided_by')
+                ->references('id')
+                ->on(config('auth.providers.users.table'))
+                ->nullOnDelete();
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on(config('auth.providers.users.table'))
+                ->nullOnDelete();
+        });
+
+        Schema::create(config('easypost.table_names.parcels'), function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('shipment_id')
+                ->constrained(config('easypost.table_names.shipments'))
+                ->cascadeOnDelete();
+            $table->string('easypost_id')->nullable()->index();
+            $table->string('tracker_id')->nullable();
+            $table->string('easypost_label_id')->nullable();
+            $table->string('easypost_label_url', 500)->nullable();
+            $table->string('tracker_url')->nullable();
+            $table->string('status')->nullable();
+            $table->string('tracking_number')->index();
+            $table->boolean('is_return')->default(false);
+            $table->unsignedDouble('length', 6, 2)->nullable()->default(0);
+            $table->unsignedDouble('width', 6, 2)->nullable()->default(0);
+            $table->unsignedDouble('height', 6, 2)->nullable()->default(0);
+            $table->unsignedDouble('volume', 6, 2)->nullable()->default(0);
+            $table->string('dimensions',50)->nullable();
+            $table->unsignedDouble('weight', 5, 2)->nullable()->default(0.00);
+            $table->unsignedDouble('dim_weight', 5, 2)->nullable()->default(0.00);
+            $table->boolean('is_large')->default(false);
+            $table->boolean('addtl_handling')->default(false);
+            $table->string('delivery_confirmation', 50)->nullable();
+            $table->unsignedDouble('value', 8, 2)->default(0.00);
+            $table->string('ref_number1')->nullable()->index();
+            $table->string('ref_number2')->nullable();
+            $table->string('signed_by')->nullable();
+            $table->dateTime('voided_at')->nullable();
+            $table->bigInteger('voided_by')->nullable();
+            $table->dateTime('delivered_at')->nullable();
+            $table->dateTime('picked_up_at')->nullable();
+            $table->dateTime('last_tracked_at')->nullable();
+            $table->unsignedDouble('dim_weight_divisor', 8, 2)->nullable()->default(139.00);
+            $table->string('weight_uom')->default(WeightUom::Ounce->value);
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+
+            $table->foreign('voided_by')
+                ->references('id')
+                ->on(config('auth.providers.users.table'))
+                ->nullOnDelete();
+        });
+
+        Schema::create(config('easypost.table_names.parcel_tracking'), function (Blueprint $table) {
+            $table->id();
+            $table->foreignId(config('easypost.table_names.parcel_tracking_parcel_fk'))
+                ->constrained(config('easypost.table_names.parcels'))
+                ->cascadeOnDelete();
+            $table->string('status')->nullable()->index();
+            $table->string('status_code')->nullable();
+            $table->string('location_description')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('signed_by')->nullable();
+            $table->dateTime('activity_date')->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });

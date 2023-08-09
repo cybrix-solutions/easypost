@@ -7,9 +7,6 @@ namespace CybrixSolutions\EasyPost\Services\Api;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\EasyPostMock;
 use EasyPost\EasyPostClient as Client;
 use EasyPost\Test\Mocking\MockingUtility;
-use EasyPost\Test\Mocking\MockRequest;
-use EasyPost\Test\Mocking\MockRequestMatchRule;
-use EasyPost\Test\Mocking\MockRequestResponseInfo;
 
 /**
  * @property \EasyPost\Service\AddressService $address
@@ -40,11 +37,18 @@ class EasyPostClient
 
     protected static array $mockPaths = [];
 
-    protected static array $pendingMocks = [];
+    protected array $pendingMocks = [];
 
     public function __construct(string $apiKey)
     {
         $this->client = new Client($apiKey);
+    }
+
+    public function setApiKey(string $apiKey): self
+    {
+        (fn () => $this->apiKey = $apiKey)->call($this->client);
+
+        return $this;
     }
 
     public function __get(string $name)
@@ -57,16 +61,7 @@ class EasyPostClient
     {
         $this->ensureMockingUtilitiesAreLoaded();
 
-        static::$pendingMocks[] = new MockRequest(
-            new MockRequestMatchRule(
-                $mock->method(),
-                $mock->urlPattern(),
-            ),
-            new MockRequestResponseInfo(
-                $mock->statusCode(),
-                json_encode($mock->payload()),
-            ),
-        );
+        $this->pendingMocks[] = $mock->asMockRequest();
 
         return $this;
     }
@@ -75,10 +70,10 @@ class EasyPostClient
     {
         $this->client = new Client(
             apiKey: $this->client->getApiKey(),
-            mockingUtility: new MockingUtility(...static::$pendingMocks),
+            mockingUtility: new MockingUtility(...$this->pendingMocks),
         );
 
-        static::$pendingMocks = [];
+        $this->pendingMocks = [];
 
         return $this;
     }

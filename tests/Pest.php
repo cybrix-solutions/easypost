@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use CybrixSolutions\EasyPost\Services\Api\EasyPostClient;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
+use CybrixSolutions\EasyPost\Services\WebhooksService;
 use CybrixSolutions\EasyPost\Tests\TestCase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Illuminate\Support\Facades\View;
@@ -13,6 +17,17 @@ uses(InteractsWithViews::class)->beforeEach(function () {
 
 // Helpers
 
+function mockApi(array $mocks): void
+{
+    $api = app(EasyPostClient::class);
+
+    foreach ($mocks as $mock) {
+        $api->addMock($mock);
+    }
+
+    $api->mock();
+}
+
 function mockProductionApi(array $mocks): void
 {
     $api = app(ProductionEasyPostClient::class);
@@ -22,4 +37,17 @@ function mockProductionApi(array $mocks): void
     }
 
     $api->mock();
+}
+
+function mockWebhookApi(array $productionMocks = [], array $testMocks = []): void
+{
+    $api = app(WebhooksService::class);
+
+    foreach ($productionMocks as $mock) {
+        $api->addProductionMock($mock);
+    }
+
+    foreach ($testMocks as $mock) {
+        $api->addTestMock($mock);
+    }
 }

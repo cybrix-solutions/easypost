@@ -11,6 +11,11 @@ final readonly class Apc extends Carrier
         return __('easypost::carriers.apc.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'APC';
+    }
+
     public function signupUrl(): ?string
     {
         return 'https://www.apc-pli.com/contact.html';

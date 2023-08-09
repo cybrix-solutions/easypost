@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use CybrixSolutions\EasyPost\Contracts\AddCarrierAccountAction as AddCarrierAccountActionContract;
-use CybrixSolutions\EasyPost\Contracts\CarrierAccount;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\AddCarrierAccountAction as AddCarrierAccountActionContract;
+use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Services\CarrierAccountService;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use EasyPost\CarrierAccount as EasyPostCarrierAccount;

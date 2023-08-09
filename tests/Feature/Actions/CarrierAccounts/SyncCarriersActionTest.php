@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Actions\CarrierAccounts\SyncCarriersAction;
-use CybrixSolutions\EasyPost\Contracts\SyncCarriersAction as SyncCarriersActionContract;
+use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\SyncCarriersAction as SyncCarriersActionContract;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasCreated;
-use CybrixSolutions\EasyPost\Events\CarrierAccountWasUpdated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
+use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasUpdated;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed;
 use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierAccountsListMock;

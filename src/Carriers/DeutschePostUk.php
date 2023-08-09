@@ -16,6 +16,11 @@ final readonly class DeutschePostUk extends Carrier
         return __('easypost::carriers.deutsche_post_uk.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'DeutschePostUK';
+    }
+
     public function signupInstructions(): ?string
     {
         return __('easypost::carriers.deutsche_post_uk.signup_instructions');

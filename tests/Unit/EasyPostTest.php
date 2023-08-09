@@ -12,6 +12,8 @@ afterEach(function () {
     EasyPost::$resolveApiKeyUsingCallback = null;
     EasyPost::$resolveTestApiKeyUsingCallback = null;
     EasyPost::$resolveTestModeUsingCallback = null;
+    EasyPost::$resolveProductionWebhookUrlUsingCallback = null;
+    EasyPost::$resolveAuthenticatedUserIdUsingCallback = null;
 });
 
 it('retrieves the configured api key', function () {
@@ -60,4 +62,25 @@ it('can resolve the test mode setting from a closure', function () {
     EasyPost::resolveTestModeUsing(fn () => true);
 
     expect($this->easypost->inTestMode())->toBeTrue();
+});
+
+it('retrieves a url to use for the production webhook', function () {
+    config()->set('easypost.webhook_url', '/webhook');
+    config()->set('app.url', 'https://example.com');
+
+    expect($this->easypost->productionWebhookUrl())->toBe('https://example.com/webhook');
+});
+
+it('can resolve the production webhook url from a closure', function () {
+    config()->set('easypost.webhook_url', '/webhook');
+
+    EasyPost::resolveProductionWebhookUrlUsing(fn (string $path) => 'https://foo.com/' . $path . '/foo');
+
+    expect($this->easypost->productionWebhookUrl())->toBe('https://foo.com/webhook/foo');
+});
+
+it('can resolve the authenticated user id using a custom callback', function () {
+    EasyPost::resolveAuthenticatedUserIdUsing(fn () => 123);
+
+    expect($this->easypost->authenticatedUserId())->toBe(123);
 });

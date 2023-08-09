@@ -6,7 +6,7 @@ use CybrixSolutions\EasyPost\CustomWorkflows\Factory;
 use CybrixSolutions\EasyPost\CustomWorkflows\FedexWorkflow;
 use CybrixSolutions\EasyPost\CustomWorkflows\UpsWorkflow;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
-use CybrixSolutions\EasyPost\Exceptions\InvalidCarrierForCustomWorkflow;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\InvalidCarrierForCustomWorkflow;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 

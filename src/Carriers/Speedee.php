@@ -16,6 +16,11 @@ final readonly class Speedee extends Carrier
         return __('easypost::carriers.speedee.name');
     }
 
+    public function nameForTracker(): string
+    {
+        return 'SpeeDee';
+    }
+
     public function signupInstructions(): ?string
     {
         return __('easypost::carriers.speedee.signup_instructions');
