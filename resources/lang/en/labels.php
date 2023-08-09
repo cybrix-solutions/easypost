@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'add_carrier_button' => 'Add Carrier',
     'carrier_form_back_button' => 'Back',

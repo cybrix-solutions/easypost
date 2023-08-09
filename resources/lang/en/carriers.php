@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'request_account' => 'Request an account',
     'create_account' => 'Create an account',
