@@ -174,7 +174,7 @@ class BuyShipmentAction implements BuyShipmentActionContract
             'delivery_confirmation' => $shipment->delivery_confirmation,
             'value' => $purchasedShipment->insurance,
             'ref_number1' => $purchasedShipment->options->print_custom_1,
-            'ref_number2' => $purchasedShipment->options->print_custoM_2,
+            'ref_number2' => $purchasedShipment->options->print_custom_2,
             'is_return' => $shipment->is_return,
 
             ...$this->parcelMeta,
