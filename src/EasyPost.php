@@ -12,7 +12,7 @@ final class EasyPost
     /**
      * The current version of the package.
      */
-    public const VERSION = '1.0.0';
+    public const VERSION = '0.1.1';
 
     /**
      * The callback that is responsible for retrieving the configured EasyPost API key.
