@@ -97,7 +97,3 @@ composer test
 ## Disclaimer
 
 This package is not affiliated with, maintained, authorized, endorsed or sponsored by EasyPost. It is simply a wrapper around their API.
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
