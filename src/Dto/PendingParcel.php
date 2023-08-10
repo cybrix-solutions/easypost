@@ -18,6 +18,20 @@ use JsonSerializable;
 
 /**
  * @property string $uuid
+ * @property null|float $length
+ * @property null|float $width
+ * @property null|float $height
+ * @property null|float $weight
+ * @property null|float $return_length
+ * @property null|float $return_width
+ * @property null|float $return_height
+ * @property null|float $return_weight
+ * @property null|string $ref_number1
+ * @property null|string $ref_number2
+ * @property null|string $return_ref_number1
+ * @property null|string $return_ref_number2
+ * @property null|float $value
+ * @property null|float $return_value
  */
 class PendingParcel implements Arrayable, ArrayAccess, JsonSerializable, Jsonable
 {
@@ -134,12 +148,22 @@ class PendingParcel implements Arrayable, ArrayAccess, JsonSerializable, Jsonabl
 
     public function dimensionalWeightForCarrier(CarrierEnum $carrier): float
     {
-        return (new DimWeightCalculator)
-            ->usingCarrierType($carrier)
-            ->usingLength((float) ($this->length ?? 0))
-            ->usingWidth((float) ($this->width ?? 0))
-            ->usingHeight((float) ($this->height ?? 0))
-            ->dimWeight();
+        return $this->calculateDimensionalWeight(
+            carrier: $carrier,
+            length: $this->length ?? 0,
+            width: $this->width ?? 0,
+            height: $this->height ?? 0,
+        );
+    }
+
+    public function returnDimensionalWeightForCarrier(CarrierEnum $carrier): float
+    {
+        return $this->calculateDimensionalWeight(
+            carrier: $carrier,
+            length: $this->return_length ?? $this->length ?? 0,
+            width: $this->return_width ?? $this->width ?? 0,
+            height: $this->return_height ?? $this->height ?? 0,
+        );
     }
 
     public function __get(string $name): mixed
@@ -251,5 +275,19 @@ class PendingParcel implements Arrayable, ArrayAccess, JsonSerializable, Jsonabl
         }
 
         return LengthUom::Inch;
+    }
+
+    protected function calculateDimensionalWeight(
+        CarrierEnum $carrier,
+        mixed $length,
+        mixed $width,
+        mixed $height,
+    ): float {
+        return (new DimWeightCalculator)
+            ->usingCarrierType($carrier)
+            ->usingLength((float) $length)
+            ->usingWidth((float) $width)
+            ->usingHeight((float) $height)
+            ->dimWeight();
     }
 }
