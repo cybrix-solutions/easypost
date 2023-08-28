@@ -7,8 +7,9 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Responses\Carriers\CarrierCredentials;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Facades\Route;
-use function Pest\Laravel\get;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+
+use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->withViewErrors([]);

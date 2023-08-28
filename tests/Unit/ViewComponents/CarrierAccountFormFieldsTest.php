@@ -6,8 +6,9 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\CarrierAccounts\CarrierTypesMock;
 use Illuminate\Support\Facades\Route;
-use function Pest\Laravel\get;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+
+use function Pest\Laravel\get;
 
 beforeEach(function () {
     mockProductionApi([

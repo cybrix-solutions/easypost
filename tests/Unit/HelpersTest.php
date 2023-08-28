@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use CybrixSolutions\EasyPost\EasyPost;
+
+use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use function CybrixSolutions\EasyPost\hasApiKey;
 
 it('can get the cache key for a given carrier account', function () {

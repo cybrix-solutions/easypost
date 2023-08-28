@@ -17,6 +17,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+
 use function Pest\Laravel\post;
 
 uses(UsesDatabase::class);
