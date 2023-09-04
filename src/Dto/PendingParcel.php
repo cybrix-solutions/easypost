@@ -33,7 +33,7 @@ use JsonSerializable;
  * @property null|float $value
  * @property null|float $return_value
  */
-class PendingParcel implements Arrayable, ArrayAccess, JsonSerializable, Jsonable
+class PendingParcel implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {
     /**
      * When set to true, there are multiple parcels (shipments) being created at once,

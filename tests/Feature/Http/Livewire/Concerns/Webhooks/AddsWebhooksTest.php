@@ -8,6 +8,7 @@ use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\Webhooks\WebhookListMo
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\Webhooks\WebhookMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Livewire\TestWebhooksComponent;
 use Illuminate\Support\Facades\Event;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {

@@ -11,9 +11,9 @@ use Livewire\Component;
 
 class TestWebhooksComponent extends Component
 {
-    use ListsWebhooks;
-    use DeletesWebhooks;
     use AddsWebhooks;
+    use DeletesWebhooks;
+    use ListsWebhooks;
 
     protected function authorizeWebhookAdd(bool $testMode): void
     {

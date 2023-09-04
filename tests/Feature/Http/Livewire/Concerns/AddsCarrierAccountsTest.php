@@ -16,6 +16,7 @@ use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 

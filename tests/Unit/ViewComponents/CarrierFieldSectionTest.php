@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use function Pest\Laravel\get;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+
+use function Pest\Laravel\get;
 
 it('can be rendered', function () {
     $template = <<<'HTML'

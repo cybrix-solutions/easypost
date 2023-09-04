@@ -10,8 +10,8 @@ use Livewire\Component;
 
 class TestAddCarrierAccountForm extends Component
 {
-    use AuthorizesRequests;
     use AddsCarrierAccounts;
+    use AuthorizesRequests;
 
     public bool $added = false;
 
