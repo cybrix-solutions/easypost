@@ -41,7 +41,7 @@ class UpdateTrackingAction implements UpdateTrackingActionContract
                 'city' => $detail->tracking_location?->city,
             ]);
 
-            $trackingModel->saveQuietly();
+            $trackingModel->save();
 
             $shipmentStatus = ShipmentStatusEnum::tryFrom($detail->status);
             if ($shipmentStatus === ShipmentStatusEnum::InTransit && ! $parcel->picked_up_at) {
