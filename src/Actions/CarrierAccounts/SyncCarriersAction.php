@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\SyncCarriersAction as SyncCarriersActionContract;
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount as CarrierAccountContract;
 use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
@@ -14,6 +13,8 @@ use CybrixSolutions\EasyPost\Services\CarrierAccountService;
 use EasyPost\Exception\Api\ApiException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+
+use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 
 class SyncCarriersAction implements SyncCarriersActionContract
 {

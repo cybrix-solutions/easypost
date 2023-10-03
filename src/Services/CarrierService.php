@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Services;
 
-use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use CybrixSolutions\EasyPost\CustomWorkflows\Factory as WorkflowFactory;
 use CybrixSolutions\EasyPost\Dto\EasyPostCredential;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
@@ -12,6 +11,8 @@ use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use EasyPost\CarrierAccount;
 use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
+
+use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 
 /**
  * @method string|null signupHelpUrl()

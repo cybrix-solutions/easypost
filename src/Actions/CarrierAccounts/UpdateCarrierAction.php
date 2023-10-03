@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
-use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\UpdateCarrierAction as UpdateCarrierActionContract;
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasUpdated;
@@ -14,6 +13,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+
+use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
 
 class UpdateCarrierAction implements UpdateCarrierActionContract
 {

@@ -8,10 +8,11 @@ use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\AddCarrierAccountAction;
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed;
-use function CybrixSolutions\EasyPost\hasApiKey;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use Illuminate\Support\Collection;
 use ValueError;
+
+use function CybrixSolutions\EasyPost\hasApiKey;
 
 /**
  * @property-read null|\CybrixSolutions\EasyPost\Enums\CarrierEnum $carrierEnum

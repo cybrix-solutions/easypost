@@ -9,6 +9,7 @@ use CybrixSolutions\EasyPost\Services\WebhooksService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\Webhooks\WebhookListMock;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\Webhooks\WebhookMock;
 use Illuminate\Support\Facades\Event;
+
 use function Pest\Laravel\artisan;
 
 beforeEach(function () {

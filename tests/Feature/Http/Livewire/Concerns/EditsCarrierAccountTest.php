@@ -13,6 +13,7 @@ use CybrixSolutions\EasyPost\Tests\Fixtures\Models\User;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Event;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 

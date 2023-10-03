@@ -23,9 +23,9 @@ use Illuminate\Support\Facades\Lang;
 
 class Parcel extends Model implements ParcelContract
 {
+    use CalculatesVolume;
     use HasFactory;
     use SortsByDimensions;
-    use CalculatesVolume;
 
     protected $casts = [
         'voided_at' => 'immutable_datetime',

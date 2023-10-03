@@ -21,7 +21,7 @@ use JsonSerializable;
  * @property null|string $postal_code
  * @property null|string $phone
  */
-final class ShipmentAddress implements Castable, JsonSerializable, Jsonable
+final class ShipmentAddress implements Castable, Jsonable, JsonSerializable
 {
     protected array $attributes = [];
 

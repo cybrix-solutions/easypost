@@ -6,6 +6,7 @@ use CybrixSolutions\EasyPost\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Livewire\TestCarrierAccountList;
 use CybrixSolutions\EasyPost\Tests\Fixtures\Models\User;
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 

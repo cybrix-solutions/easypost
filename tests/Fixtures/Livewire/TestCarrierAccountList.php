@@ -13,9 +13,9 @@ use Livewire\Component;
 class TestCarrierAccountList extends Component
 {
     use AuthorizesRequests;
+    use DeletesCarrierAccounts;
     use ListsCarrierAccounts;
     use ModifiesInternalCarrierAccountData;
-    use DeletesCarrierAccounts;
 
     public function render(): string
     {

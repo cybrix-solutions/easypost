@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use Illuminate\Support\Facades\Route;
-use function Pest\Laravel\get;
 use Sinnbeck\DomAssertions\Asserts\AssertElement;
+
+use function Pest\Laravel\get;
 
 it('can be rendered', function () {
     Route::get('/_test', function () {

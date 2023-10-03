@@ -10,6 +10,7 @@ use CybrixSolutions\EasyPost\Tests\Fixtures\Webhooks\WebhookModelWithoutPayloadS
 use CybrixSolutions\EasyPost\Tests\TestConcerns\UsesDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+
 use function Pest\Laravel\postJson;
 
 uses(UsesDatabase::class);
