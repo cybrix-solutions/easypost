@@ -307,7 +307,7 @@ class Shipment extends Model implements ShipmentContract
             ->orWhereNotNull('voided_at');
     }
 
-    public function scopeByDirection(Builder $query, string $direction = null): void
+    public function scopeByDirection(Builder $query, ?string $direction = null): void
     {
         if (! $direction) {
             return;

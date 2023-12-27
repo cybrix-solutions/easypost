@@ -191,7 +191,7 @@ class Parcel extends Model implements ParcelContract
      * Shipment param allows us to avoid having to re-query for the shipment on certain
      * pages.
      */
-    public function refreshTracking(ShipmentContract $shipment = null): void
+    public function refreshTracking(?ShipmentContract $shipment = null): void
     {
         if ($this->isDelivered()) {
             return;

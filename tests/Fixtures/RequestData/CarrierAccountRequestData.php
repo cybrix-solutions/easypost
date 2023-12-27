@@ -16,7 +16,7 @@ final class CarrierAccountRequestData
     {
     }
 
-    public static function make(CarrierEnum $enum = null): self
+    public static function make(?CarrierEnum $enum = null): self
     {
         $enum ??= CarrierEnum::Speedee;
 

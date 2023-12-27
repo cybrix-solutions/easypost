@@ -139,7 +139,7 @@ it('can list all of the registered carrier accounts', function () {
 });
 
 // Helpers
-function makeAccount(string $type = null, array $data = null): EasyPostCarrierAccount
+function makeAccount(?string $type = null, ?array $data = null): EasyPostCarrierAccount
 {
     // We're using Spee-Dee since their accounts can be created with fake data in the API.
     $type = $type ?? CarrierEnum::Speedee->value;

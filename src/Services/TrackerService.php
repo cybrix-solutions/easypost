@@ -25,7 +25,7 @@ final readonly class TrackerService
         }
     }
 
-    public function create(string $trackingCode, string|CarrierEnum $carrier = null): Tracker
+    public function create(string $trackingCode, string|CarrierEnum|null $carrier = null): Tracker
     {
         if (is_string($carrier)) {
             $carrier = CarrierEnum::tryFrom($carrier);

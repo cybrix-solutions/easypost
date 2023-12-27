@@ -86,7 +86,7 @@ final class EasyPostAddress
         return AddressCandidate::fromEasyPostAddress($this->address);
     }
 
-    public function errorMessage(string $field = null): ?string
+    public function errorMessage(?string $field = null): ?string
     {
         $errors = $this->errors();
         if ($errors->isEmpty()) {

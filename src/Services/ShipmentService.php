@@ -28,7 +28,7 @@ final readonly class ShipmentService
         }
     }
 
-    public function buy(string|Shipment $shipmentId, Rate $rate, float $insurance = null): Shipment
+    public function buy(string|Shipment $shipmentId, Rate $rate, ?float $insurance = null): Shipment
     {
         try {
             $shipment = is_string($shipmentId) ? $this->find($shipmentId) : $shipmentId;

@@ -26,5 +26,5 @@ interface Parcel
      */
     public function labelHeight(): int;
 
-    public function refreshTracking(Shipment $shipment = null): void;
+    public function refreshTracking(?Shipment $shipment = null): void;
 }

@@ -51,7 +51,7 @@ final class WebhooksService extends EasyPostClient
         return $webhooks;
     }
 
-    public function addProductionWebhook(string $url = null): Webhook
+    public function addProductionWebhook(?string $url = null): Webhook
     {
         $url ??= EasyPost::productionWebhookUrl();
 
@@ -65,7 +65,7 @@ final class WebhooksService extends EasyPostClient
         }
     }
 
-    public function addTestWebhook(string $url = null): Webhook
+    public function addTestWebhook(?string $url = null): Webhook
     {
         $url ??= config('app.url');
 
