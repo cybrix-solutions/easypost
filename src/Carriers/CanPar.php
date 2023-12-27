@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class CanPar extends Carrier
 {
-    protected function image(): string
-    {
-        return 'canpar-logo.7b3491f751e9bb129fab1759874ca29e.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.canpar.name');
@@ -29,5 +24,10 @@ final readonly class CanPar extends Carrier
     public function signupUrl(): ?string
     {
         return 'https://www.canpar.com/en/contact/become_customer.htm';
+    }
+
+    protected function image(): string
+    {
+        return 'canpar-logo.7b3491f751e9bb129fab1759874ca29e.png';
     }
 }

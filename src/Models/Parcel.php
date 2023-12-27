@@ -58,83 +58,6 @@ class Parcel extends Model implements ParcelContract
         $this->table = config('easypost.table_names.parcels') ?: $this->getTable();
     }
 
-    protected function valueForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => sprintf('$%s', number_format($this->value, 2)),
-        )->shouldCache();
-    }
-
-    protected function deliveredAtForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): ?string => $this->delivered_at?->format('F j, Y g:i a'),
-        )->shouldCache();
-    }
-
-    protected function status(): Attribute
-    {
-        return Attribute::make(
-            get: function (mixed $value): ?ShipmentStatusEnum {
-                return $value instanceof ShipmentStatusEnum
-                    ? $value
-                    : ShipmentStatusEnum::tryFrom($value ?? '');
-            },
-        )->shouldCache();
-    }
-
-    protected function dimWeightForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => Lang::choice('easypost::shipments.labels.weight_display', $this->dim_weight ?? 0, ['weight' => $this->dim_weight]),
-        )->shouldCache();
-    }
-
-    protected function dimWeightHelp(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => __('easypost::shipments.labels.dim_weight_help', [
-                'length' => $this->length,
-                'width' => $this->width,
-                'height' => $this->height,
-                'divisor' => $this->getDimWeightDivisor(),
-            ]),
-        )->shouldCache();
-    }
-
-    protected function weightForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                $weight = $this->weight_uom->toPounds($this->weight);
-
-                return Lang::choice('easypost::shipments.labels.weight_display', $weight, ['weight' => $weight]);
-            },
-        )->shouldCache();
-    }
-
-    protected function pickedUpAtForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return is_null($this->picked_up_at)
-                    ? __('easypost::shipments.tracking.alerts.not_picked_up')
-                    : $this->picked_up_at->format('F j, Y');
-            },
-        )->shouldCache();
-    }
-
-    protected function lastTrackedAtForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return is_null($this->last_tracked_at)
-                    ? __('easypost::shipments.tracking.alerts.never_tracked')
-                    : $this->last_tracked_at->format('M. d, Y g:i a');
-            },
-        )->shouldCache();
-    }
-
     public function dimWeightIsBilled(): bool
     {
         $actualWeight = $this->weight_uom->toPounds($this->weight);
@@ -147,11 +70,6 @@ class Parcel extends Model implements ParcelContract
         return $this->dim_weight_divisor
             ?? $this->shipment?->carrier?->dailyRateDivisor()
             ?? 139.00;
-    }
-
-    protected function calculateDimWeight(): float
-    {
-        return (new DimWeightCalculator)->usingParcel($this)->dimWeight();
     }
 
     public function isDelivered(): bool
@@ -254,5 +172,87 @@ class Parcel extends Model implements ParcelContract
                 $parcel->adjustParcelDimensions();
             }
         });
+    }
+
+    protected function valueForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => sprintf('$%s', number_format($this->value, 2)),
+        )->shouldCache();
+    }
+
+    protected function deliveredAtForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): ?string => $this->delivered_at?->format('F j, Y g:i a'),
+        )->shouldCache();
+    }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value): ?ShipmentStatusEnum {
+                return $value instanceof ShipmentStatusEnum
+                    ? $value
+                    : ShipmentStatusEnum::tryFrom($value ?? '');
+            },
+        )->shouldCache();
+    }
+
+    protected function dimWeightForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => Lang::choice('easypost::shipments.labels.weight_display', $this->dim_weight ?? 0, ['weight' => $this->dim_weight]),
+        )->shouldCache();
+    }
+
+    protected function dimWeightHelp(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => __('easypost::shipments.labels.dim_weight_help', [
+                'length' => $this->length,
+                'width' => $this->width,
+                'height' => $this->height,
+                'divisor' => $this->getDimWeightDivisor(),
+            ]),
+        )->shouldCache();
+    }
+
+    protected function weightForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $weight = $this->weight_uom->toPounds($this->weight);
+
+                return Lang::choice('easypost::shipments.labels.weight_display', $weight, ['weight' => $weight]);
+            },
+        )->shouldCache();
+    }
+
+    protected function pickedUpAtForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function (): string {
+                return is_null($this->picked_up_at)
+                    ? __('easypost::shipments.tracking.alerts.not_picked_up')
+                    : $this->picked_up_at->format('F j, Y');
+            },
+        )->shouldCache();
+    }
+
+    protected function lastTrackedAtForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function (): string {
+                return is_null($this->last_tracked_at)
+                    ? __('easypost::shipments.tracking.alerts.never_tracked')
+                    : $this->last_tracked_at->format('M. d, Y g:i a');
+            },
+        )->shouldCache();
+    }
+
+    protected function calculateDimWeight(): float
+    {
+        return (new DimWeightCalculator)->usingParcel($this)->dimWeight();
     }
 }

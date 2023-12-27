@@ -30,6 +30,19 @@ class ParcelTracking extends Model implements ParcelTrackingContract
         $this->table = config('easypost.table_names.parcel_tracking') ?: $this->getTable();
     }
 
+    public function parcel(): BelongsTo
+    {
+        return $this->belongsTo(
+            config('easypost.models.parcel'),
+            config('easypost.table_names.parcel_tracking_parcel_fk'),
+        );
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('created_at', '<=', now()->subYears(2));
+    }
+
     protected function shipmentStatus(): Attribute
     {
         return Attribute::make(
@@ -92,18 +105,5 @@ class ParcelTracking extends Model implements ParcelTrackingContract
                 };
             },
         )->shouldCache();
-    }
-
-    public function parcel(): BelongsTo
-    {
-        return $this->belongsTo(
-            config('easypost.models.parcel'),
-            config('easypost.table_names.parcel_tracking_parcel_fk'),
-        );
-    }
-
-    public function prunable(): Builder
-    {
-        return static::where('created_at', '<=', now()->subYears(2));
     }
 }

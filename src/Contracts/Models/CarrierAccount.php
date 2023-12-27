@@ -20,6 +20,8 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  */
 interface CarrierAccount
 {
+    public static function findByEasyPostId(string $id): self;
+
     public function isActive(): bool;
 
     public function isEasyPostAccount(): bool;
@@ -37,6 +39,4 @@ interface CarrierAccount
     public function scopeShouldBeDefaultFromContext(Builder $query, array $context): void;
 
     public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void;
-
-    public static function findByEasyPostId(string $id): self;
 }

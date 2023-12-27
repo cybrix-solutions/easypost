@@ -65,6 +65,21 @@ class PendingParcel implements Arrayable, ArrayAccess, Jsonable, JsonSerializabl
         $this->lengthUom = $this->resolveLengthUom($data);
     }
 
+    public function __get(string $name): mixed
+    {
+        return $this->offsetGet($name);
+    }
+
+    public function __set(string $name, $value): void
+    {
+        $this->offsetSet($name, $value);
+    }
+
+    public function __isset(string $name): bool
+    {
+        return $this->offsetExists($name);
+    }
+
     public static function make(array $data = [], string $formFieldName = 'parcel'): self
     {
         return new static($data, $formFieldName);
@@ -164,21 +179,6 @@ class PendingParcel implements Arrayable, ArrayAccess, Jsonable, JsonSerializabl
             width: $this->return_width ?? $this->width ?? 0,
             height: $this->return_height ?? $this->height ?? 0,
         );
-    }
-
-    public function __get(string $name): mixed
-    {
-        return $this->offsetGet($name);
-    }
-
-    public function __set(string $name, $value): void
-    {
-        $this->offsetSet($name, $value);
-    }
-
-    public function __isset(string $name): bool
-    {
-        return $this->offsetExists($name);
     }
 
     public function toArray(): array

@@ -18,6 +18,21 @@ abstract class EasyPostMock
 
     abstract protected function getPayload(): array;
 
+    public static function make(): self
+    {
+        return new static;
+    }
+
+    public static function notFound(): self
+    {
+        return static::make()->usingStatusCode(404);
+    }
+
+    public static function badRequest(): self
+    {
+        return static::make()->usingStatusCode('BAD_REQUEST');
+    }
+
     public function asMockRequest(): MockRequest
     {
         return new MockRequest(
@@ -79,21 +94,6 @@ abstract class EasyPostMock
         $this->statusCode = $statusCode;
 
         return $this;
-    }
-
-    public static function make(): self
-    {
-        return new static;
-    }
-
-    public static function notFound(): self
-    {
-        return static::make()->usingStatusCode(404);
-    }
-
-    public static function badRequest(): self
-    {
-        return static::make()->usingStatusCode('BAD_REQUEST');
     }
 
     protected function notFoundPayload(): array

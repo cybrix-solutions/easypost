@@ -47,6 +47,36 @@ final class PendingAddress implements Arrayable, ArrayAccess
         }
     }
 
+    public function __get(string $name): mixed
+    {
+        if (! array_key_exists($name, self::$attributes)) {
+            throw InvalidAddressProperty::make($name);
+        }
+
+        $dataType = self::$attributes[$name];
+
+        $fallbackValue = match ($dataType) {
+            'string' => null,
+            'bool' => false,
+        };
+
+        return $this->data[$name] ?? $fallbackValue;
+    }
+
+    public function __set(string $name, $value): void
+    {
+        if (! array_key_exists($name, self::$attributes)) {
+            throw InvalidAddressProperty::make($name);
+        }
+
+        $this->data[$name] = $value;
+    }
+
+    public function __isset(string $name): bool
+    {
+        return isset($this->data[$name]);
+    }
+
     public static function make(array $data = []): self
     {
         return new self($data);
@@ -132,36 +162,6 @@ final class PendingAddress implements Arrayable, ArrayAccess
         $this->data['residential'] = $residential;
 
         return $this;
-    }
-
-    public function __get(string $name): mixed
-    {
-        if (! array_key_exists($name, self::$attributes)) {
-            throw InvalidAddressProperty::make($name);
-        }
-
-        $dataType = self::$attributes[$name];
-
-        $fallbackValue = match ($dataType) {
-            'string' => null,
-            'bool' => false,
-        };
-
-        return $this->data[$name] ?? $fallbackValue;
-    }
-
-    public function __set(string $name, $value): void
-    {
-        if (! array_key_exists($name, self::$attributes)) {
-            throw InvalidAddressProperty::make($name);
-        }
-
-        $this->data[$name] = $value;
-    }
-
-    public function __isset(string $name): bool
-    {
-        return isset($this->data[$name]);
     }
 
     public function toArray(): array

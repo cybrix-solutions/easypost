@@ -15,14 +15,6 @@ class TestWebhooksComponent extends Component
     use DeletesWebhooks;
     use ListsWebhooks;
 
-    protected function authorizeWebhookAdd(bool $testMode): void
-    {
-    }
-
-    protected function authorizeWebhookDelete(): void
-    {
-    }
-
     public function render(): string
     {
         return <<<'HTML'
@@ -42,5 +34,13 @@ class TestWebhooksComponent extends Component
             </ul>
         </div>
         HTML;
+    }
+
+    protected function authorizeWebhookAdd(bool $testMode): void
+    {
+    }
+
+    protected function authorizeWebhookDelete(): void
+    {
     }
 }

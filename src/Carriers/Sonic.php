@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Sonic extends Carrier
 {
-    protected function image(): string
-    {
-        return 'sonic-logo.c34f4d920d54a72f5b4a290170918381.svg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.sonic.name');
@@ -24,5 +19,10 @@ final readonly class Sonic extends Carrier
     public function signupText(): ?string
     {
         return __('easypost::carriers.create_account');
+    }
+
+    protected function image(): string
+    {
+        return 'sonic-logo.c34f4d920d54a72f5b4a290170918381.svg';
     }
 }

@@ -62,23 +62,6 @@ enum CarrierEnum: string
     case Usps = 'UspsAccount';
     case Veho = 'VehoAccount';
 
-    protected function carrier(): Carrier
-    {
-        static $cache = [];
-
-        $class = "CybrixSolutions\\EasyPost\\Carriers\\{$this->name}";
-
-        if (array_key_exists($class, $cache)) {
-            return $cache[$class];
-        }
-
-        $instance = new $class;
-
-        $cache[$class] = $instance;
-
-        return $instance;
-    }
-
     /**
      * @return \Illuminate\Support\Collection<int, self>
      */
@@ -187,5 +170,22 @@ enum CarrierEnum: string
     public function maxRefNumberLength(): int
     {
         return $this->carrier()->maxRefNumberLength();
+    }
+
+    protected function carrier(): Carrier
+    {
+        static $cache = [];
+
+        $class = "CybrixSolutions\\EasyPost\\Carriers\\{$this->name}";
+
+        if (array_key_exists($class, $cache)) {
+            return $cache[$class];
+        }
+
+        $instance = new $class;
+
+        $cache[$class] = $instance;
+
+        return $instance;
     }
 }

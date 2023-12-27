@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class SfExpress extends Carrier
 {
-    protected function image(): string
-    {
-        return 'sf-express-logo.40e7d031ace5f1f64893d48d461f2866.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.sf_express.name');
@@ -29,5 +24,10 @@ final readonly class SfExpress extends Carrier
     public function signupText(): ?string
     {
         return __('easypost::carriers.create_account');
+    }
+
+    protected function image(): string
+    {
+        return 'sf-express-logo.40e7d031ace5f1f64893d48d461f2866.png';
     }
 }

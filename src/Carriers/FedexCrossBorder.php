@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class FedexCrossBorder extends Carrier
 {
-    protected function image(): string
-    {
-        return 'fedex-cross-border-logo.fbe337d854fa22aada60a4565a78afb6.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.fedex_cross_border.name');
@@ -36,5 +31,10 @@ final readonly class FedexCrossBorder extends Carrier
             'Fontana' => 'Fontana',
             'Saddle Brook' => 'Saddle Brook',
         ];
+    }
+
+    protected function image(): string
+    {
+        return 'fedex-cross-border-logo.fbe337d854fa22aada60a4565a78afb6.png';
     }
 }

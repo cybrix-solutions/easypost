@@ -15,11 +15,6 @@ class TestCarrierSyncComponent extends Component
 
     public bool $success = false;
 
-    protected function onSynced(): void
-    {
-        $this->success = true;
-    }
-
     public function render(): string
     {
         return <<<'HTML'
@@ -35,5 +30,10 @@ class TestCarrierSyncComponent extends Component
             @endif
         </div>
         HTML;
+    }
+
+    protected function onSynced(): void
+    {
+        $this->success = true;
     }
 }

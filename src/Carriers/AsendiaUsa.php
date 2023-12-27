@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class AsendiaUsa extends Carrier
 {
-    protected function image(): string
-    {
-        return 'asendia-logo.d2766b26a9074ba9b5513bafaa24218a.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.asendia_usa.name');
@@ -42,5 +37,10 @@ final readonly class AsendiaUsa extends Carrier
             'SLC' => 'SLC',
             'TOR' => 'TOR',
         ];
+    }
+
+    protected function image(): string
+    {
+        return 'asendia-logo.d2766b26a9074ba9b5513bafaa24218a.png';
     }
 }

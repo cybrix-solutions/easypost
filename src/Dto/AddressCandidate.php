@@ -30,13 +30,13 @@ final readonly class AddressCandidate
         $this->zip = $address->zip;
     }
 
-    public function street(): string
-    {
-        return trim("{$this->street1} {$this->street2}");
-    }
-
     public static function fromEasyPostAddress(Address $address): self
     {
         return new self($address);
+    }
+
+    public function street(): string
+    {
+        return trim("{$this->street1} {$this->street2}");
     }
 }

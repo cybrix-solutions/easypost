@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Fedex extends Carrier
 {
-    protected function image(): string
-    {
-        return 'fedex-logo.380cc4d39a40f4623dceaad6936f9d4d.svg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.fedex.name');
@@ -39,5 +34,10 @@ final readonly class Fedex extends Carrier
     public function needsTermsAccepted(): bool
     {
         return true;
+    }
+
+    protected function image(): string
+    {
+        return 'fedex-logo.380cc4d39a40f4623dceaad6936f9d4d.svg';
     }
 }

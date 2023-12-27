@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Hailify extends Carrier
 {
-    protected function image(): string
-    {
-        return 'hailify-logo.f081882605753164ae749e556f2aa610.svg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.hailify.name');
@@ -24,5 +19,10 @@ final readonly class Hailify extends Carrier
     public function signupText(): ?string
     {
         return __('easypost::carriers.hailify.signup_text');
+    }
+
+    protected function image(): string
+    {
+        return 'hailify-logo.f081882605753164ae749e556f2aa610.svg';
     }
 }

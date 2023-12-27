@@ -23,6 +23,17 @@ final class CarrierAccountRequestData
         return new self($enum);
     }
 
+    public static function speedeeCredentials(): array
+    {
+        return [
+            'credentials' => [
+                'account_number' => 'test',
+                'ftp_username' => 'test',
+                'ftp_password' => 'test',
+            ],
+        ];
+    }
+
     public function usingName(string $name): self
     {
         $this->name = $name;
@@ -43,17 +54,6 @@ final class CarrierAccountRequestData
             'type' => $this->enum->value,
             'name' => $this->name,
             ...$this->carrierCredentials,
-        ];
-    }
-
-    public static function speedeeCredentials(): array
-    {
-        return [
-            'credentials' => [
-                'account_number' => 'test',
-                'ftp_username' => 'test',
-                'ftp_password' => 'test',
-            ],
         ];
     }
 }

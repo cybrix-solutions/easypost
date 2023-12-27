@@ -37,22 +37,6 @@ final class ShipmentAddress implements Castable, Jsonable, JsonSerializable
         }
     }
 
-    public function asDisplay(): HtmlString
-    {
-        return new HtmlString(implode('<br>', array_filter([
-            $this->attention,
-            $this->phone,
-            $this->name,
-            $this->street,
-            "{$this->city}, {$this->state} {$this->postal_code}",
-        ])));
-    }
-
-    public static function castUsing(array $arguments)
-    {
-        return new AddressCast(...$arguments);
-    }
-
     public function __set(string $name, $value): void
     {
         $this->attributes[$name] = $value;
@@ -66,6 +50,22 @@ final class ShipmentAddress implements Castable, Jsonable, JsonSerializable
     public function __toString(): string
     {
         return $this->jsonSerialize();
+    }
+
+    public static function castUsing(array $arguments)
+    {
+        return new AddressCast(...$arguments);
+    }
+
+    public function asDisplay(): HtmlString
+    {
+        return new HtmlString(implode('<br>', array_filter([
+            $this->attention,
+            $this->phone,
+            $this->name,
+            $this->street,
+            "{$this->city}, {$this->state} {$this->postal_code}",
+        ])));
     }
 
     public function toJson($options = 0)

@@ -12,6 +12,20 @@ final class WebhookListMock extends EasyPostMock
 
     private array $types = ['production', 'test'];
 
+    public function productionOnly(): self
+    {
+        $this->types = ['production'];
+
+        return $this;
+    }
+
+    public function testOnly(): self
+    {
+        $this->types = ['test'];
+
+        return $this;
+    }
+
     protected function getPayload(): array
     {
         $webhooks = [];
@@ -26,20 +40,6 @@ final class WebhookListMock extends EasyPostMock
         return [
             'webhooks' => $webhooks,
         ];
-    }
-
-    public function productionOnly(): self
-    {
-        $this->types = ['production'];
-
-        return $this;
-    }
-
-    public function testOnly(): self
-    {
-        $this->types = ['test'];
-
-        return $this;
     }
 
     protected function productionWebhook(): array

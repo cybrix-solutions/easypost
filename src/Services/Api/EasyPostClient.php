@@ -44,16 +44,16 @@ class EasyPostClient
         $this->client = new Client($apiKey);
     }
 
+    public function __get(string $name)
+    {
+        return $this->client->{$name};
+    }
+
     public function setApiKey(string $apiKey): self
     {
         (fn () => $this->apiKey = $apiKey)->call($this->client);
 
         return $this;
-    }
-
-    public function __get(string $name)
-    {
-        return $this->client->{$name};
     }
 
     // Testing Utils...

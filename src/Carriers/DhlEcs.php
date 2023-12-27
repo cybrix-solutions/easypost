@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class DhlEcs extends Carrier
 {
-    protected function image(): string
-    {
-        return 'dhl-logo.f97c38914dd385846512f7ed16a275a3.svg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.dhl_ecs.name');
@@ -24,5 +19,10 @@ final readonly class DhlEcs extends Carrier
     public function signupText(): ?string
     {
         return __('easypost::carriers.dhl_ecs.signup_text');
+    }
+
+    protected function image(): string
+    {
+        return 'dhl-logo.f97c38914dd385846512f7ed16a275a3.svg';
     }
 }

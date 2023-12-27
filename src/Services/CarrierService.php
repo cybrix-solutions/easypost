@@ -35,6 +35,19 @@ final class CarrierService
         $this->enum = CarrierEnum::tryFrom($carrier->type);
     }
 
+    public function __call(string $name, array $arguments)
+    {
+        if (! $this->enum) {
+            return null;
+        }
+
+        if (method_exists($this->enum, $name)) {
+            return $this->enum->{$name}(...$arguments);
+        }
+
+        return null;
+    }
+
     public static function fromType(string|CarrierEnum $type): self
     {
         $types = cache()->remember(
@@ -180,19 +193,6 @@ final class CarrierService
             ...$productionAttributes,
             ...$testAttributes,
         ];
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        if (! $this->enum) {
-            return null;
-        }
-
-        if (method_exists($this->enum, $name)) {
-            return $this->enum->{$name}(...$arguments);
-        }
-
-        return null;
     }
 
     private function sectionReadonlyFields(Collection $credentials, string $fieldSection): array

@@ -55,132 +55,6 @@ class Shipment extends Model implements ShipmentContract
         return static::query()->where('easypost_id', $id)->firstOrFail();
     }
 
-    protected function carrier(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value): ?CarrierEnum => $value instanceof CarrierEnum
-                ? $value
-                : CarrierEnum::tryFrom($value ?? ''),
-        )->shouldCache();
-    }
-
-    protected function costForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => sprintf('$%s', number_format($this->cost, 2)),
-        )->shouldCache();
-    }
-
-    protected function weightForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                $weight = $this->weight_uom->toPounds($this->weight);
-
-                return Lang::choice('easypost::shipments.labels.weight_display', $weight, ['weight' => $weight]);
-            },
-        )->shouldCache();
-    }
-
-    protected function direction(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::ReturnLabel->label() : ShipmentDirectionEnum::Forward->label(),
-        )->shouldCache();
-    }
-
-    protected function directionColor(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::Forward->color() : ShipmentDirectionEnum::ReturnLabel->color(),
-        )->shouldCache();
-    }
-
-    protected function refundStatus(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value): ?ShipmentRefundStatusEnum => ShipmentRefundStatusEnum::tryFrom($value ?? ''),
-        )->shouldCache();
-    }
-
-    protected function status(): Attribute
-    {
-        return Attribute::make(
-            get: fn (?string $value): ?ShipmentStatusEnum => ShipmentStatusEnum::tryFrom($value ?? ''),
-        )->shouldCache();
-    }
-
-    protected function getStatus(): mixed
-    {
-        try {
-            return $this->status;
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-
-    protected function statusColor(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): ?string => $this->getStatus()?->color(),
-        )->shouldCache();
-    }
-
-    protected function deliveredAtForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function (): ?string {
-                return $this->delivered_at?->format('F j, Y g:i a');
-            },
-        )->shouldCache();
-    }
-
-    protected function pickedUpAtForHumans(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return is_null($this->picked_up_at)
-                    ? __('easypost::shipments.tracking.alerts.not_picked_up')
-                    : $this->picked_up_at->format('F j, Y'); // March 15, 2021
-            },
-        )->shouldCache();
-    }
-
-    protected function voidableUntil(): Attribute
-    {
-        return Attribute::make(
-            get: function (): DateTimeInterface {
-                return $this->created_at->startOfDay()->addDays($this->carrier->voidableDays());
-            },
-        )->shouldCache();
-    }
-
-    protected function senderDisplay(): Attribute
-    {
-        return Attribute::make(
-            get: function (): HtmlString {
-                if ($this->is_return) {
-                    return $this->receiver->asDisplay();
-                }
-
-                return $this->sender->asDisplay();
-            },
-        )->shouldCache();
-    }
-
-    protected function receiverDisplay(): Attribute
-    {
-        return Attribute::make(
-            get: function (): HtmlString {
-                if ($this->is_return) {
-                    return $this->sender->asDisplay();
-                }
-
-                return $this->receiver->asDisplay();
-            },
-        )->shouldCache();
-    }
-
     public function isDelivered(): bool
     {
         if ($this->getStatus()?->isDelivered()) {
@@ -346,5 +220,131 @@ class Shipment extends Model implements ShipmentContract
                 $shipment->created_by = EasyPost::authenticatedUserId();
             }
         });
+    }
+
+    protected function carrier(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value): ?CarrierEnum => $value instanceof CarrierEnum
+                ? $value
+                : CarrierEnum::tryFrom($value ?? ''),
+        )->shouldCache();
+    }
+
+    protected function costForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => sprintf('$%s', number_format($this->cost, 2)),
+        )->shouldCache();
+    }
+
+    protected function weightForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $weight = $this->weight_uom->toPounds($this->weight);
+
+                return Lang::choice('easypost::shipments.labels.weight_display', $weight, ['weight' => $weight]);
+            },
+        )->shouldCache();
+    }
+
+    protected function direction(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::ReturnLabel->label() : ShipmentDirectionEnum::Forward->label(),
+        )->shouldCache();
+    }
+
+    protected function directionColor(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::Forward->color() : ShipmentDirectionEnum::ReturnLabel->color(),
+        )->shouldCache();
+    }
+
+    protected function refundStatus(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value): ?ShipmentRefundStatusEnum => ShipmentRefundStatusEnum::tryFrom($value ?? ''),
+        )->shouldCache();
+    }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value): ?ShipmentStatusEnum => ShipmentStatusEnum::tryFrom($value ?? ''),
+        )->shouldCache();
+    }
+
+    protected function getStatus(): mixed
+    {
+        try {
+            return $this->status;
+        } catch (Throwable $e) {
+            return null;
+        }
+    }
+
+    protected function statusColor(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): ?string => $this->getStatus()?->color(),
+        )->shouldCache();
+    }
+
+    protected function deliveredAtForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?string {
+                return $this->delivered_at?->format('F j, Y g:i a');
+            },
+        )->shouldCache();
+    }
+
+    protected function pickedUpAtForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: function (): string {
+                return is_null($this->picked_up_at)
+                    ? __('easypost::shipments.tracking.alerts.not_picked_up')
+                    : $this->picked_up_at->format('F j, Y'); // March 15, 2021
+            },
+        )->shouldCache();
+    }
+
+    protected function voidableUntil(): Attribute
+    {
+        return Attribute::make(
+            get: function (): DateTimeInterface {
+                return $this->created_at->startOfDay()->addDays($this->carrier->voidableDays());
+            },
+        )->shouldCache();
+    }
+
+    protected function senderDisplay(): Attribute
+    {
+        return Attribute::make(
+            get: function (): HtmlString {
+                if ($this->is_return) {
+                    return $this->receiver->asDisplay();
+                }
+
+                return $this->sender->asDisplay();
+            },
+        )->shouldCache();
+    }
+
+    protected function receiverDisplay(): Attribute
+    {
+        return Attribute::make(
+            get: function (): HtmlString {
+                if ($this->is_return) {
+                    return $this->sender->asDisplay();
+                }
+
+                return $this->receiver->asDisplay();
+            },
+        )->shouldCache();
     }
 }

@@ -22,13 +22,13 @@ final class EasyPostWebhook
     {
     }
 
-    public function isActive(): bool
-    {
-        return $this->webhook->disabled_at === null;
-    }
-
     public function __get(string $name): mixed
     {
         return $this->webhook->{$name};
+    }
+
+    public function isActive(): bool
+    {
+        return $this->webhook->disabled_at === null;
     }
 }

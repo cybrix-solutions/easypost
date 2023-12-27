@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Evri extends Carrier
 {
-    protected function image(): string
-    {
-        return 'evri-logo.efd141242acf6faaeb932fd7443bacb0.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.evri.name');
@@ -24,5 +19,10 @@ final readonly class Evri extends Carrier
     public function signupText(): ?string
     {
         return __('easypost::carriers.create_account');
+    }
+
+    protected function image(): string
+    {
+        return 'evri-logo.efd141242acf6faaeb932fd7443bacb0.png';
     }
 }

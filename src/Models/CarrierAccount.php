@@ -55,6 +55,13 @@ class CarrierAccount extends Model implements CarrierAccountContract
         $this->table = config('easypost.table_names.carrier_accounts') ?: $this->getTable();
     }
 
+    public static function findByEasyPostId(string $id): self
+    {
+        return static::query()
+            ->where('easypost_id', $id)
+            ->firstOrFail();
+    }
+
     public function isActive(): bool
     {
         return blank($this->deactivated_at);
@@ -130,13 +137,6 @@ class CarrierAccount extends Model implements CarrierAccountContract
      */
     public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void
     {
-    }
-
-    public static function findByEasyPostId(string $id): self
-    {
-        return static::query()
-            ->where('easypost_id', $id)
-            ->firstOrFail();
     }
 
     // We are purposely not declaring a return type here so child classes can override this if necessary.

@@ -23,29 +23,6 @@ enum DeliveryConfirmationEnum: string
     case AdultSignatureRestricted = 'adult_signature_restricted';
     case SignatureRestricted = 'signature_restricted';
 
-    public function label(): string
-    {
-        return __("easypost::enums.delivery_confirmation.{$this->value}");
-    }
-
-    public function description(): string
-    {
-        return __("easypost::enums.delivery_confirmation.{$this->value}_description");
-    }
-
-    public function easypostValue(): string
-    {
-        return match ($this) {
-            self::None => 'NO_SIGNATURE',
-            self::Signature => 'SIGNATURE',
-            self::Adult => 'ADULT_SIGNATURE',
-            self::GsoStandard => 'STANDARD_SIGNATURE',
-            self::IndirectSignature => 'INDIRECT_SIGNATURE',
-            self::SignatureRestricted => 'SIGNATURE_RESTRICTED',
-            self::AdultSignatureRestricted => 'ADULT_SIGNATURE_RESTRICTED',
-        };
-    }
-
     public static function fromEasyPostValue(?string $value): self
     {
         return match ($value) {
@@ -83,5 +60,28 @@ enum DeliveryConfirmationEnum: string
         }
 
         return $cases;
+    }
+
+    public function label(): string
+    {
+        return __("easypost::enums.delivery_confirmation.{$this->value}");
+    }
+
+    public function description(): string
+    {
+        return __("easypost::enums.delivery_confirmation.{$this->value}_description");
+    }
+
+    public function easypostValue(): string
+    {
+        return match ($this) {
+            self::None => 'NO_SIGNATURE',
+            self::Signature => 'SIGNATURE',
+            self::Adult => 'ADULT_SIGNATURE',
+            self::GsoStandard => 'STANDARD_SIGNATURE',
+            self::IndirectSignature => 'INDIRECT_SIGNATURE',
+            self::SignatureRestricted => 'SIGNATURE_RESTRICTED',
+            self::AdultSignatureRestricted => 'ADULT_SIGNATURE_RESTRICTED',
+        };
     }
 }

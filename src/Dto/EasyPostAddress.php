@@ -34,6 +34,11 @@ final class EasyPostAddress
     {
     }
 
+    public function __get(string $name): mixed
+    {
+        return $this->address->{$name};
+    }
+
     public function withPendingAddress(array|PendingAddress $pendingAddress): self
     {
         if (is_array($pendingAddress)) {
@@ -117,10 +122,5 @@ final class EasyPostAddress
     public function deliveryVerification(): ?EasyPostObject
     {
         return $this->address->verifications['delivery'] ?? null;
-    }
-
-    public function __get(string $name): mixed
-    {
-        return $this->address->{$name};
     }
 }

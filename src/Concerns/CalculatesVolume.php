@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait CalculatesVolume
 {
+    abstract protected function calculateDimWeight(): float;
+
     public static function bootCalculatesVolume(): void
     {
         static::saving(function (Model $model) {
@@ -27,8 +29,6 @@ trait CalculatesVolume
             }
         });
     }
-
-    abstract protected function calculateDimWeight(): float;
 
     public function adjustParcelDimensions(): void
     {

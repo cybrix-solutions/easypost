@@ -10,9 +10,9 @@ final class AddressMock extends EasyPostMock
 {
     protected string $urlPattern = '/v2\\/addresses$/';
 
-    private string $mode = 'create';
-
     protected string $method = 'post';
+
+    private string $mode = 'create';
 
     private ?string $id = null;
 

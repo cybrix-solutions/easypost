@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Ups extends Carrier
 {
-    protected function image(): string
-    {
-        return 'ups-logo.28ef2757acc2c805a47f22be998e9222.svg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.ups.name');
@@ -39,5 +34,10 @@ final readonly class Ups extends Carrier
     public function needsTermsAccepted(): bool
     {
         return true;
+    }
+
+    protected function image(): string
+    {
+        return 'ups-logo.28ef2757acc2c805a47f22be998e9222.svg';
     }
 }

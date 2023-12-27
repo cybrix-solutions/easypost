@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Parcll extends Carrier
 {
-    protected function image(): string
-    {
-        return 'parcll-logo.c40efed65644f498f8712fe6f4c6ad1e.png';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.parcll.name');
@@ -35,5 +30,10 @@ final readonly class Parcll extends Carrier
             'SE' => 'Southeast',
             'SO' => 'South',
         ];
+    }
+
+    protected function image(): string
+    {
+        return 'parcll-logo.c40efed65644f498f8712fe6f4c6ad1e.png';
     }
 }

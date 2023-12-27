@@ -6,11 +6,6 @@ namespace CybrixSolutions\EasyPost\Carriers;
 
 final readonly class Ontrac extends Carrier
 {
-    protected function image(): string
-    {
-        return 'ontrac-logo.4e5c272dd60b773b4f0bbe019f46c2a1.jpg';
-    }
-
     public function name(): string
     {
         return __('easypost::carriers.ontrac.name');
@@ -24,5 +19,10 @@ final readonly class Ontrac extends Carrier
     public function signupUrl(): ?string
     {
         return 'https://www.ontrac.com/openfreeaccount.asp';
+    }
+
+    protected function image(): string
+    {
+        return 'ontrac-logo.4e5c272dd60b773b4f0bbe019f46c2a1.jpg';
     }
 }
