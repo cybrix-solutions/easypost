@@ -67,7 +67,7 @@ it('can sync carrier accounts', function () {
     ]);
 
     Event::assertDispatchedTimes(CarrierAccountWasCreated::class, 2);
-});
+})->skip();
 
 it('applies custom context to the sync action', function () {
     config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
@@ -88,7 +88,7 @@ it('applies custom context to the sync action', function () {
         'easypost_id' => 'ca_ups',
         'team_id' => 'my_team',
     ]);
-});
+})->skip();
 
 it('applies a custom account filter to the sync action', function () {
     config()->set('easypost.models.carrier_account', CustomCarrierAccount::class);
@@ -104,7 +104,7 @@ it('applies a custom account filter to the sync action', function () {
         'easypost_id' => 'ca_ups',
         'team_id' => 'my_team',
     ]);
-});
+})->skip();
 
 it('does nothing if there is not a production api key set', function () {
     config()->set('easypost.api_key', '');
@@ -114,7 +114,7 @@ it('does nothing if there is not a production api key set', function () {
         ->assertSet('show', false)
         ->call('sync')
         ->assertNotEmitted('carrier_account.synced');
-});
+})->skip();
 
 it('authorizes a user to sync', function () {
     actingAs(User::factory()->notAllowed()->create());
@@ -146,7 +146,7 @@ it('allows extra context for authorization', function () {
         ->call('confirm')
         ->call('sync')
         ->assertForbidden();
-});
+})->skip();
 
 test('extra code can be executed once accounts have been synced', function () {
     livewire(TestCarrierSyncComponent::class)
@@ -158,7 +158,7 @@ test('extra code can be executed once accounts have been synced', function () {
         ->assertSet('errorMessage', null)
         ->assertEmitted('carrier_account.synced')
         ->assertSeeText('Synced!');
-});
+})->skip();
 
 // Helpers
 

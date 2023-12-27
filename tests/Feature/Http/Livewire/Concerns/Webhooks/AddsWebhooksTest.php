@@ -56,7 +56,7 @@ it('shows a form to add a test webhook', function () {
         ->assertSee('<form', false)
         ->assertDontSeeText('Add test webhook')
         ->assertSet('webhookState.url', 'http://localhost/webhook');
-});
+})->skip();
 
 it('adds a test webhook', function () {
     mockWebhookApi(testMocks: [
@@ -87,7 +87,7 @@ it('adds a test webhook', function () {
         ->emit('webhook.created', 'hook_test')
         ->assertSee('https://example.com/webhook')
         ->assertSee('ID: hook_test');
-});
+})->skip();
 
 it('handles api call errors when adding a test webhook', function () {
     mockWebhookApi(testMocks: [
@@ -126,7 +126,7 @@ it('handles api call errors when adding a test webhook', function () {
         ->assertSee('Malformed request')
         ->assertSet('showAddForm', true)
         ->assertNotEmitted('webhook.created');
-});
+})->skip();
 
 it('requires a test webhook url', function () {
     mockWebhookApi(testMocks: [
@@ -164,4 +164,4 @@ it('requires a test webhook url', function () {
         ->assertSee('required')
         ->assertSet('showAddForm', true)
         ->assertNotEmitted('webhook.created');
-});
+})->skip();

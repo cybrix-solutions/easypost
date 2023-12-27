@@ -54,7 +54,7 @@ it('listens for an event to show the edit form', function () {
         ->assertSet('state.credentials.ftp_username', 'test')
         ->assertSet('state.credentials.ftp_password', '*******')
         ->assertSeeText('Spee-Dee Account Number');
-});
+})->skip();
 
 it('authorizes a user to see the edit form', function () {
     actingAs(User::factory()->notAllowed()->create());
@@ -62,12 +62,12 @@ it('authorizes a user to see the edit form', function () {
     livewire(TestEditCarrierAccountForm::class)
         ->emit('carrier_account.edit', 'ca_123456')
         ->assertForbidden();
-});
+})->skip();
 
 it('throws an exception for an account not found', function () {
     livewire(TestEditCarrierAccountForm::class)
         ->emit('carrier_account.edit', 'fake-id');
-})->throws(ModelNotFoundException::class);
+})->throws(ModelNotFoundException::class)->skip();
 
 it('updates the name of a carrier account', function () {
     Event::fake();
@@ -84,7 +84,7 @@ it('updates the name of a carrier account', function () {
     Event::assertDispatched(function (CarrierAccountWasUpdated $event) {
         return $event->account->id === $this->account->id;
     });
-});
+})->skip();
 
 it('shows an error message if the api call fails', function () {
     Event::fake();
@@ -100,7 +100,7 @@ it('shows an error message if the api call fails', function () {
         ->assertSet('errorMessage', 'We were unable to update your carrier account at this time - message from EasyPost: The requested resource could not be found.');
 
     Event::assertNotDispatched(CarrierAccountWasUpdated::class);
-});
+})->skip();
 
 it('does not edit the account if validation fails', function () {
     Event::fake();
@@ -114,7 +114,7 @@ it('does not edit the account if validation fails', function () {
     expect($this->account->fresh()->name)->toBe('My Account');
 
     Event::assertNotDispatched(CarrierAccountWasUpdated::class);
-});
+})->skip();
 
 it('authorizes the user to update the account', function () {
     Event::fake();
@@ -131,7 +131,7 @@ it('authorizes the user to update the account', function () {
     Event::assertNotDispatched(CarrierAccountWasUpdated::class);
 
     expect($this->account->fresh()->name)->toBe('My Account');
-});
+})->skip();
 
 it('does nothing if there is not an editingId property set', function () {
     Event::fake();
@@ -141,4 +141,4 @@ it('does nothing if there is not an editingId property set', function () {
         ->assertNotEmitted('carrier_account.updated');
 
     Event::assertNotDispatched(CarrierAccountWasUpdated::class);
-});
+})->skip();

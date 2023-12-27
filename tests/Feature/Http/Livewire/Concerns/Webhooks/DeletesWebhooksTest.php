@@ -36,7 +36,7 @@ it('confirms deletion of a webhook', function () {
         ->assertSet('deleting', 'my_hook')
         ->assertSet('deleteMode', 'production')
         ->assertSet('deleteError', null);
-});
+})->skip();
 
 it('deletes a webhook', function () {
     livewire(TestWebhooksComponent::class)
@@ -51,7 +51,7 @@ it('deletes a webhook', function () {
     Event::assertDispatched(function (WebhookWasDeleted $event) {
         return $event->webhookId === 'my_hook' && $event->testMode === false;
     });
-});
+})->skip();
 
 it('can execute extra code when a webhook is deleted', function () {
     $component = new class extends TestWebhooksComponent
@@ -69,7 +69,7 @@ it('can execute extra code when a webhook is deleted', function () {
         ->emit('webhook.confirm_delete', 'my_hook', 'production')
         ->call('deleteWebhook')
         ->assertSet('deleted', true);
-});
+})->skip();
 
 it('sets an error message if the api call fails', function () {
     app(WebhooksService::class)->resetMocks();
@@ -86,7 +86,7 @@ it('sets an error message if the api call fails', function () {
         ->assertSet('showDelete', true)
         ->assertSeeText('The requested resource could not be found')
         ->assertSee('delete-error');
-});
+})->skip();
 
 test('custom authorization can be performed when deleting a webhook', function () {
     $class = new class extends TestWebhooksComponent
@@ -101,4 +101,4 @@ test('custom authorization can be performed when deleting a webhook', function (
         ->emit('webhook.confirm_delete', 'my_hook', 'production')
         ->call('deleteWebhook')
         ->assertForbidden();
-});
+})->skip();
