@@ -16,7 +16,9 @@ use EasyPost\EasyPostClient as ExternalEasyPostClient;
 use EasyPost\Exception\Api\ApiException;
 use EasyPost\Exception\Api\NotFoundException;
 use EasyPost\Test\Mocking\MockingUtility;
+use EasyPost\Util\InternalUtil as EasyPostUtil;
 use EasyPost\Webhook;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -118,6 +120,31 @@ final class WebhooksService extends EasyPostClient
         }
     }
 
+    // Testing Utils...
+    public function addProductionMock(EasyPostMock $mock): self
+    {
+        $this->ensureMockingUtilitiesAreLoaded();
+
+        $this->pendingProductionMocks[] = $mock->asMockRequest();
+
+        return $this;
+    }
+
+    public function addTestMock(EasyPostMock $mock): self
+    {
+        $this->ensureMockingUtilitiesAreLoaded();
+
+        $this->pendingTestMocks[] = $mock->asMockRequest();
+
+        return $this;
+    }
+
+    public function resetMocks(): void
+    {
+        $this->pendingProductionMocks = [];
+        $this->pendingTestMocks = [];
+    }
+
     private function api(bool $testMode): ExternalEasyPostClient
     {
         if ($testMode === false && count($this->pendingProductionMocks)) {
@@ -147,12 +174,18 @@ final class WebhooksService extends EasyPostClient
     private function allFromApi(bool $testMode): Collection
     {
         $webhooks = cache()->remember(
-            $this->cacheKeyFor($testMode),
-            $this->cacheTtlFor($testMode),
-            fn () => rescue(fn () => $this->api(testMode: $testMode)->webhook->all()),
+            key: $this->cacheKeyFor($testMode),
+            ttl: $this->cacheTtlFor($testMode),
+            callback: function () use ($testMode) {
+                // Webhook object in v7 of EasyPost package can't be serialized, so we'll
+                // convert it to array form first.
+                $webhooks = rescue(fn () => $this->api(testMode: $testMode)->webhook->all());
+
+                return Arr::map($webhooks?->webhooks, fn (Webhook $webhook) => $webhook->__toArray());
+            },
         );
 
-        return collect($webhooks?->webhooks ?? [])
+        return collect(EasyPostUtil::convertToEasyPostObject($this->client, $webhooks ?? []))
             ->map(fn (Webhook $webhook) => new EasyPostWebhook($webhook));
     }
 
@@ -168,31 +201,6 @@ final class WebhooksService extends EasyPostClient
         return $testMode
             ? config('easypost.cache.test_webhooks.ttl')
             : config('easypost.cache.production_webhooks.ttl');
-    }
-
-    // Testing Utils...
-    public function addProductionMock(EasyPostMock $mock): self
-    {
-        $this->ensureMockingUtilitiesAreLoaded();
-
-        $this->pendingProductionMocks[] = $mock->asMockRequest();
-
-        return $this;
-    }
-
-    public function addTestMock(EasyPostMock $mock): self
-    {
-        $this->ensureMockingUtilitiesAreLoaded();
-
-        $this->pendingTestMocks[] = $mock->asMockRequest();
-
-        return $this;
-    }
-
-    public function resetMocks(): void
-    {
-        $this->pendingProductionMocks = [];
-        $this->pendingTestMocks = [];
     }
 
     private function mockedProductionApi(): ExternalEasyPostClient
