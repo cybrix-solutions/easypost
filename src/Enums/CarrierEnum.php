@@ -205,7 +205,11 @@ enum CarrierEnum: string implements HasLabel
     {
         static $cache = [];
 
-        $class = "CybrixSolutions\\EasyPost\\Carriers\\{$this->name}";
+        $name = $this->name === 'Canpar'
+            ? 'CanPar'
+            : $this->name;
+
+        $class = "CybrixSolutions\\EasyPost\\Carriers\\{$name}";
 
         if (array_key_exists($class, $cache)) {
             return $cache[$class];
