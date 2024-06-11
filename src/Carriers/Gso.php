@@ -28,6 +28,6 @@ final readonly class Gso extends Carrier
 
     protected function image(): string
     {
-        return 'gso-logo.12057833129efa6432d8d08799dffab1.png';
+        return 'gls-logo-ca.bb1180185869bbe9578db66acee67a40.png';
     }
 }

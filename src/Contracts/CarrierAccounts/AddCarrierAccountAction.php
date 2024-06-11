@@ -19,4 +19,6 @@ interface AddCarrierAccountAction
     public function withContext(array $context): self;
 
     public function withReference(?string $reference): self;
+
+    public function withoutValidation(): self;
 }

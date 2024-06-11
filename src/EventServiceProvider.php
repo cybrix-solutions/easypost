@@ -8,16 +8,21 @@ use CybrixSolutions\EasyPost\Events\ParcelTracking\ParcelTrackingWasUpdated;
 use CybrixSolutions\EasyPost\Events\Shipments\ShipmentWasRefunded;
 use CybrixSolutions\EasyPost\Listeners\ParcelTracking\UpdateShipmentTrackingListener;
 use CybrixSolutions\EasyPost\Listeners\Shipments\ShipmentRefundedListener;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
 final class EventServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        ParcelTrackingWasUpdated::class => [
-            UpdateShipmentTrackingListener::class,
-        ],
-        ShipmentWasRefunded::class => [
-            ShipmentRefundedListener::class,
-        ],
-    ];
+    public function boot(): void
+    {
+        Event::listen(
+            events: ParcelTrackingWasUpdated::class,
+            listener: UpdateShipmentTrackingListener::class,
+        );
+
+        Event::listen(
+            events: ShipmentWasRefunded::class,
+            listener: ShipmentRefundedListener::class,
+        );
+    }
 }

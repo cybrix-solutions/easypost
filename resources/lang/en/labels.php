@@ -14,9 +14,6 @@ return [
         'is_active' => 'Active',
         'is_inactive' => 'Inactive',
         'is_default' => 'Default',
-        'make_default_button' => 'Make Default',
-        'activate_button' => 'Activate',
-        'deactivate_button' => 'Deactivate',
         'no_results_title' => 'No accounts',
         'no_results_text' => 'Get started with shipping by adding a carrier account.',
     ],
@@ -30,20 +27,16 @@ return [
         'carrier_add_title' => 'Add Your :name Account',
         'add_submit_button' => 'Add Carrier',
 
-        'edit_title' => ':type Account',
-
-        'search_placeholder' => 'Search carrier by name',
-        'no_search_results' => 'No carriers found',
-
         'production_credentials' => 'Production Credentials',
         'test_credentials' => 'Test Credentials (Optional)',
 
         'select_option_none' => 'None',
         'masked_field_info' => 'Concealed password length does not match actual password length.',
-        'accepted_terms_label' => 'I have read the',
-        'accepted_terms_link' => 'license agreement',
 
-        'section_help_button' => 'Help',
+        'accept_tos' => [
+            'label' => 'I have read the [license agreement](:url)',
+            'validation_label' => 'license agreement',
+        ],
 
         'ups' => [
             'account_info' => 'UPS Account Information',

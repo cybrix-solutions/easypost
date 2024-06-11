@@ -50,7 +50,7 @@ return [
         'carrier_account' => [
             // We will replace '{account}' with the actual account id.
             'key' => 'easypost::carriers.{account}',
-            'ttl' => \DateInterval::createFromDateString('30 minutes'),
+            'ttl' => \DateInterval::createFromDateString('1 month'),
         ],
         'production_webhooks' => [
             'key' => 'easypost::webhooks.production',
@@ -228,4 +228,15 @@ return [
         \CybrixSolutions\EasyPost\Enums\ShipmentStatusEnum::OutForDelivery,
         \CybrixSolutions\EasyPost\Enums\ShipmentStatusEnum::Delivered,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filament Settings
+    |--------------------------------------------------------------------------
+    |
+    */
+    'filament' => [
+        'password_component' => \Filament\Forms\Components\TextInput::class,
+    ],
+
 ];

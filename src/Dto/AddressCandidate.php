@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Dto;
 
 use EasyPost\Address;
+use Illuminate\Contracts\Support\Arrayable;
 
-final readonly class AddressCandidate
+final readonly class AddressCandidate implements Arrayable
 {
     public ?string $street1;
 
@@ -38,5 +39,17 @@ final readonly class AddressCandidate
     public function street(): string
     {
         return trim("{$this->street1} {$this->street2}");
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'street1' => $this->street1,
+            'street2' => $this->street2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'zip' => $this->zip,
+        ];
     }
 }

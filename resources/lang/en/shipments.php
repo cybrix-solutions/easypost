@@ -12,6 +12,7 @@ return [
     ],
 
     'labels' => [
+        'dim_weight' => 'Dimensional weight',
         'dim_weight_help' => "Dimensional weight reflects package density, which is the amount of space a package occupies in relation to its actual weight. It is calculated by dividing the package's volume by a divisor set by the carrier and rounded up to the nearest pound. The current calculation is: (:length x :width x :height) ÷ :divisor",
         'weight_display' => ':weight lb|:weight lbs',
     ],

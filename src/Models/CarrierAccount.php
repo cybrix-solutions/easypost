@@ -41,11 +41,14 @@ class CarrierAccount extends Model implements CarrierAccountContract
 {
     use HasFactory;
 
-    protected $casts = [
-        'type' => CarrierEnum::class,
-        'default' => 'boolean',
-        'deactivated_at' => 'immutable_datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => CarrierEnum::class,
+            'default' => 'boolean',
+            'deactivated_at' => 'immutable_datetime',
+        ];
+    }
 
     public function __construct(array $attributes = [])
     {

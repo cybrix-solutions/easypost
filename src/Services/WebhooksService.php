@@ -22,6 +22,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+use function CybrixSolutions\EasyPost\easypostObjectToArray;
+
 final class WebhooksService extends EasyPostClient
 {
     private array $pendingProductionMocks = [];
@@ -177,11 +179,9 @@ final class WebhooksService extends EasyPostClient
             key: $this->cacheKeyFor($testMode),
             ttl: $this->cacheTtlFor($testMode),
             callback: function () use ($testMode) {
-                // Webhook object in v7 of EasyPost package can't be serialized, so we'll
-                // convert it to array form first.
                 $webhooks = rescue(fn () => $this->api(testMode: $testMode)->webhook->all());
 
-                return Arr::map($webhooks?->webhooks, fn (Webhook $webhook) => $webhook->__toArray());
+                return Arr::map($webhooks?->webhooks ?? [], fn (Webhook $webhook) => easypostObjectToArray($webhook));
             },
         );
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Actions\CarrierAccounts;
 
+use Closure;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\SyncCarriersAction as SyncCarriersActionContract;
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount as CarrierAccountContract;
 use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
@@ -20,8 +21,7 @@ class SyncCarriersAction implements SyncCarriersActionContract
 {
     protected array $context = [];
 
-    /** @var callable|null */
-    protected $filterBy = null;
+    protected ?Closure $filterBy = null;
 
     public function __construct(protected CarrierAccountService $api)
     {
@@ -54,16 +54,16 @@ class SyncCarriersAction implements SyncCarriersActionContract
         }
     }
 
-    public function withContext(array $context): SyncCarriersActionContract
+    public function withContext(array $context): static
     {
         $this->context = $context;
 
         return $this;
     }
 
-    public function withAccountFilter(callable $filterBy): self
+    public function filterAccountsWith(?Closure $callback): static
     {
-        $this->filterBy = $filterBy;
+        $this->filterBy = $callback;
 
         return $this;
     }

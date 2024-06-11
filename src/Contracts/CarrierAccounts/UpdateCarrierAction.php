@@ -14,4 +14,6 @@ interface UpdateCarrierAction
     public function withCarrierService(CarrierService $carrierService): self;
 
     public function withStoredValues(array $values): self;
+
+    public function withoutValidation(): self;
 }

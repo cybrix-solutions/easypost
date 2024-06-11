@@ -19,6 +19,6 @@ return [
     'webhook_update_api_fail' => 'We were unable to update your webhook at this time - message from EasyPost: :message',
     'webhook_delete_api_fail' => 'We were unable to delete your webhook at this time - message from EasyPost: :message',
     'selected_rate_not_found' => 'The rate you selected is no longer available for this shipment.',
-    'shipment_api_create_fail' => 'We were unable to create your shipment at this time - message from EasyPost: :message',
+    'shipment_api_create_fail' => 'We were unable to rate your shipment at this time - message from EasyPost: :message',
     'shipment_purchased_fail' => 'We were unable to purchase your shipment at this time - message from EasyPost: :message',
 ];

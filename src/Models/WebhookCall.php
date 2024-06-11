@@ -16,11 +16,14 @@ class WebhookCall extends Model
 {
     use MassPrunable;
 
-    protected $casts = [
-        'headers' => 'array',
-        'payload' => 'array',
-        'exception' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'headers' => 'array',
+            'payload' => 'array',
+            'exception' => 'array',
+        ];
+    }
 
     public function __construct(array $attributes = [])
     {

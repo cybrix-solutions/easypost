@@ -28,12 +28,15 @@ use CybrixSolutions\EasyPost\Contracts\Webhooks\AddWebhookAction as AddWebhookAc
 use CybrixSolutions\EasyPost\Contracts\Webhooks\DeleteWebhookAction as DeleteWebhookActionContract;
 use CybrixSolutions\EasyPost\Contracts\Webhooks\UpdateWebhookAction as UpdateWebhookActionContract;
 use CybrixSolutions\EasyPost\Facades\EasyPost as EasyPostFacade;
+use CybrixSolutions\EasyPost\Livewire\CarrierAccountManager;
+use CybrixSolutions\EasyPost\Livewire\WebhookManager;
 use CybrixSolutions\EasyPost\Services\Api\EasyPostClient;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use CybrixSolutions\EasyPost\Services\Webhooks\WebhookConfig;
 use CybrixSolutions\EasyPost\Services\WebhooksService;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Blade;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -70,11 +73,13 @@ final class EasyPostServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $this->bootApi()
+        $this
+            ->bootApi()
             ->bootAboutCommand()
             ->bootBladeComponents()
             ->bootModelBindings()
-            ->bootClassBindings();
+            ->bootClassBindings()
+            ->bootLivewireComponents();
     }
 
     public function packageRegistered(): void
@@ -174,6 +179,18 @@ final class EasyPostServiceProvider extends PackageServiceProvider
         $this->app->bind(BuyShipmentActionContract::class, fn ($app) => $app->make(config('easypost.actions.buy_shipment')));
         $this->app->bind(RefundShipmentActionContract::class, fn ($app) => $app->make(config('easypost.actions.refund_shipment')));
         $this->app->bind(DeleteShipmentActionContract::class, fn ($app) => $app->make(config('easypost.actions.delete_shipment')));
+
+        return $this;
+    }
+
+    private function bootLivewireComponents(): self
+    {
+        if (! class_exists(Livewire::class)) {
+            return $this;
+        }
+
+        Livewire::component('easypost::carrier-account-manager', CarrierAccountManager::class);
+        Livewire::component('easypost::webhook-manager', WebhookManager::class);
 
         return $this;
     }

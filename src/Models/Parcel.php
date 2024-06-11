@@ -27,26 +27,29 @@ class Parcel extends Model implements ParcelContract
     use HasFactory;
     use SortsByDimensions;
 
-    protected $casts = [
-        'voided_at' => 'immutable_datetime',
-        'delivered_at' => 'immutable_datetime',
-        'picked_up_at' => 'immutable_datetime',
-        'last_tracked_at' => 'immutable_datetime',
-        'length' => 'double',
-        'width' => 'double',
-        'height' => 'double',
-        'volume' => 'double',
-        'dim_weight' => 'double',
-        'weight' => 'double',
-        'is_large' => 'boolean',
-        'addtl_handling' => 'boolean',
-        'value' => 'double',
-        'delivery_confirmation' => DeliveryConfirmationEnum::class,
-        'cost' => 'double',
-        'is_return' => 'boolean',
-        'dim_weight_divisor' => 'float',
-        'weight_uom' => WeightUom::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'voided_at' => 'immutable_datetime',
+            'delivered_at' => 'immutable_datetime',
+            'picked_up_at' => 'immutable_datetime',
+            'last_tracked_at' => 'immutable_datetime',
+            'length' => 'double',
+            'width' => 'double',
+            'height' => 'double',
+            'volume' => 'double',
+            'dim_weight' => 'double',
+            'weight' => 'double',
+            'is_large' => 'boolean',
+            'addtl_handling' => 'boolean',
+            'value' => 'double',
+            'delivery_confirmation' => DeliveryConfirmationEnum::class,
+            'cost' => 'double',
+            'is_return' => 'boolean',
+            'dim_weight_divisor' => 'float',
+            'weight_uom' => WeightUom::class,
+        ];
+    }
 
     protected $touches = ['shipment'];
 
@@ -161,7 +164,8 @@ class Parcel extends Model implements ParcelContract
 
     public function scopeNeedsTrackingRefreshed(Builder $query): void
     {
-        $query->whereNull('delivered_at')
+        $query
+            ->whereNull('delivered_at')
             ->whereNull('voided_at');
     }
 

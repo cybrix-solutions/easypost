@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\HtmlString;
@@ -28,19 +29,22 @@ use Throwable;
 
 class Shipment extends Model implements ShipmentContract
 {
-    protected $casts = [
-        'is_residential' => 'boolean',
-        'is_return' => 'boolean',
-        'voided_at' => 'immutable_datetime',
-        'delivered_at' => 'immutable_datetime',
-        'picked_up_at' => 'immutable_datetime',
-        'weight' => 'double',
-        'delivery_confirmation' => DeliveryConfirmationEnum::class,
-        'cost' => 'double',
-        'sender' => ShipmentAddress::class,
-        'receiver' => ShipmentAddress::class,
-        'weight_uom' => WeightUom::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_residential' => 'boolean',
+            'is_return' => 'boolean',
+            'voided_at' => 'immutable_datetime',
+            'delivered_at' => 'immutable_datetime',
+            'picked_up_at' => 'immutable_datetime',
+            'weight' => 'double',
+            'delivery_confirmation' => DeliveryConfirmationEnum::class,
+            'cost' => 'double',
+            'sender' => ShipmentAddress::class,
+            'receiver' => ShipmentAddress::class,
+            'weight_uom' => WeightUom::class,
+        ];
+    }
 
     public function __construct(array $attributes = [])
     {
@@ -142,15 +146,35 @@ class Shipment extends Model implements ShipmentContract
         );
     }
 
+    public function shippable(): MorphTo
+    {
+        return $this->morphTo('shippable');
+    }
+
     public function refreshTracking(): void
     {
         $this
             ->parcels()
-            ->needsTrackingRefreshed()
             ->cursor()
-            ->each(
-                fn (ParcelContract $parcel) => rescue(fn () => $parcel->refreshTracking($this))
-            );
+            ->each(function (ParcelContract $parcel) {
+                if ($parcel->isDelivered()) {
+                    $this->delivered_at = $parcel->delivered_at;
+                    $this->signed_by = $parcel->signed_by;
+                    $this->status = $parcel->status;
+
+                    if (blank($this->picked_up_at)) {
+                        $this->picked_up_at = $parcel->picked_up_at;
+                    }
+
+                    return;
+                }
+
+                rescue(fn () => $parcel->refreshTracking($this));
+            });
+
+        if ($this->isDirty()) {
+            $this->save();
+        }
     }
 
     public function scopeByStatus(Builder $query, $status): void
@@ -252,14 +276,7 @@ class Shipment extends Model implements ShipmentContract
     protected function direction(): Attribute
     {
         return Attribute::make(
-            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::ReturnLabel->label() : ShipmentDirectionEnum::Forward->label(),
-        )->shouldCache();
-    }
-
-    protected function directionColor(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => $this->is_return ? ShipmentDirectionEnum::Forward->color() : ShipmentDirectionEnum::ReturnLabel->color(),
+            get: fn (): ShipmentDirectionEnum => $this->is_return ? ShipmentDirectionEnum::ReturnLabel : ShipmentDirectionEnum::Forward,
         )->shouldCache();
     }
 
@@ -289,7 +306,7 @@ class Shipment extends Model implements ShipmentContract
     protected function statusColor(): Attribute
     {
         return Attribute::make(
-            get: fn (): ?string => $this->getStatus()?->color(),
+            get: fn (): ?string => $this->getStatus()?->getColor(),
         )->shouldCache();
     }
 
@@ -306,7 +323,7 @@ class Shipment extends Model implements ShipmentContract
     {
         return Attribute::make(
             get: function (): string {
-                return is_null($this->picked_up_at)
+                return blank($this->picked_up_at)
                     ? __('easypost::shipments.tracking.alerts.not_picked_up')
                     : $this->picked_up_at->format('F j, Y'); // March 15, 2021
             },

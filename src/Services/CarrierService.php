@@ -10,9 +10,12 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use EasyPost\CarrierAccount;
 use EasyPost\EasyPostObject;
+use EasyPost\Util\InternalUtil as EasyPostUtil;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 use function CybrixSolutions\EasyPost\carrierAccountCacheKey;
+use function CybrixSolutions\EasyPost\easypostObjectToArray;
 
 /**
  * @method string|null signupHelpUrl()
@@ -53,14 +56,20 @@ final class CarrierService
         $types = cache()->remember(
             key: config('easypost.cache.carriers.key'),
             ttl: config('easypost.cache.carriers.ttl', 60 * 60 * 24), // 24 hours
-            callback: fn () => app(ProductionEasyPostClient::class)->carrierAccount->types(),
+            callback: function () {
+                $types = app(ProductionEasyPostClient::class)->carrierAccount->types();
+
+                return Arr::map($types, fn (EasyPostObject $type) => easypostObjectToArray($type));
+            },
         );
 
         if ($type instanceof CarrierEnum) {
             $type = $type->value;
         }
 
-        $carrierType = collect($types)->filter(fn (EasyPostObject $carrier) => $carrier['type'] === $type)->firstOrFail();
+        $carrierType = collect(EasyPostUtil::convertToEasyPostObject(client: null, response: $types))
+            ->filter(fn (EasyPostObject $carrier) => $carrier['type'] === $type)
+            ->firstOrFail();
 
         return new self($carrierType);
     }
@@ -69,11 +78,15 @@ final class CarrierService
     {
         $carrier = cache()->remember(
             key: carrierAccountCacheKey($easypostId),
-            ttl: config('easypost.cache.carrier_account.ttl', 60 * 30), // 30 minutes
-            callback: fn () => app(ProductionEasyPostClient::class)->carrierAccount->retrieve($easypostId),
+            ttl: config('easypost.cache.carrier_account.ttl', \DateInterval::createFromDateString('1 month')),
+            callback: function () use ($easypostId) {
+                $account = app(ProductionEasyPostClient::class)->carrierAccount->retrieve($easypostId);
+
+                return easypostObjectToArray($account);
+            },
         );
 
-        return new self($carrier);
+        return new self(EasyPostUtil::convertToEasyPostObject(null, $carrier));
     }
 
     public function carrierEnum(): ?CarrierEnum

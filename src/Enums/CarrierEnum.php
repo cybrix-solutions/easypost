@@ -5,34 +5,41 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Enums;
 
 use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\Carrier;
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-enum CarrierEnum: string
+enum CarrierEnum: string implements HasLabel
 {
     case Apc = 'ApcAccount';
     case AsendiaUsa = 'AsendiaUsaAccount';
     case AustraliaPost = 'AustraliaPostAccount';
     case AxleHireV3 = 'AxlehireV3Account';
     case BetterTrucks = 'BetterTrucksAccount';
-    case CanPar = 'CanparAccount';
+    case Canpar = 'CanparAccount';
     case ColumbusLastMile = 'ColumbusLastMileAccount';
     case CourierExpress = 'CourierExpressAccount';
     case CouriersPlease = 'CouriersPleaseAccount';
     case DaiPost = 'DaiPostAccount';
     case DeliverIt = 'DeliverItAccount';
     case DeutschePostUk = 'DeutschePostUKAccount';
+    case DhlEcommerceAsia = 'DhlEcommerceAsiaAccount';
     case DhlEcs = 'DhlEcsAccount';
     case DhlExpress = 'DhlExpressAccount';
     case DhlPaket = 'DhlPaketAccount';
     case DhlParcel = 'DhlParcelAccount';
+    case Dpd = 'DpdAccount';
+    case DpdNl = 'DpdNlAccount';
+    case DpdUk = 'DpdUkAccount';
     case EpostGlobal = 'RRDonnelleyAccount';
     case Estafeta = 'EstafetaAccount';
     case Evri = 'HermesAccount';
+    case Fastway = 'FastwayAccount';
     case Fedex = 'FedexAccount';
     case FedexCrossBorder = 'FedexCrossBorderAccount';
     case FedexMailView = 'FedexMailviewAccount';
     case FirstMile = 'FirstMileConciseAccount';
+    case Flexport = 'FlexportAccount';
     case Gso = 'GsoAccount';
     case Hailify = 'HailifyAccount';
     case LoomisExpress = 'LoomisExpressAccount';
@@ -43,6 +50,7 @@ enum CarrierEnum: string
     case Optima = 'OptimaAccount';
     case OsmWorldwide = 'OsmWorldwideAccount';
     case ParcelForce = 'ParcelForceAccount';
+    /** @deprecated Parcll is now Cirro E-commerce */
     case Parcll = 'ParcllAccount';
     case PassportGlobal = 'PassportGlobalAccount';
     case Purolator = 'PurolatorAccount';
@@ -63,6 +71,16 @@ enum CarrierEnum: string
     case Veho = 'VehoAccount';
 
     /**
+     * Over time, some carriers may be removed from the api for one reason or another,
+     * which is typically the carrier went out of business or was acquired by a different
+     * carrier. Instead of removing the carrier from the enum, which could break existing
+     * accounts, we'll just prevent it from being used in the create forms.
+     */
+    protected const DiscontinuedCarriers = [
+        self::Parcll,
+    ];
+
+    /**
      * @return \Illuminate\Support\Collection<int, self>
      */
     public static function fromSearch(string $search): Collection
@@ -70,11 +88,22 @@ enum CarrierEnum: string
         $search = strtolower($search);
 
         return collect(self::cases())
-            ->when($search, function (Collection $cases) use ($search) {
-                return $cases->filter(
-                    fn (self $case) => Str::contains(strtolower($case->label()), $search)
-                );
+            ->filter(function (self $case) use ($search) {
+                if ($case->isDisabled()) {
+                    return false;
+                }
+
+                if ($search) {
+                    return Str::contains(strtolower($case->label()), $search);
+                }
+
+                return true;
             });
+    }
+
+    public function isDisabled(): bool
+    {
+        return in_array($this, self::DiscontinuedCarriers);
     }
 
     public function label(): string
@@ -187,5 +216,10 @@ enum CarrierEnum: string
         $cache[$class] = $instance;
 
         return $instance;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label();
     }
 }

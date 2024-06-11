@@ -32,14 +32,21 @@ class CarrierAccountPolicy
         return $account->isActive() && ! $account->default;
     }
 
-    // Used for internal app modifications, like deactivating an account internally.
-    public function modify(User $user, CarrierAccountContract $account): bool
+    public function activate(User $user, CarrierAccountContract $account): bool
     {
+        if ($account->isActive()) {
+            return false;
+        }
+
         return true;
     }
 
-    public function sync(User $user): bool
+    public function deactivate(User $user, CarrierAccountContract $account): bool
     {
+        if (! $account->isActive()) {
+            return false;
+        }
+
         return true;
     }
 }

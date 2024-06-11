@@ -23,6 +23,8 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
 
     protected ?string $reference = null;
 
+    protected bool $validateData = true;
+
     public function __construct(protected CarrierAccountService $api)
     {
     }
@@ -71,6 +73,13 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
         return $this;
     }
 
+    public function withoutValidation(): AddCarrierAccountActionContract
+    {
+        $this->validateData = false;
+
+        return $this;
+    }
+
     protected function createAccountInApi(array $data): EasyPostCarrierAccount
     {
         return $this->api->create(
@@ -83,6 +92,12 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
 
     protected function validate(array $input): array
     {
+        // We can skip validation for filament forms since the form is already validated
+        // by filament.
+        if (! $this->validateData) {
+            return $input;
+        }
+
         return Validator::make(data: $input, rules: [
             'name' => [
                 'required',

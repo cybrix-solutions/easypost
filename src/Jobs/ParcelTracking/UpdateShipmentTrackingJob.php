@@ -19,13 +19,14 @@ class UpdateShipmentTrackingJob
 
     public Parcel $parcel;
 
-    public function __construct(Parcel $parcel)
+    public function __construct(public readonly int|string $parcelId)
     {
-        $this->parcel = $parcel->withoutRelations();
     }
 
     public function handle(): void
     {
+        $this->resolveParcel();
+
         /** @var \CybrixSolutions\EasyPost\Models\Shipment $shipment */
         if (! $shipment = $this->parcel->shipment) {
             return;
@@ -49,5 +50,13 @@ class UpdateShipmentTrackingJob
         if ($shipment->isDirty()) {
             $shipment->saveQuietly();
         }
+    }
+
+    protected function resolveParcel(): void
+    {
+        $this->parcel = app(Parcel::class)::query()
+            ->whereKey($this->parcelId)
+            ->with('shipment')
+            ->firstOrFail();
     }
 }

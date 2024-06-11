@@ -6,25 +6,7 @@ return [
     'request_account' => 'Request an account',
     'create_account' => 'Create an account',
 
-    'alerts' => [
-        'created' => 'Your carrier account has been added!',
-        'deleted' => 'Carrier account was deleted successfully!',
-        'updated' => 'Carrier account updated successfully!',
-        'synced' => 'Carrier accounts were synced!',
-    ],
-
-    'confirm_delete' => [
-        'title' => 'Delete Carrier Account',
-        'text' => 'Are you sure you want to delete your :carrier account with ID **:id**?',
-        'warning' => "Deleting a Carrier account will make it so that you can **no longer track, refund, cancel, or manifest shipments** created using that carrier account. It will also **disassociate any rate tables** on it. \n\nIf you are having issues or have questions please contact support@easypost.com first.",
-    ],
-
-    'confirm_sync' => [
-        'title' => 'Sync Carrier Accounts',
-        'text' => 'We will attempt to sync any carrier accounts that were created outside of this dashboard. Do you wish to proceed?',
-        'trigger' => 'Sync carrier accounts',
-        'button' => 'Yes',
-    ],
+    'default_account' => 'Default',
 
     'apc' => [
         'name' => 'APC',
@@ -82,9 +64,14 @@ return [
         'signup_instructions' => 'You will need to contact Deutsche Post UK at +49 228 4333112 to establish a shipping account.',
     ],
 
+    'dhl_ecommerce_asia' => [
+        'name' => 'DHL Ecommerce Asia',
+        'signup_text' => 'Contact DHL to create an account.',
+    ],
+
     'dhl_ecs' => [
         'name' => 'DHL eCommerce Solutions',
-        'signup_text' => 'Contact DHL to create an account',
+        'signup_text' => 'Contact DHL to create an account.',
     ],
 
     'dhl_express' => [
@@ -99,6 +86,20 @@ return [
         'name' => 'DHL Parcel',
     ],
 
+    'dpd' => [
+        'name' => 'DPD',
+    ],
+
+    'dpd_nl' => [
+        'name' => 'DPD NL',
+        'signup_text' => 'Contact DPD to create an account.',
+    ],
+
+    'dpd_uk' => [
+        'name' => 'DPD UK',
+        'signup_text' => 'Contact DPD to create an account.',
+    ],
+
     'epost_global' => [
         'name' => 'ePost Global',
     ],
@@ -109,6 +110,11 @@ return [
 
     'evri' => [
         'name' => 'Evri',
+    ],
+
+    'fastway' => [
+        'name' => 'Fastway',
+        'signup_text' => 'Request an API key.',
     ],
 
     'fedex' => [
@@ -126,6 +132,11 @@ return [
     'first_mile' => [
         'name' => 'First Mile',
         'signup_text' => 'Request a quote',
+    ],
+
+    'flexport' => [
+        'name' => 'Flexport',
+        'signup_text' => 'Create an account',
     ],
 
     'gso' => [

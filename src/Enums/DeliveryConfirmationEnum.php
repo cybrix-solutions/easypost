@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Enums;
 
 use CybrixSolutions\EasyPost\Exceptions\Shipments\InvalidDeliveryConfirmation;
+use Filament\Support\Contracts\HasDescription;
+use Filament\Support\Contracts\HasLabel;
 
-enum DeliveryConfirmationEnum: string
+enum DeliveryConfirmationEnum: string implements HasDescription, HasLabel
 {
     // General...
     case None = 'none';
@@ -62,7 +64,7 @@ enum DeliveryConfirmationEnum: string
         return $cases;
     }
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return __("easypost::enums.delivery_confirmation.{$this->value}");
     }
@@ -83,5 +85,10 @@ enum DeliveryConfirmationEnum: string
             self::SignatureRestricted => 'SIGNATURE_RESTRICTED',
             self::AdultSignatureRestricted => 'ADULT_SIGNATURE_RESTRICTED',
         };
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description();
     }
 }

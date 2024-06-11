@@ -18,9 +18,12 @@ class ParcelTracking extends Model implements ParcelTrackingContract
     use HasFactory;
     use MassPrunable;
 
-    protected $casts = [
-        'activity_date' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'activity_date' => 'immutable_datetime',
+        ];
+    }
 
     public function __construct(array $attributes = [])
     {
@@ -59,51 +62,6 @@ class ParcelTracking extends Model implements ParcelTrackingContract
                 $this->city,
                 $this->state,
             ])),
-        )->shouldCache();
-    }
-
-    protected function statusTextColor(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return match ($this->shipment_status) {
-                    ShipmentStatusEnum::Delivered => 'text-green-600 dark:text-green-400',
-                    ShipmentStatusEnum::OutForDelivery, ShipmentStatusEnum::PreTransit => 'text-blue-600 dark:text-blue-400',
-                    ShipmentStatusEnum::Cancelled, ShipmentStatusEnum::Failure, ShipmentStatusEnum::Error => 'text-red-600 dark:text-red-400',
-                    default => 'text-slate-600 dark:text-slate-300',
-                };
-            },
-        )->shouldCache();
-    }
-
-    protected function iconCss(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return match ($this->shipment_status) {
-                    ShipmentStatusEnum::Delivered => 'bg-green-600 dark:bg-green-800 text-gray-100 dark:text-green-200',
-                    ShipmentStatusEnum::OutForDelivery, ShipmentStatusEnum::PreTransit => 'text-blue-600 border border-blue-600 bg-white dark:bg-blue-800 dark:text-blue-200 dark:border-blue-800',
-                    ShipmentStatusEnum::Cancelled, ShipmentStatusEnum::Failure, ShipmentStatusEnum::Error => 'text-red-600 border border-red-600 bg-white dark:bg-red-800 dark:text-red-200 dark:border-red-800',
-                    default => 'text-slate-600 bg-white border border-slate-600 dark:bg-slate-600 dark:text-slate-200',
-                };
-            },
-        )->shouldCache();
-    }
-
-    protected function icon(): Attribute
-    {
-        return Attribute::make(
-            get: function (): string {
-                return match ($this->shipment_status) {
-                    ShipmentStatusEnum::Delivered => 'heroicon-o-hand-thumb-up',
-                    ShipmentStatusEnum::OutForDelivery => 'css-time',
-                    ShipmentStatusEnum::PreTransit => 'heroicon-o-cursor-arrow-ripple',
-                    ShipmentStatusEnum::Cancelled => 'heroicon-o-no-symbol',
-                    ShipmentStatusEnum::Error, ShipmentStatusEnum::Failure => 'css-bell',
-                    ShipmentStatusEnum::ReturnToSender => 'heroicon-s-arrow-uturn-left',
-                    default => 'heroicon-o-archive-box',
-                };
-            },
         )->shouldCache();
     }
 }

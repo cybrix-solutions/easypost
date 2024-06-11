@@ -6,6 +6,7 @@ namespace CybrixSolutions\EasyPost\Casts;
 
 use CybrixSolutions\EasyPost\Dto\ShipmentAddress;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
 
 class AddressCast implements CastsAttributes
 {
@@ -21,5 +22,10 @@ class AddressCast implements CastsAttributes
         }
 
         return (string) $value;
+    }
+
+    public function serialize(Model $model, string $key, mixed $value, array $attributes): ?array
+    {
+        return $value?->toArray();
     }
 }

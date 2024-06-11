@@ -22,6 +22,8 @@ class UpdateCarrierAction implements UpdateCarrierActionContract
 
     protected array $storedValues = [];
 
+    protected bool $validateData = true;
+
     public function __construct(protected CarrierAccountService $api)
     {
     }
@@ -57,6 +59,13 @@ class UpdateCarrierAction implements UpdateCarrierActionContract
         return $this;
     }
 
+    public function withoutValidation(): UpdateCarrierActionContract
+    {
+        $this->validateData = false;
+
+        return $this;
+    }
+
     protected function updateAccountInApi(CarrierAccount $account, array $data): void
     {
         $this->api->update(
@@ -70,6 +79,10 @@ class UpdateCarrierAction implements UpdateCarrierActionContract
 
     protected function validate(CarrierAccount $account, array $input): array
     {
+        if (! $this->validateData) {
+            return $input;
+        }
+
         return Validator::make(data: $input, rules: [
             'name' => [
                 'required',

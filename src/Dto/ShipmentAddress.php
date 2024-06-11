@@ -7,6 +7,7 @@ namespace CybrixSolutions\EasyPost\Dto;
 use CybrixSolutions\EasyPost\Casts\AddressCast;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\HtmlString;
 use JsonSerializable;
@@ -21,7 +22,7 @@ use JsonSerializable;
  * @property null|string $postal_code
  * @property null|string $phone
  */
-final class ShipmentAddress implements Castable, Jsonable, JsonSerializable
+final class ShipmentAddress implements Arrayable, Castable, Jsonable, JsonSerializable
 {
     protected array $attributes = [];
 
@@ -75,6 +76,11 @@ final class ShipmentAddress implements Castable, Jsonable, JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return json_encode($this->attributes);
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
     }
 }
