@@ -13,9 +13,7 @@ use Illuminate\Support\Str;
 
 abstract class CustomWorkflow implements CustomWorkflowContract
 {
-    public function __construct(protected CarrierService $service)
-    {
-    }
+    public function __construct(protected CarrierService $service) {}
 
     public function credentials(): Collection
     {

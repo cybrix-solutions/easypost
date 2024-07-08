@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AddWebhookAction implements AddWebhookActionContract
 {
-    public function __construct(protected WebhooksService $api)
-    {
-    }
+    public function __construct(protected WebhooksService $api) {}
 
     public function __invoke(string $url, bool $testMode): EasyPostWebhook
     {

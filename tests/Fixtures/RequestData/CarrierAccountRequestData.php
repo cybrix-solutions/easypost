@@ -12,9 +12,7 @@ final class CarrierAccountRequestData
 
     protected array $carrierCredentials = [];
 
-    public function __construct(protected CarrierEnum $enum)
-    {
-    }
+    public function __construct(protected CarrierEnum $enum) {}
 
     public static function make(?CarrierEnum $enum = null): self
     {

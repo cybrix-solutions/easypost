@@ -15,7 +15,5 @@ final class CarrierAccountWasMadeDefault
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public CarrierAccount $account)
-    {
-    }
+    public function __construct(public CarrierAccount $account) {}
 }

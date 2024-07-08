@@ -57,7 +57,5 @@ trait DeletesWebhooks
         $this->listeners['webhook.confirm_delete'] = 'confirmDelete';
     }
 
-    protected function onWebhookDelete(): void
-    {
-    }
+    protected function onWebhookDelete(): void {}
 }

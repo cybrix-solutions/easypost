@@ -43,9 +43,7 @@ class CreateShipmentAction implements CreateShipmentActionContract
 
     protected array $shipmentMeta = [];
 
-    public function __construct(protected ShipmentService $api)
-    {
-    }
+    public function __construct(protected ShipmentService $api) {}
 
     public function usingCarrierAccount(CarrierAccount $carrierAccount): self
     {

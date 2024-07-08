@@ -15,7 +15,5 @@ final class CarrierAccountWasDeleted
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public CarrierAccount $account)
-    {
-    }
+    public function __construct(public CarrierAccount $account) {}
 }

@@ -32,9 +32,7 @@ class BuyShipmentAction implements BuyShipmentActionContract
 
     protected array $meta = [];
 
-    public function __construct(protected ShipmentService $api)
-    {
-    }
+    public function __construct(protected ShipmentService $api) {}
 
     public function usingCarrierAccount(CarrierAccount $carrierAccount): self
     {

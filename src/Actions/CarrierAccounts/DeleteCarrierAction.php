@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DeleteCarrierAction implements DeleteCarrierActionContract
 {
-    public function __construct(protected CarrierAccountService $api)
-    {
-    }
+    public function __construct(protected CarrierAccountService $api) {}
 
     public function __invoke(CarrierAccount $account): void
     {

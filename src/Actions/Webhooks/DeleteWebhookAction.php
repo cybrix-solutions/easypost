@@ -10,9 +10,7 @@ use CybrixSolutions\EasyPost\Services\WebhooksService;
 
 class DeleteWebhookAction implements DeleteWebhookActionContract
 {
-    public function __construct(protected WebhooksService $api)
-    {
-    }
+    public function __construct(protected WebhooksService $api) {}
 
     public function __invoke(string $webhookId, bool $testMode): void
     {

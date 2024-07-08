@@ -120,27 +120,21 @@ class CarrierAccount extends Model implements CarrierAccountContract
      * @example An application has teams and each team has their own carrier accounts.
      *     -> $query->where('team_id', $account->team_id);
      */
-    public function scopeScoped(Builder|QueryBuilder $query, CarrierAccountContract $account): void
-    {
-    }
+    public function scopeScoped(Builder|QueryBuilder $query, CarrierAccountContract $account): void {}
 
     /**
      * This scope is meant to be overridden in a child class to be able to scope the query based on
      * an array of custom context given to an action class for determining if the new account should
      * be marked as default.
      */
-    public function scopeShouldBeDefaultFromContext(Builder $query, array $context): void
-    {
-    }
+    public function scopeShouldBeDefaultFromContext(Builder $query, array $context): void {}
 
     /**
      * This scope is meant to be overridden in a child class to be able to scope the query based on
      * an array of custom context given to an action class for determining if the new account has
      * a unique name.
      */
-    public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void
-    {
-    }
+    public function scopeNewAccountUniqueValidationFromContext(Builder|QueryBuilder $query, array $context): void {}
 
     // We are purposely not declaring a return type here so child classes can override this if necessary.
     protected static function newFactory()

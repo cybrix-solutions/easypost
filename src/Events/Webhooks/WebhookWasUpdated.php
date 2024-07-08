@@ -15,7 +15,5 @@ final class WebhookWasUpdated
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public EasyPostWebhook $webhook)
-    {
-    }
+    public function __construct(public EasyPostWebhook $webhook) {}
 }
