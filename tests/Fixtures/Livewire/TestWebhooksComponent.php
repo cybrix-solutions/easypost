@@ -36,11 +36,7 @@ class TestWebhooksComponent extends Component
         HTML;
     }
 
-    protected function authorizeWebhookAdd(bool $testMode): void
-    {
-    }
+    protected function authorizeWebhookAdd(bool $testMode): void {}
 
-    protected function authorizeWebhookDelete(): void
-    {
-    }
+    protected function authorizeWebhookDelete(): void {}
 }

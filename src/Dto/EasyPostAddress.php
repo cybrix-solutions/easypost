@@ -30,9 +30,7 @@ final class EasyPostAddress
 {
     private ?PendingAddress $pendingAddress = null;
 
-    public function __construct(public Address $address)
-    {
-    }
+    public function __construct(public Address $address) {}
 
     public function __get(string $name): mixed
     {

@@ -15,9 +15,7 @@ use EasyPost\Exception\Api\NotFoundException;
 
 final readonly class CarrierAccountService
 {
-    public function __construct(protected ProductionEasyPostClient $api)
-    {
-    }
+    public function __construct(protected ProductionEasyPostClient $api) {}
 
     /**
      * @return array<int, \EasyPost\CarrierAccount>

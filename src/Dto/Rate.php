@@ -9,9 +9,7 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class Rate implements Arrayable
 {
-    public function __construct(protected EasyPostRate $rate)
-    {
-    }
+    public function __construct(protected EasyPostRate $rate) {}
 
     public static function fromRate(EasyPostRate $rate): static
     {

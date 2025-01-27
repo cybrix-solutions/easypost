@@ -15,7 +15,5 @@ final class ShipmentWasRefunded
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Shipment $shipment, public ?array $refund = null)
-    {
-    }
+    public function __construct(public Shipment $shipment, public ?array $refund = null) {}
 }

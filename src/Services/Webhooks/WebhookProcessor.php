@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WebhookProcessor
 {
-    public function __construct(protected Request $request, protected WebhookConfig $config)
-    {
-    }
+    public function __construct(protected Request $request, protected WebhookConfig $config) {}
 
     public function process(): Response
     {

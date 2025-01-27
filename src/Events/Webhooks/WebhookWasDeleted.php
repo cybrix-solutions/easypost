@@ -14,7 +14,5 @@ final class WebhookWasDeleted
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public string $webhookId, public bool $testMode)
-    {
-    }
+    public function __construct(public string $webhookId, public bool $testMode) {}
 }

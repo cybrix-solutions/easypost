@@ -15,7 +15,5 @@ final class ShipmentWasDeleted
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Shipment $shipment)
-    {
-    }
+    public function __construct(public Shipment $shipment) {}
 }

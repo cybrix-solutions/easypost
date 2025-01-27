@@ -25,9 +25,7 @@ class AddCarrierAccountAction implements AddCarrierAccountActionContract
 
     protected bool $validateData = true;
 
-    public function __construct(protected CarrierAccountService $api)
-    {
-    }
+    public function __construct(protected CarrierAccountService $api) {}
 
     public function __invoke(array $input): CarrierAccount
     {
