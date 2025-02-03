@@ -18,8 +18,7 @@ final class EasyPostCredential
         protected CarrierEnum $carrierEnum,
         protected bool $isTest = false, // Test env credentials need optional validation
         protected ?CustomWorkflow $workflow = null,
-    ) {
-    }
+    ) {}
 
     public function isCheckbox(): bool
     {

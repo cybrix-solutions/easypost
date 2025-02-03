@@ -13,7 +13,5 @@ final class InvalidWebhookSignatureEvent
     use Dispatchable;
     use InteractsWithSockets;
 
-    public function __construct(public Request $request)
-    {
-    }
+    public function __construct(public Request $request) {}
 }

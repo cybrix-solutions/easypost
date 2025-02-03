@@ -20,6 +20,5 @@ final class CarrierAccountWasCreated
         public CarrierAccount $carrierAccount,
         public EasyPostCarrierAccount $easyPostCarrierAccount,
         public ?string $reference = null,
-    ) {
-    }
+    ) {}
 }

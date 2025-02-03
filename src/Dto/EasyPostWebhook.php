@@ -18,9 +18,7 @@ use EasyPost\Webhook;
  */
 final class EasyPostWebhook
 {
-    public function __construct(public Webhook $webhook)
-    {
-    }
+    public function __construct(public Webhook $webhook) {}
 
     public function __get(string $name): mixed
     {

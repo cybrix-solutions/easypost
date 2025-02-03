@@ -14,9 +14,7 @@ use CybrixSolutions\EasyPost\Services\ShipmentService;
 
 class RefundShipmentAction implements RefundShipmentActionContract
 {
-    public function __construct(protected ShipmentService $api)
-    {
-    }
+    public function __construct(protected ShipmentService $api) {}
 
     public function __invoke(Shipment $shipment): Shipment
     {

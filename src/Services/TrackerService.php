@@ -12,9 +12,7 @@ use EasyPost\Tracker;
 
 final readonly class TrackerService
 {
-    public function __construct(private EasyPostClient $api)
-    {
-    }
+    public function __construct(private EasyPostClient $api) {}
 
     public function retrieve(string $trackerId): Tracker
     {

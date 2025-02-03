@@ -15,9 +15,7 @@ use EasyPost\Shipment;
 
 final readonly class ShipmentService
 {
-    public function __construct(private EasyPostClient $api)
-    {
-    }
+    public function __construct(private EasyPostClient $api) {}
 
     public function create(array $data): Shipment
     {

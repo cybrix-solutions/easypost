@@ -19,9 +19,7 @@ class UpdateShipmentTrackingJob
 
     public Parcel $parcel;
 
-    public function __construct(public readonly int|string $parcelId)
-    {
-    }
+    public function __construct(public readonly int|string $parcelId) {}
 
     public function handle(): void
     {

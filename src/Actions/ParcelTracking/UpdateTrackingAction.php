@@ -12,9 +12,7 @@ use CybrixSolutions\EasyPost\Services\TrackerService;
 
 class UpdateTrackingAction implements UpdateTrackingActionContract
 {
-    public function __construct(protected TrackerService $api)
-    {
-    }
+    public function __construct(protected TrackerService $api) {}
 
     public function __invoke(Parcel $parcel): void
     {
