@@ -23,9 +23,7 @@ class TrackerUpdatedJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public WebhookCall $webhookCall)
-    {
-    }
+    public function __construct(public WebhookCall $webhookCall) {}
 
     public function handle(): void
     {

@@ -23,9 +23,7 @@ class SyncCarriersAction implements SyncCarriersActionContract
 
     protected ?Closure $filterBy = null;
 
-    public function __construct(protected CarrierAccountService $api)
-    {
-    }
+    public function __construct(protected CarrierAccountService $api) {}
 
     public function __invoke(): void
     {

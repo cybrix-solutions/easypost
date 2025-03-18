@@ -19,8 +19,7 @@ class DimWeightCalculator
         protected float $length = 0,
         protected float $height = 0,
         protected float $width = 0,
-    ) {
-    }
+    ) {}
 
     public function usingCarrierType(CarrierEnum $carrierType): self
     {

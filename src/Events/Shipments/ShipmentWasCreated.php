@@ -16,7 +16,5 @@ final class ShipmentWasCreated
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Shipment $shipment, public ?EasyPostShipment $purchasedShipment = null)
-    {
-    }
+    public function __construct(public Shipment $shipment, public ?EasyPostShipment $purchasedShipment = null) {}
 }

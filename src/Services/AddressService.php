@@ -14,9 +14,7 @@ use EasyPost\Exception\Api\InvalidRequestException;
 
 final readonly class AddressService
 {
-    public function __construct(private EasyPostClient $api)
-    {
-    }
+    public function __construct(private EasyPostClient $api) {}
 
     public function create(array|PendingAddress $address): EasyPostAddress
     {

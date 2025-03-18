@@ -20,6 +20,5 @@ final class ParcelTrackingWasUpdated
         public Parcel $parcel,
         public ?ShipmentStatusEnum $newStatus = null,
         public bool $statusChanged = true,
-    ) {
-    }
+    ) {}
 }

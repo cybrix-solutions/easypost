@@ -11,9 +11,7 @@ use CybrixSolutions\EasyPost\Services\WebhooksService;
 
 class UpdateWebhookAction implements UpdateWebhookActionContract
 {
-    public function __construct(protected WebhooksService $api)
-    {
-    }
+    public function __construct(protected WebhooksService $api) {}
 
     public function __invoke(string $webhookId, ?string $webhookSecret, bool $testMode = false): EasyPostWebhook
     {

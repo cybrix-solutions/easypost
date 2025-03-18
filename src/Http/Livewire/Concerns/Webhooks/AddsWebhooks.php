@@ -82,7 +82,5 @@ trait AddsWebhooks
             ->toString();
     }
 
-    protected function onAddWebhook(bool $testMode): void
-    {
-    }
+    protected function onAddWebhook(bool $testMode): void {}
 }
