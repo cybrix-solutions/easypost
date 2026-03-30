@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Contracts\CarrierAccounts;
 
 use Closure;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed;
 
 interface SyncCarriersAction
 {
     /**
-     * @throws \CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed
+     * @throws CarrierAccountSyncFailed
      */
     public function __invoke(): void;
 

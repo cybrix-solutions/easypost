@@ -11,6 +11,7 @@ use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasCreated;
 use CybrixSolutions\EasyPost\Events\CarrierAccounts\CarrierAccountWasUpdated;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed;
 use CybrixSolutions\EasyPost\Services\CarrierAccountService;
+use EasyPost\CarrierAccount;
 use EasyPost\Exception\Api\ApiException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -67,8 +68,8 @@ class SyncCarriersAction implements SyncCarriersActionContract
     }
 
     /**
-     * @param  \EasyPost\CarrierAccount[]  $accounts
-     * @return \Illuminate\Support\Collection<int, \EasyPost\CarrierAccount>
+     * @param  CarrierAccount[]  $accounts
+     * @return Collection<int, CarrierAccount>
      */
     protected function filteredAccounts(array $accounts): Collection
     {

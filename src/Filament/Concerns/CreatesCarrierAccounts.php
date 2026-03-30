@@ -16,13 +16,14 @@ use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Component;
 use ValueError;
 
 /**
- * @property-read null|\CybrixSolutions\EasyPost\Services\CarrierService $selectedCarrierService
+ * @property-read null|CarrierService $selectedCarrierService
  *
- * @mixin \CybrixSolutions\EasyPost\Filament\Concerns\GeneratesCarrierAccountFormSchema
- * @mixin \Livewire\Component
+ * @mixin GeneratesCarrierAccountFormSchema
+ * @mixin Component
  */
 trait CreatesCarrierAccounts
 {

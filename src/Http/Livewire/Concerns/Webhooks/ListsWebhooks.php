@@ -8,11 +8,12 @@ use CybrixSolutions\EasyPost\Dto\EasyPostWebhook;
 use CybrixSolutions\EasyPost\Facades\EasyPost;
 use CybrixSolutions\EasyPost\Services\WebhooksService;
 use Illuminate\Support\Collection;
+use Livewire\Component;
 
 /**
- * @property-read \Illuminate\Support\Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook> $webhooks
+ * @property-read Collection<int, EasyPostWebhook> $webhooks
  *
- * @mixin \Livewire\Component
+ * @mixin Component
  */
 trait ListsWebhooks
 {

@@ -10,6 +10,7 @@ use CybrixSolutions\EasyPost\Dto\PendingParcel;
 use CybrixSolutions\EasyPost\Enums\DeliveryConfirmationEnum;
 use CybrixSolutions\EasyPost\Enums\ShipmentDirectionEnum;
 use CybrixSolutions\EasyPost\Enums\ShipmentOptions\LabelFormat;
+use EasyPost\Shipment;
 
 interface CreateShipmentAction
 {
@@ -31,6 +32,6 @@ interface CreateShipmentAction
 
     public function usingShipmentMeta(array $meta): self;
 
-    /** @return array<int, \EasyPost\Shipment> */
+    /** @return array<int, Shipment> */
     public function execute(): array;
 }

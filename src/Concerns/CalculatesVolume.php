@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $volume
  * @property float $dim_weight
  *
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 trait CalculatesVolume
 {
@@ -23,7 +23,7 @@ trait CalculatesVolume
     public static function bootCalculatesVolume(): void
     {
         static::saving(function (Model $model) {
-            /** @var \CybrixSolutions\EasyPost\Concerns\CalculatesVolume $model */
+            /** @var CalculatesVolume $model */
             if (! $model->exists || $model->isDirty(['length', 'width', 'height'])) {
                 $model->adjustParcelDimensions();
             }

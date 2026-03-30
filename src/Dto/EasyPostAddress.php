@@ -6,6 +6,8 @@ namespace CybrixSolutions\EasyPost\Dto;
 
 use EasyPost\Address;
 use EasyPost\EasyPostObject;
+use EasyPost\FieldError;
+use EasyPost\Verifications;
 use Illuminate\Support\Collection;
 
 /**
@@ -24,7 +26,7 @@ use Illuminate\Support\Collection;
  * @property string $email
  * @property string $federal_tax_id
  * @property string $state_tax_id
- * @property \EasyPost\Verifications $verifications
+ * @property Verifications $verifications
  */
 final class EasyPostAddress
 {
@@ -105,7 +107,7 @@ final class EasyPostAddress
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int, \EasyPost\FieldError>
+     * @return Collection<int, FieldError>
      */
     public function errors(): Collection
     {

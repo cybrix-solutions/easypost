@@ -40,7 +40,7 @@ final class WebhooksService extends EasyPostClient
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook>
+     * @return Collection<int, EasyPostWebhook>
      */
     public function all(): Collection
     {
@@ -171,7 +171,7 @@ final class WebhooksService extends EasyPostClient
     }
 
     /**
-     * @return Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook>
+     * @return Collection<int, EasyPostWebhook>
      */
     private function allFromApi(bool $testMode): Collection
     {

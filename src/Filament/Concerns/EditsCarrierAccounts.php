@@ -10,8 +10,8 @@ use Filament\Tables\Actions\EditAction;
 use Illuminate\Support\Arr;
 
 /**
- * @mixin \CybrixSolutions\EasyPost\Filament\Concerns\GeneratesCarrierAccountFormSchema
- * @mixin \CybrixSolutions\EasyPost\Filament\Concerns\CreatesCarrierAccounts
+ * @mixin GeneratesCarrierAccountFormSchema
+ * @mixin CreatesCarrierAccounts
  */
 trait EditsCarrierAccounts
 {

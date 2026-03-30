@@ -109,7 +109,7 @@ final class CarrierService
     }
 
     /**
-     * @return \Illuminate\Support\Collection<string, \CybrixSolutions\EasyPost\Dto\EasyPostCredential>
+     * @return Collection<string, EasyPostCredential>
      */
     public function productionCredentials(): Collection
     {
@@ -122,7 +122,7 @@ final class CarrierService
     }
 
     /**
-     * @return \Illuminate\Support\Collection<string, \CybrixSolutions\EasyPost\Dto\EasyPostCredential>
+     * @return Collection<string, EasyPostCredential>
      */
     public function testCredentials(): Collection
     {
@@ -136,7 +136,7 @@ final class CarrierService
     }
 
     /**
-     * @return \Illuminate\Support\Collection<string, \CybrixSolutions\EasyPost\Dto\EasyPostCredential>
+     * @return Collection<string, EasyPostCredential>
      */
     public function customCredentials(): Collection
     {

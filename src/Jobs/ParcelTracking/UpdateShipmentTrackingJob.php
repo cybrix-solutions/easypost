@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Jobs\ParcelTracking;
 
 use CybrixSolutions\EasyPost\Contracts\Models\Parcel;
+use CybrixSolutions\EasyPost\Models\Shipment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,7 +26,7 @@ class UpdateShipmentTrackingJob
     {
         $this->resolveParcel();
 
-        /** @var \CybrixSolutions\EasyPost\Models\Shipment $shipment */
+        /** @var Shipment $shipment */
         if (! $shipment = $this->parcel->shipment) {
             return;
         }

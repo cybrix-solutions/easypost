@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\CybrixSolutions\EasyPost\Models\CarrierAccount>
+ * @extends Factory<CarrierAccount>
  */
 class CarrierAccountFactory extends Factory
 {

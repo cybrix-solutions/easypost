@@ -8,9 +8,10 @@ use CybrixSolutions\EasyPost\Contracts\Webhooks\AddWebhookAction;
 use CybrixSolutions\EasyPost\Exceptions\Webhooks\WebhookCreationFailed;
 use CybrixSolutions\EasyPost\Facades\EasyPost;
 use Illuminate\Support\Str;
+use Livewire\Component;
 
 /**
- * @mixin \Livewire\Component
+ * @mixin Component
  */
 trait AddsWebhooks
 {

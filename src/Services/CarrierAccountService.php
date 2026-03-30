@@ -18,9 +18,9 @@ final readonly class CarrierAccountService
     public function __construct(protected ProductionEasyPostClient $api) {}
 
     /**
-     * @return array<int, \EasyPost\CarrierAccount>
+     * @return array<int, CarrierAccount>
      *
-     * @throws \EasyPost\Exception\Api\ApiException
+     * @throws ApiException
      */
     public function all(): array
     {

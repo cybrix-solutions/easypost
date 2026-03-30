@@ -35,7 +35,7 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @property-read \Illuminate\Support\Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook> $webhooks
+ * @property-read Collection<int, EasyPostWebhook> $webhooks
  * @property-read bool $hasProductionWebhook
  */
 class WebhookManager extends Component implements HasActions, HasForms
