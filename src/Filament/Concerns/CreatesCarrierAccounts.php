@@ -8,9 +8,9 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Filament\Actions\CreateCarrierAccountAction;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Component as SchemaComponent;
 use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Arr;
@@ -98,7 +98,7 @@ trait CreatesCarrierAccounts
         $this->selectedCarrierType = $enum->value;
     }
 
-    protected function getCarrierSearchField(): FormComponent|TextInput
+    protected function getCarrierSearchField(): SchemaComponent|TextInput
     {
         return TextInput::make('carrierSearch')
             ->hiddenLabel()
@@ -109,7 +109,7 @@ trait CreatesCarrierAccounts
             ->type('search');
     }
 
-    protected function getCarrierNameField(): FormComponent|TextInput
+    protected function getCarrierNameField(): SchemaComponent|TextInput
     {
         return TextInput::make('name')
             ->label(__('easypost::labels.carrier_account_form.account_name'))

@@ -15,11 +15,11 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\FilamentServiceProvider;
-use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Component as SchemaComponent;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Size;
 use Filament\Support\Enums\Width;
@@ -78,7 +78,7 @@ class WebhookManager extends Component implements HasActions, HasForms
             ->label(__('easypost::livewire/webhooks.actions.add.label'))
             ->modalSubmitActionLabel(__('easypost::livewire/webhooks.actions.add.modal_submit'))
             ->modalHeading(__('easypost::livewire/webhooks.actions.add.heading'))
-            ->form([
+            ->schema([
                 $this->webhookUrlInput(),
             ])
             ->action(function (Schema $form, Action $action, AddWebhookAction $addWebhookAction) {
@@ -179,7 +179,7 @@ class WebhookManager extends Component implements HasActions, HasForms
             });
     }
 
-    protected function webhookUrlInput(): FormComponent
+    protected function webhookUrlInput(): SchemaComponent
     {
         return TextInput::make('url')
             ->label(__('easypost::livewire/webhooks.actions.add.url.label'))

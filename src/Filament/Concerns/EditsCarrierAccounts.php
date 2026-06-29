@@ -19,7 +19,7 @@ trait EditsCarrierAccounts
     {
         return EditCarrierAccountAction::make()
             ->authorize('edit')
-            ->form(function (CarrierAccount $record, EditCarrierAccountAction $action) {
+            ->schema(function (CarrierAccount $record, EditCarrierAccountAction $action) {
                 $carrierService = $action->getCarrierService();
 
                 return [
