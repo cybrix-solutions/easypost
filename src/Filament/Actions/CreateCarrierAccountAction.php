@@ -12,7 +12,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Actions\StaticAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -36,7 +36,7 @@ class CreateCarrierAccountAction extends Action
 
         $this->successNotificationTitle(__('filament-actions::create.single.notifications.created.title'));
 
-        $this->modalWidth(MaxWidth::SevenExtraLarge);
+        $this->modalWidth(Width::SevenExtraLarge);
 
         $this->modalHeading(function (Component $livewire) {
             return $livewire->selectedCarrierType

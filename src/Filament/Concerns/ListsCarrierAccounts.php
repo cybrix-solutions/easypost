@@ -15,7 +15,7 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
@@ -141,7 +141,7 @@ trait ListsCarrierAccounts
     protected function getDeleteAction(): Action
     {
         return DeleteAction::make()
-            ->modalWidth(MaxWidth::ExtraLarge)
+            ->modalWidth(Width::ExtraLarge)
             ->modalHeading(__('easypost::livewire/carriers.accounts.actions.delete.heading'))
             ->authorize('delete')
             ->modalDescription(fn (CarrierAccount $record): Htmlable => new HtmlString(Blade::render(<<<'BLADE'
