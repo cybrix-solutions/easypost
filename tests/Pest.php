@@ -43,6 +43,10 @@ function mockWebhookApi(array $productionMocks = [], array $testMocks = []): voi
 {
     $api = app(WebhooksService::class);
 
+    if ($testMocks !== [] && blank(config('easypost.test_api_key'))) {
+        config()->set('easypost.test_api_key', 'test_api_key');
+    }
+
     foreach ($productionMocks as $mock) {
         $api->addProductionMock($mock);
     }

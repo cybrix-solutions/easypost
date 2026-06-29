@@ -10,8 +10,8 @@ use CybrixSolutions\EasyPost\Services\CarrierService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
@@ -44,7 +44,7 @@ trait CreatesCarrierAccounts
         return CarrierService::fromType($this->selectedCarrierType);
     }
 
-    public function createCarrierForm(Form $form): Form
+    public function createCarrierForm(Schema $form): Schema
     {
         return $form
             ->statePath('createCarrierData')
@@ -54,7 +54,7 @@ trait CreatesCarrierAccounts
             ]);
     }
 
-    public function carrierSearchForm(Form $form): Form
+    public function carrierSearchForm(Schema $form): Schema
     {
         return $form
             ->schema([

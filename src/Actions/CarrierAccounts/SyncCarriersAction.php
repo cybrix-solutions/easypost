@@ -67,6 +67,11 @@ class SyncCarriersAction implements SyncCarriersActionContract
         return $this;
     }
 
+    public function withAccountFilter(?Closure $callback): static
+    {
+        return $this->filterAccountsWith($callback);
+    }
+
     /**
      * @param  CarrierAccount[]  $accounts
      * @return Collection<int, CarrierAccount>

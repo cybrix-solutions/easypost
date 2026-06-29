@@ -56,8 +56,6 @@ class EasyPostClient
 {
     protected Client $client;
 
-    protected static array $mockPaths = [];
-
     protected array $pendingMocks = [];
 
     public function __construct(string $apiKey)
@@ -101,15 +99,6 @@ class EasyPostClient
 
     protected function ensureMockingUtilitiesAreLoaded(): void
     {
-        $basePath = __DIR__ . '/../../../vendor/easypost/easypost-php/test/EasyPost/Mocking';
-
-        if (! isset(static::$mockPaths[$basePath])) {
-            require_once "{$basePath}/MockingUtility.php";
-            require_once "{$basePath}/MockRequest.php";
-            require_once "{$basePath}/MockRequestMatchRule.php";
-            require_once "{$basePath}/MockRequestResponseInfo.php";
-
-            static::$mockPaths[$basePath] = true;
-        }
+        //
     }
 }

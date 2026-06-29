@@ -17,4 +17,6 @@ interface SyncCarriersAction
     public function withContext(array $context): static;
 
     public function filterAccountsWith(?Closure $callback): static;
+
+    public function withAccountFilter(?Closure $callback): static;
 }

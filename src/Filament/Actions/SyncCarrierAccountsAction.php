@@ -7,10 +7,10 @@ namespace CybrixSolutions\EasyPost\Filament\Actions;
 use Closure;
 use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\SyncCarriersAction;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountSyncFailed;
+use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Notifications\Notification;
 use Filament\Support\Facades\FilamentIcon;
-use Filament\Tables\Actions\Action;
 
 use function CybrixSolutions\EasyPost\hasApiKey;
 

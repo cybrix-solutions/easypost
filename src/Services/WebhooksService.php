@@ -46,7 +46,7 @@ final class WebhooksService extends EasyPostClient
     {
         $webhooks = $this->allFromApi(testMode: false);
 
-        if ($this->testApiKey) {
+        if ($this->testApiKey || $this->pendingTestMocks !== []) {
             $testWebhooks = $this->allFromApi(testMode: true);
 
             $webhooks = $webhooks->concat($testWebhooks->toArray());

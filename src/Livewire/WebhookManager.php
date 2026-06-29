@@ -19,8 +19,8 @@ use Filament\Forms\Components\Component as FormComponent;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Support\Facades\FilamentIcon;
@@ -81,7 +81,7 @@ class WebhookManager extends Component implements HasActions, HasForms
             ->form([
                 $this->webhookUrlInput(),
             ])
-            ->action(function (Form $form, Action $action, AddWebhookAction $addWebhookAction) {
+            ->action(function (Schema $form, Action $action, AddWebhookAction $addWebhookAction) {
                 abort_unless(app()->isLocal(), Response::HTTP_UNPROCESSABLE_ENTITY);
 
                 try {
