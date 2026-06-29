@@ -40,13 +40,13 @@ final class WebhooksService extends EasyPostClient
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook>
+     * @return Collection<int, EasyPostWebhook>
      */
     public function all(): Collection
     {
         $webhooks = $this->allFromApi(testMode: false);
 
-        if ($this->testApiKey) {
+        if ($this->testApiKey || $this->pendingTestMocks !== []) {
             $testWebhooks = $this->allFromApi(testMode: true);
 
             $webhooks = $webhooks->concat($testWebhooks->toArray());
@@ -171,7 +171,7 @@ final class WebhooksService extends EasyPostClient
     }
 
     /**
-     * @return Collection<int, \CybrixSolutions\EasyPost\Dto\EasyPostWebhook>
+     * @return Collection<int, EasyPostWebhook>
      */
     private function allFromApi(bool $testMode): Collection
     {

@@ -6,12 +6,12 @@ namespace CybrixSolutions\EasyPost\Filament\Concerns;
 
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Filament\Actions\EditCarrierAccountAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\EditAction;
 use Illuminate\Support\Arr;
 
 /**
- * @mixin \CybrixSolutions\EasyPost\Filament\Concerns\GeneratesCarrierAccountFormSchema
- * @mixin \CybrixSolutions\EasyPost\Filament\Concerns\CreatesCarrierAccounts
+ * @mixin GeneratesCarrierAccountFormSchema
+ * @mixin CreatesCarrierAccounts
  */
 trait EditsCarrierAccounts
 {

@@ -6,36 +6,55 @@ namespace CybrixSolutions\EasyPost\Services\Api;
 
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\EasyPostMock;
 use EasyPost\EasyPostClient as Client;
+use EasyPost\Service\AddressService;
+use EasyPost\Service\BatchService;
+use EasyPost\Service\BillingService;
+use EasyPost\Service\CarrierAccountService;
+use EasyPost\Service\CustomsInfoService;
+use EasyPost\Service\CustomsItemService;
+use EasyPost\Service\EndShipperService;
+use EasyPost\Service\EventService;
+use EasyPost\Service\InsuranceService;
+use EasyPost\Service\OrderService;
+use EasyPost\Service\ParcelService;
+use EasyPost\Service\PickupService;
+use EasyPost\Service\RateService;
+use EasyPost\Service\ReferralCustomerService;
+use EasyPost\Service\RefundService;
+use EasyPost\Service\ReportService;
+use EasyPost\Service\ScanFormService;
+use EasyPost\Service\ShipmentService;
+use EasyPost\Service\TrackerService;
+use EasyPost\Service\UserService;
+use EasyPost\Service\WebhookService;
 use EasyPost\Test\Mocking\MockingUtility;
 
 /**
- * @property \EasyPost\Service\AddressService $address
- * @property \EasyPost\Service\BatchService $batch
- * @property \EasyPost\Service\BillingService $billing
- * @property \EasyPost\Service\CarrierAccountService $carrierAccount
- * @property \EasyPost\Service\CustomsInfoService $customsInfo
- * @property \EasyPost\Service\CustomsItemService $customsItem
- * @property \EasyPost\Service\EndShipperService $endShipper
- * @property \EasyPost\Service\EventService $event
- * @property \EasyPost\Service\InsuranceService $insurance
- * @property \EasyPost\Service\OrderService $order
- * @property \EasyPost\Service\ParcelService $parcel
- * @property \EasyPost\Service\PickupService $pickup
- * @property \EasyPost\Service\RateService $rate
- * @property \EasyPost\Service\ReferralCustomerService $referralCustomer
- * @property \EasyPost\Service\RefundService $refund
- * @property \EasyPost\Service\ReportService $report
- * @property \EasyPost\Service\ScanFormService $scanForm
- * @property \EasyPost\Service\ShipmentService $shipment
- * @property \EasyPost\Service\TrackerService $tracker
- * @property \EasyPost\Service\UserService $user
- * @property \EasyPost\Service\WebhookService $webhook
+ * @property AddressService $address
+ * @property BatchService $batch
+ * @property BillingService $billing
+ * @property CarrierAccountService $carrierAccount
+ * @property CustomsInfoService $customsInfo
+ * @property CustomsItemService $customsItem
+ * @property EndShipperService $endShipper
+ * @property EventService $event
+ * @property InsuranceService $insurance
+ * @property OrderService $order
+ * @property ParcelService $parcel
+ * @property PickupService $pickup
+ * @property RateService $rate
+ * @property ReferralCustomerService $referralCustomer
+ * @property RefundService $refund
+ * @property ReportService $report
+ * @property ScanFormService $scanForm
+ * @property ShipmentService $shipment
+ * @property TrackerService $tracker
+ * @property UserService $user
+ * @property WebhookService $webhook
  */
 class EasyPostClient
 {
     protected Client $client;
-
-    protected static array $mockPaths = [];
 
     protected array $pendingMocks = [];
 
@@ -80,15 +99,6 @@ class EasyPostClient
 
     protected function ensureMockingUtilitiesAreLoaded(): void
     {
-        $basePath = __DIR__ . '/../../../vendor/easypost/easypost-php/test/EasyPost/Mocking';
-
-        if (! isset(static::$mockPaths[$basePath])) {
-            require_once "{$basePath}/MockingUtility.php";
-            require_once "{$basePath}/MockRequest.php";
-            require_once "{$basePath}/MockRequestMatchRule.php";
-            require_once "{$basePath}/MockRequestResponseInfo.php";
-
-            static::$mockPaths[$basePath] = true;
-        }
+        //
     }
 }

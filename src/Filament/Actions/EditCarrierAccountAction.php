@@ -8,8 +8,8 @@ use CybrixSolutions\EasyPost\Contracts\CarrierAccounts\UpdateCarrierAction;
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountUpdateFailed;
 use CybrixSolutions\EasyPost\Services\CarrierService;
+use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\EditAction;
 
 class EditCarrierAccountAction extends EditAction
 {

@@ -114,8 +114,8 @@ final class EasyPostServiceProvider extends PackageServiceProvider
             fn () => new WebhooksService(
                 EasyPostFacade::apiKey(),
                 EasyPostFacade::testApiKey(),
-                config('easypost.webhook_secret', ''),
-                config('easypost.webhook_url', ''),
+                (string) config('easypost.webhook_secret', ''),
+                (string) config('easypost.webhook_url', ''),
             ),
         );
 
