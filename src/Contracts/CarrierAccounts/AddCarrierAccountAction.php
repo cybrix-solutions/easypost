@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace CybrixSolutions\EasyPost\Contracts\CarrierAccounts;
 
 use CybrixSolutions\EasyPost\Contracts\Models\CarrierAccount;
+use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed;
 use CybrixSolutions\EasyPost\Services\CarrierService;
 
 interface AddCarrierAccountAction
 {
     /**
-     * @throws \CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed
+     * @throws CarrierAccountCreationFailed
      */
     public function __invoke(array $input): CarrierAccount;
 

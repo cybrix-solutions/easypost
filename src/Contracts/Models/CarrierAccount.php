@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CybrixSolutions\EasyPost\Contracts\Models;
 
+use Carbon\CarbonImmutable;
+use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
@@ -13,10 +15,10 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @property string $easypost_id
  * @property string $billing_type
  * @property bool $default
- * @property \Carbon\CarbonImmutable|null $deactivated_at
- * @property \CybrixSolutions\EasyPost\Enums\CarrierEnum $type CarrierEnum
- * @property \Carbon\CarbonImmutable|null $created_at
- * @property \Carbon\CarbonImmutable|null $updated_at
+ * @property CarbonImmutable|null $deactivated_at
+ * @property CarrierEnum $type CarrierEnum
+ * @property CarbonImmutable|null $created_at
+ * @property CarbonImmutable|null $updated_at
  */
 interface CarrierAccount
 {

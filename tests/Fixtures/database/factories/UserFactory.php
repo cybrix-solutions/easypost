@@ -8,7 +8,7 @@ use CybrixSolutions\EasyPost\Tests\Fixtures\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\CybrixSolutions\EasyPost\Tests\Fixtures\Models\User>
+ * @extends Factory<User>
  */
 final class UserFactory extends Factory
 {

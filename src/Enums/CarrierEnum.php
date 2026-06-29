@@ -81,7 +81,7 @@ enum CarrierEnum: string implements HasLabel
     ];
 
     /**
-     * @return \Illuminate\Support\Collection<int, self>
+     * @return Collection<int, self>
      */
     public static function fromSearch(string $search): Collection
     {

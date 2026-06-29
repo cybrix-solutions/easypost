@@ -121,7 +121,7 @@ class CreateShipmentAction implements CreateShipmentActionContract
     }
 
     /**
-     * @return array<int, \EasyPost\Shipment>
+     * @return array<int, Shipment>
      */
     public function execute(): array
     {

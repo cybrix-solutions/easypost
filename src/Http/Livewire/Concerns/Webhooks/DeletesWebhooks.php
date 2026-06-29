@@ -6,9 +6,10 @@ namespace CybrixSolutions\EasyPost\Http\Livewire\Concerns\Webhooks;
 
 use CybrixSolutions\EasyPost\Contracts\Webhooks\DeleteWebhookAction;
 use CybrixSolutions\EasyPost\Exceptions\Webhooks\WebhookDeletionFailed;
+use Livewire\Component;
 
 /**
- * @mixin \Livewire\Component
+ * @mixin Component
  */
 trait DeletesWebhooks
 {
