@@ -34,6 +34,7 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
+        config()->set('app.key', 'base64:MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=');
         config()->set('easypost.table_names.carrier_accounts', 'carrier_accounts');
         config()->set('easypost.models.carrier_account', CarrierAccount::class);
         config()->set('auth.providers.users.model', User::class);

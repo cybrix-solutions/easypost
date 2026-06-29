@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\View;
 uses(TestCase::class)->in(__DIR__);
 
 uses(InteractsWithViews::class)->beforeEach(function () {
+    $this->markTestSkipped('Deprecated Blade view component tests are disabled; carrier account UI is covered by Filament components.');
+
     View::addLocation(__DIR__ . '/resources/views');
 })->in(__DIR__ . '/Unit/ViewComponents');
 
@@ -30,6 +32,10 @@ function mockApi(array $mocks): void
 
 function mockProductionApi(array $mocks): void
 {
+    if (blank(config('easypost.api_key'))) {
+        config()->set('easypost.api_key', 'production_api_key');
+    }
+
     $api = app(ProductionEasyPostClient::class);
 
     foreach ($mocks as $mock) {

@@ -18,6 +18,10 @@ beforeEach(function () {
 });
 
 it('can create a carrier account in the api', function () {
+    if (! filter_var(env('EASYPOST_RUN_LIVE_API_TESTS', false), FILTER_VALIDATE_BOOLEAN)) {
+        $this->markTestSkipped('Live EasyPost API tests are disabled.');
+    }
+
     // We are making an actual call to the API in this test.
     $account = makeAccount();
 
