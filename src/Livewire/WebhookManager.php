@@ -21,8 +21,8 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\ActionSize;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Size;
+use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -112,7 +112,7 @@ class WebhookManager extends Component implements HasActions, HasForms
     {
         return Action::make('configureProductionWebhook')
             ->label(__('easypost::livewire/webhooks.actions.configure_production.label'))
-            ->size(ActionSize::Small)
+            ->size(Size::Small)
             ->color('primary')
             ->action(function (AddWebhookAction $addWebhookAction, Action $action) {
                 try {
@@ -145,7 +145,7 @@ class WebhookManager extends Component implements HasActions, HasForms
             ->link()
             ->color('danger')
             ->requiresConfirmation()
-            ->modalWidth(MaxWidth::ExtraLarge)
+            ->modalWidth(Width::ExtraLarge)
             ->modalSubmitActionLabel(__('filament-actions::delete.single.label'))
             ->modalHeading(__('easypost::livewire/webhooks.actions.delete.heading'))
             ->modalIcon(FilamentIcon::resolve('actions::delete-action.modal') ?? 'heroicon-o-trash')
