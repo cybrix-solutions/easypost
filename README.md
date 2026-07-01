@@ -33,9 +33,9 @@ composer test
 
 ## Credits
 
--   [Randall Wilk](https://github.com/rawilk)
--   [All Contributors](../../contributors)
--   [EasyPost](https://github.com/easypost/easypost-php)
+- [Randall Wilk](https://github.com/rawilk)
+- [All Contributors](../../contributors)
+- [EasyPost](https://github.com/easypost/easypost-php)
 
 ## Disclaimer
 
