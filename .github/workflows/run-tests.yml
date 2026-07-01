@@ -1,60 +1,60 @@
 name: Tests
 
 on:
-    push:
-        paths:
-            - '**.php'
-            - 'phpunit.xml.dist'
-            - '.github/workflows/run-tests.yml'
-    pull_request:
-        paths:
-            - '**.php'
-            - 'phpunit.xml.dist'
-            - '.github/workflows/run-tests.yml'
+  push:
+    paths:
+      - '**.php'
+      - 'phpunit.xml.dist'
+      - '.github/workflows/run-tests.yml'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpunit.xml.dist'
+      - '.github/workflows/run-tests.yml'
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: true
-            matrix:
-                php: [8.5, 8.4, 8.3]
-                laravel: [13.*]
-                include:
-                    -   laravel: 13.*
-                        testbench: 11.*
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.5, 8.4, 8.3]
+        laravel: [13.*]
+        include:
+          - laravel: 13.*
+            testbench: 11.*
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v7
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
 
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-                    coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
-            -   name: Setup problem matchers
-                run: |
-                    echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-                    echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            -   name: Install dependencies
-                run: |
-                    composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                    composer update --prefer-dist --no-interaction
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
 
-            -   name: List Installed Dependencies
-                run: composer show -D
+      - name: List Installed Dependencies
+        run: composer show -D
 
-            -   name: Execute tests
-                run: vendor/bin/pest --stop-on-failure --parallel --display-skipped --processes=10
-                env:
-                    EASYPOST_API_KEY: ${{ secrets.EASYPOST_API_KEY }}
-                    EASYPOST_TEST_API_KEY: ${{ secrets.EASYPOST_TEST_API_KEY }}
-                    EASYPOST_TEST_MODE: ${{ secrets.EASYPOST_TEST_MODE }}
-                    EASYPOST_WEBHOOK_SECRET: ${{ secrets.EASYPOST_WEBHOOK_SECRET }}
-                    APP_KEY: ${{ secrets.APP_KEY }}
+      - name: Execute tests
+        run: vendor/bin/pest --stop-on-failure --parallel --display-skipped --processes=10
+        env:
+          EASYPOST_API_KEY: ${{ secrets.EASYPOST_API_KEY }}
+          EASYPOST_TEST_API_KEY: ${{ secrets.EASYPOST_TEST_API_KEY }}
+          EASYPOST_TEST_MODE: ${{ secrets.EASYPOST_TEST_MODE }}
+          EASYPOST_WEBHOOK_SECRET: ${{ secrets.EASYPOST_WEBHOOK_SECRET }}
+          APP_KEY: ${{ secrets.APP_KEY }}
