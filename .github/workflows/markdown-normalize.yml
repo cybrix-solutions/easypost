@@ -21,4 +21,12 @@ jobs:
       - name: Prettify markdown
         uses: creyD/prettier_action@v4.6
         with:
+          no_commit: true
           prettier_options: --write **/*.md
+
+      - name: Commit markdown changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          branch: ${{ github.ref_name }}
+          commit_message: Prettified markdown
+          file_pattern: "*.md"
