@@ -28,8 +28,6 @@ use CybrixSolutions\EasyPost\Contracts\Webhooks\AddWebhookAction as AddWebhookAc
 use CybrixSolutions\EasyPost\Contracts\Webhooks\DeleteWebhookAction as DeleteWebhookActionContract;
 use CybrixSolutions\EasyPost\Contracts\Webhooks\UpdateWebhookAction as UpdateWebhookActionContract;
 use CybrixSolutions\EasyPost\Facades\EasyPost as EasyPostFacade;
-use CybrixSolutions\EasyPost\Livewire\CarrierAccountManager;
-use CybrixSolutions\EasyPost\Livewire\WebhookManager;
 use CybrixSolutions\EasyPost\Services\Api\EasyPostClient;
 use CybrixSolutions\EasyPost\Services\Api\ProductionEasyPostClient;
 use CybrixSolutions\EasyPost\Services\Webhooks\WebhookConfig;
@@ -189,8 +187,7 @@ final class EasyPostServiceProvider extends PackageServiceProvider
             return $this;
         }
 
-        Livewire::component('easypost::carrier-account-manager', CarrierAccountManager::class);
-        Livewire::component('easypost::webhook-manager', WebhookManager::class);
+        Livewire::addNamespace('easypost', classNamespace: __NAMESPACE__ . '\\Livewire');
 
         return $this;
     }

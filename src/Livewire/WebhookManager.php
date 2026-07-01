@@ -16,17 +16,25 @@ use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\FilamentServiceProvider;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Component as SchemaComponent;
+use Filament\Schemas\Components\EmbeddedTable;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Text;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
+use Filament\Support\ArrayRecord;
 use Filament\Support\Enums\Size;
 use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentIcon;
-use Illuminate\Contracts\View\View;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
@@ -38,11 +46,12 @@ use Symfony\Component\HttpFoundation\Response;
  * @property-read Collection<int, EasyPostWebhook> $webhooks
  * @property-read bool $hasProductionWebhook
  */
-class WebhookManager extends Component implements HasActions, HasForms
+class WebhookManager extends Component implements HasActions, HasSchemas, HasTable
 {
     use AuthorizesRequests;
     use InteractsWithActions;
-    use InteractsWithForms;
+    use InteractsWithSchemas;
+    use InteractsWithTable;
 
     #[Computed]
     public function webhooks(): Collection
@@ -67,9 +76,61 @@ class WebhookManager extends Component implements HasActions, HasForms
         );
     }
 
-    public function render(): View
+    public function render(): string
     {
-        return view('easypost::livewire.webhook-manager');
+        return <<<'HTML'
+        <div>
+            {{ $this->content }}
+
+            <x-filament-actions::modals />
+        </div>
+        HTML;
+    }
+
+    public function content(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make(__('easypost::livewire/webhooks.heading'))
+                    ->description(__('easypost::livewire/webhooks.description'))
+                    ->schema([
+                        Text::make($this->missingProductionWebhookWarning())
+                            ->extraAttributes(['class' => 'w-full'])
+                            ->hidden(fn (): bool => $this->hasProductionWebhook),
+                        EmbeddedTable::make(),
+                    ]),
+            ]);
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->records(fn (): array => $this->webhookRecords())
+            ->queryStringIdentifier('webhooks')
+            ->columns([
+                TextColumn::make('url')
+                    ->label(__('easypost::livewire/webhooks.table.url.label'))
+                    ->limit(70)
+                    ->tooltip(fn (array $record): string => $record['url'])
+                    ->description(fn (array $record): string => __('easypost::livewire/webhooks.table.id.label', ['id' => $record['id']])),
+                TextColumn::make('mode')
+                    ->label(__('easypost::livewire/webhooks.table.mode.label'))
+                    ->badge()
+                    ->color(fn (string $state): string => $state === 'production' ? 'success' : 'primary')
+                    ->formatStateUsing(fn (string $state): string => $state === 'production'
+                        ? __('easypost::livewire/webhooks.modes.production')
+                        : __('easypost::livewire/webhooks.modes.test')),
+            ])
+            ->recordActions([
+                $this->deleteWebhookAction(),
+            ])
+            ->headerActions([
+                $this->addWebhookAction()
+                    ->visible(fn (): bool => app()->isLocal()),
+            ])
+            ->emptyStateIcon(FilamentIcon::resolve('easypost::empty-webhooks') ?? 'heroicon-o-circle-stack')
+            ->emptyStateHeading(__('easypost::livewire/webhooks.table.empty.heading'))
+            ->emptyStateDescription(__('easypost::livewire/webhooks.table.empty.description'));
     }
 
     public function addWebhookAction(): Action
@@ -150,19 +211,21 @@ class WebhookManager extends Component implements HasActions, HasForms
             ->modalHeading(__('easypost::livewire/webhooks.actions.delete.heading'))
             ->modalIcon(FilamentIcon::resolve('actions::delete-action.modal') ?? 'heroicon-o-trash')
             ->modalDescription(
-                fn (array $arguments) => new HtmlString(Str::inlineMarkdown(__('easypost::livewire/webhooks.actions.delete.content', ['url' => $arguments['url'] ?? '?'])))
+                fn (array $record) => new HtmlString(Str::inlineMarkdown(__('easypost::livewire/webhooks.actions.delete.content', ['url' => $record['url'] ?? '?'])))
             )
-            ->action(function (array $arguments, Action $action, DeleteWebhookAction $deleteWebhookAction) {
-                $webhook = $this->findWebhook($arguments['webhook'] ?? '');
-                if (! $webhook) {
+            ->action(function (array $record, Action $action, DeleteWebhookAction $deleteWebhookAction) {
+                if (! isset($record['id'], $record['mode'])) {
                     return;
                 }
 
                 try {
                     $deleteWebhookAction(
-                        webhookId: $webhook->id,
-                        testMode: $webhook->mode !== 'production',
+                        webhookId: $record['id'],
+                        testMode: $record['mode'] !== 'production',
                     );
+
+                    unset($this->webhooks, $this->hasProductionWebhook);
+                    $this->flushCachedTableRecords();
                 } catch (WebhookDeletionFailed $e) {
                     Notification::make()
                         ->danger()
@@ -189,6 +252,25 @@ class WebhookManager extends Component implements HasActions, HasForms
             ->required();
     }
 
+    protected function missingProductionWebhookWarning(): HtmlString
+    {
+        return new HtmlString(Blade::render(<<<'HTML'
+            <div class="rounded-md bg-danger-50 px-4 py-6 dark:bg-danger-500/10">
+                <div class="text-sm text-danger-700 dark:font-semibold dark:text-white">
+                    <p>
+                        {{ __('easypost::livewire/webhooks.production.missing.description') }}
+                    </p>
+
+                    <div class="mt-3">
+                        {{ $configureProductionWebhookAction }}
+                    </div>
+                </div>
+            </div>
+            HTML, [
+            'configureProductionWebhookAction' => $this->configureProductionWebhookAction,
+        ]));
+    }
+
     protected function defaultTestWebhookUrl(): string
     {
         $domain = rtrim(request()->getSchemeAndHttpHost() ?? config('app.url'), '/');
@@ -197,6 +279,19 @@ class WebhookManager extends Component implements HasActions, HasForms
         return Str::of("{$domain}/{$path}")
             ->lower()
             ->toString();
+    }
+
+    protected function webhookRecords(): array
+    {
+        return $this->webhooks
+            ->map(fn (EasyPostWebhook $webhook): array => [
+                ArrayRecord::getKeyName() => $webhook->id,
+                'id' => $webhook->id,
+                'url' => $webhook->url,
+                'mode' => $webhook->mode,
+            ])
+            ->values()
+            ->all();
     }
 
     protected function findWebhook(string $id): ?EasyPostWebhook
