@@ -14,6 +14,7 @@ use Filament\Schemas\Components\Component as SchemaComponent;
 use Filament\Schemas\Schema;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -31,6 +32,11 @@ trait CreatesCarrierAccounts
 
     public ?array $createCarrierData = [];
 
+    /**
+     * @var Collection<int, string>|null
+     */
+    protected ?Collection $availableCarrierTypes = null;
+
     #[Locked]
     public ?string $selectedCarrierType = null;
 
@@ -42,6 +48,19 @@ trait CreatesCarrierAccounts
         }
 
         return CarrierService::fromType($this->selectedCarrierType);
+    }
+
+    /**
+     * @return Collection<int, CarrierEnum>
+     */
+    #[Computed]
+    public function carrierTypes(): Collection
+    {
+        $availableCarrierTypes = $this->availableCarrierTypes();
+
+        return CarrierEnum::fromSearch($this->carrierSearch ?? '')
+            ->filter(fn (CarrierEnum $enum): bool => $availableCarrierTypes->contains($enum->value))
+            ->values();
     }
 
     public function createCarrierForm(Schema $form): Schema
@@ -64,7 +83,12 @@ trait CreatesCarrierAccounts
 
     public function createCarrierAccountAction(): Action|CreateCarrierAccountAction
     {
-        return CreateCarrierAccountAction::make()
+        return $this->makeCreateCarrierAccountAction();
+    }
+
+    protected function makeCreateCarrierAccountAction(?string $name = null): CreateCarrierAccountAction
+    {
+        return CreateCarrierAccountAction::make($name)
             ->authorize('create', config('easypost.models.carrier_account'))
             ->tooltip(fn (): ?string => $this->hasProductionApiKey ? null : __('easypost::livewire/carriers.accounts.production_api_key_required'));
     }
@@ -91,11 +115,28 @@ trait CreatesCarrierAccounts
             return;
         }
 
+        if (! $this->availableCarrierTypes()->contains($enum->value)) {
+            Notification::make()
+                ->danger()
+                ->title(__('easypost::validation.invalid_carrier_chosen'))
+                ->send();
+
+            return;
+        }
+
         $this->resetValidation();
 
         $this->createCarrierData = [];
 
         $this->selectedCarrierType = $enum->value;
+    }
+
+    /**
+     * @return Collection<int, string>
+     */
+    protected function availableCarrierTypes(): Collection
+    {
+        return $this->availableCarrierTypes ??= CarrierService::availableTypes();
     }
 
     protected function getCarrierSearchField(): SchemaComponent|TextInput

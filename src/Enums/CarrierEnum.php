@@ -77,6 +77,7 @@ enum CarrierEnum: string implements HasLabel
      * accounts, we'll just prevent it from being used in the create forms.
      */
     protected const DiscontinuedCarriers = [
+        self::FedexMailView,
         self::Parcll,
     ];
 

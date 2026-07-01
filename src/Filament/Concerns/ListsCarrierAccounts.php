@@ -55,6 +55,11 @@ trait ListsCarrierAccounts
         ];
     }
 
+    public function syncAction(): Action|SyncCarrierAccountsAction
+    {
+        return $this->getSyncCarriersAction();
+    }
+
     protected function getAccountColumn(): Column
     {
         return ViewColumn::make('name')

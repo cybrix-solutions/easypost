@@ -53,6 +53,33 @@ final class CarrierService
 
     public static function fromType(string|CarrierEnum $type): self
     {
+        if ($type instanceof CarrierEnum) {
+            $type = $type->value;
+        }
+
+        $carrierType = self::types()
+            ->filter(fn (EasyPostObject $carrier) => $carrier['type'] === $type)
+            ->firstOrFail();
+
+        return new self($carrierType);
+    }
+
+    /**
+     * @return Collection<int, string>
+     */
+    public static function availableTypes(): Collection
+    {
+        return self::types()
+            ->pluck('type')
+            ->filter()
+            ->values();
+    }
+
+    /**
+     * @return Collection<int, EasyPostObject>
+     */
+    protected static function types(): Collection
+    {
         $types = cache()->remember(
             key: config('easypost.cache.carriers.key'),
             ttl: config('easypost.cache.carriers.ttl', 60 * 60 * 24), // 24 hours
@@ -63,15 +90,7 @@ final class CarrierService
             },
         );
 
-        if ($type instanceof CarrierEnum) {
-            $type = $type->value;
-        }
-
-        $carrierType = collect(EasyPostUtil::convertToEasyPostObject(client: null, response: $types))
-            ->filter(fn (EasyPostObject $carrier) => $carrier['type'] === $type)
-            ->firstOrFail();
-
-        return new self($carrierType);
+        return collect(EasyPostUtil::convertToEasyPostObject(client: null, response: $types));
     }
 
     public static function fromAccount(string $easypostId): self

@@ -9,12 +9,11 @@ use CybrixSolutions\EasyPost\Filament\Concerns\CreatesCarrierAccounts;
 use CybrixSolutions\EasyPost\Filament\Concerns\EditsCarrierAccounts;
 use CybrixSolutions\EasyPost\Filament\Concerns\GeneratesCarrierAccountFormSchema;
 use CybrixSolutions\EasyPost\Filament\Concerns\ListsCarrierAccounts;
-use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\FilamentServiceProvider;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -28,13 +27,13 @@ use function CybrixSolutions\EasyPost\hasApiKey;
 /**
  * @property-read bool $hasProductionApiKey
  */
-class CarrierAccountManager extends Component implements HasActions, HasForms, HasTable
+class CarrierAccountManager extends Component implements HasActions, HasSchemas, HasTable
 {
     use CreatesCarrierAccounts;
     use EditsCarrierAccounts;
     use GeneratesCarrierAccountFormSchema;
     use InteractsWithActions;
-    use InteractsWithForms;
+    use InteractsWithSchemas;
     use InteractsWithTable;
     use ListsCarrierAccounts;
 
@@ -63,7 +62,7 @@ class CarrierAccountManager extends Component implements HasActions, HasForms, H
             ->query(app(CarrierAccount::class)::query())
             ->queryStringIdentifier('carrierAccounts')
             ->columns($this->getCarrierTableColumns())
-            ->actions($this->getCarrierTableActions())
+            ->recordActions($this->getCarrierTableActions())
             ->headerActions($this->getCarrierTableHeaderActions())
             ->emptyStateHeading(__('easypost::livewire/carriers.accounts.table.empty_state.title'))
             ->emptyStateDescription(
@@ -72,14 +71,9 @@ class CarrierAccountManager extends Component implements HasActions, HasForms, H
                     : __('easypost::livewire/carriers.accounts.table.empty_state.description_without_search')
             )
             ->emptyStateActions([
-                Action::make('create')
-                    ->authorize('create')
+                $this->createCarrierAccountAction()
                     ->button()
-                    ->color('primary')
-                    ->label(__('easypost::livewire/carriers.accounts.actions.create.label'))
-                    ->action(function () {
-                        $this->mountAction('createCarrierAccount');
-                    }),
+                    ->color('primary'),
             ]);
     }
 

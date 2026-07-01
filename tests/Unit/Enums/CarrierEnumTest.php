@@ -72,3 +72,11 @@ it('returns a boolean for if a carrier needs terms accepted for an account to be
     [fn () => CarrierEnum::Fedex, true],
     [fn () => CarrierEnum::Usps, false],
 ]);
+
+it('excludes discontinued carriers from carrier search', function (CarrierEnum $enum, string $search) {
+    expect($enum->isDisabled())->toBeTrue()
+        ->and(CarrierEnum::fromSearch($search))->not->toContain($enum);
+})->with([
+    [fn () => CarrierEnum::FedexMailView, 'fedex mailview'],
+    [fn () => CarrierEnum::Parcll, 'parcll'],
+]);

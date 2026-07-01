@@ -3,9 +3,9 @@
         :heading="__('easypost::livewire/carriers.accounts.heading')"
         :description="__('easypost::livewire/carriers.accounts.description')"
     >
-        <x-slot:header-end>
-            {{ $this->createCarrierAccountAction }}
-        </x-slot:header-end>
+        <x-slot:afterHeader>
+            {{ $this->getAction('createCarrierAccount') }}
+        </x-slot:afterHeader>
 
         {{ \Filament\Support\Facades\FilamentView::renderHook('easypost::carrier-account-manager.start') }}
 

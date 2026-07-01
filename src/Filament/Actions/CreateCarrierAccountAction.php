@@ -10,7 +10,6 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\CarrierAccounts\CarrierAccountCreationFailed;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Actions\StaticAction;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\Width;
 use Illuminate\Contracts\View\View;
@@ -50,7 +49,7 @@ class CreateCarrierAccountAction extends Action
             ]);
         });
 
-        $this->modalSubmitAction(function (StaticAction $action, Component $livewire): StaticAction {
+        $this->modalSubmitAction(function (Action $action, Component $livewire): Action {
             return $action
                 ->label(__('easypost::livewire/carriers.accounts.actions.create.modal_submit'))
                 ->disabled(fn (): bool => blank($livewire->selectedCarrierType));

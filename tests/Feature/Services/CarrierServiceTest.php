@@ -12,6 +12,8 @@ use EasyPost\EasyPostObject;
 use Illuminate\Support\Collection;
 
 beforeEach(function () {
+    cache()->forget(config('easypost.cache.carriers.key'));
+
     mockProductionApi([
         CarrierTypesMock::make(),
     ]);
@@ -22,6 +24,15 @@ it('can be created from a carrier type', function () {
 
     expect($service->carrierEnum())->toBe(CarrierEnum::Speedee)
         ->and(invade($service)->carrier)->toBeInstanceOf(EasyPostObject::class);
+});
+
+it('can list the available carrier types returned by easypost', function () {
+    expect(CarrierService::availableTypes()->all())->toBe([
+        CarrierEnum::BetterTrucks->value,
+        CarrierEnum::Fedex->value,
+        CarrierEnum::Speedee->value,
+        CarrierEnum::Ups->value,
+    ]);
 });
 
 it('knows if the carrier type has test credentials', function () {

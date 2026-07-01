@@ -24,7 +24,7 @@
             </div>
 
             <x-easypost::filament.carriers.carrier-grid-list
-                :carrier-types="\CybrixSolutions\EasyPost\Enums\CarrierEnum::fromSearch($this->carrierSearch ?? '')"
+                :carrier-types="$this->carrierTypes"
             />
         </div>
     @endunless

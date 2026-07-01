@@ -32,7 +32,7 @@ class SyncCarrierAccountsAction extends Action
 
         $this->requiresConfirmation();
 
-        $this->authorize('create');
+        $this->authorize('sync', config('easypost.models.carrier_account'));
 
         $this->modalIcon(FilamentIcon::resolve('easypost::sync') ?? 'heroicon-m-arrow-path');
 
