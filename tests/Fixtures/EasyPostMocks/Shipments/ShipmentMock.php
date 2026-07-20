@@ -15,7 +15,19 @@ final class ShipmentMock extends EasyPostMock
 
     private bool $isReturn = false;
 
+    private array $messages = [];
+
+    private array $rates = [];
+
     private ?string $trackingCode = null;
+
+    public function forCreation(): self
+    {
+        $this->method = 'post';
+        $this->urlPattern = '/v2\\/shipments$/';
+
+        return $this;
+    }
 
     public function forId(string $id): self
     {
@@ -42,6 +54,43 @@ final class ShipmentMock extends EasyPostMock
         return $this;
     }
 
+    public function withMessage(string $message): self
+    {
+        $this->messages[] = [
+            'carrier' => 'UPS',
+            'message' => $message,
+            'type' => 'rate_error',
+        ];
+
+        return $this;
+    }
+
+    public function withRate(): self
+    {
+        $this->rates[] = [
+            'id' => 'rate_123',
+            'object' => 'Rate',
+            'mode' => 'test',
+            'service' => 'Ground',
+            'carrier' => 'UPS',
+            'rate' => '12.34',
+            'currency' => 'USD',
+            'retail_rate' => '12.34',
+            'retail_currency' => 'USD',
+            'list_rate' => '12.34',
+            'list_currency' => 'USD',
+            'billing_type' => 'carrier',
+            'delivery_days' => 2,
+            'delivery_date' => null,
+            'delivery_date_guaranteed' => false,
+            'est_delivery_days' => 2,
+            'shipment_id' => $this->id,
+            'carrier_account_id' => 'ca_123',
+        ];
+
+        return $this;
+    }
+
     protected function getPayload(): array
     {
         return [
@@ -53,6 +102,8 @@ final class ShipmentMock extends EasyPostMock
             'updated_at' => '2023-07-10T17:30:31Z',
             'is_return' => $this->isReturn,
             'mode' => 'test',
+            'messages' => $this->messages,
+            'rates' => $this->rates,
             'tracking_code' => $this->trackingCode ?? TestTrackingCodes::PreTransit->value,
             'from_address' => [
                 'object' => 'Address',

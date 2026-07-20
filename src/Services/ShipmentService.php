@@ -20,7 +20,20 @@ final readonly class ShipmentService
     public function create(array $data): Shipment
     {
         try {
-            return $this->api->shipment->create($data);
+            $shipment = $this->api->shipment->create($data);
+
+            if (filled($shipment->rates)) {
+                return $shipment;
+            }
+
+            $message = collect($shipment->messages ?? [])
+                ->pluck('message')
+                ->filter()
+                ->implode(' ');
+
+            throw ShipmentCreationFailed::make(
+                $message ?: __('easypost::exceptions.shipment_no_rates_found'),
+            );
         } catch (ApiException $e) {
             throw ShipmentCreationFailed::make($e->getMessage());
         }
