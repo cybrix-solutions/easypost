@@ -19,7 +19,7 @@ final readonly class TrackerService
         try {
             return $this->api->tracker->retrieve($trackerId);
         } catch (ApiException $e) {
-            throw ParcelTrackingFailed::withMessage($e->getMessage());
+            throw ParcelTrackingFailed::withMessage($e->getMessage(), $e);
         }
     }
 
@@ -35,7 +35,7 @@ final readonly class TrackerService
                 'carrier' => $carrier?->nameForTracker(),
             ]));
         } catch (ApiException $e) {
-            throw ParcelTrackingFailed::cannotCreate($e->getMessage());
+            throw ParcelTrackingFailed::cannotCreate($e->getMessage(), $e);
         }
     }
 }

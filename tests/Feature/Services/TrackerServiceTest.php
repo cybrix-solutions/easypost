@@ -6,6 +6,8 @@ use CybrixSolutions\EasyPost\Enums\CarrierEnum;
 use CybrixSolutions\EasyPost\Exceptions\ParcelTracking\ParcelTrackingFailed;
 use CybrixSolutions\EasyPost\Services\TrackerService;
 use CybrixSolutions\EasyPost\Tests\Fixtures\EasyPostMocks\ParcelTracking\TrackerMock;
+use EasyPost\Exception\Api\ApiException;
+use EasyPost\Exception\Api\InvalidRequestException;
 use EasyPost\Tracker;
 use EasyPost\TrackingDetail;
 
@@ -34,8 +36,51 @@ it('throws an exception when a tracker is not found', function () {
         TrackerMock::make()->notFound(),
     ]);
 
-    $this->api->retrieve('trk_123');
-})->throws(ParcelTrackingFailed::class, 'The requested resource could not be found.');
+    try {
+        $this->api->retrieve('trk_123');
+    } catch (ParcelTrackingFailed $exception) {
+        expect($exception->getMessage())
+            ->toContain('The requested resource could not be found.')
+            ->and($exception->isRetryable())->toBeFalse()
+            ->and($exception->getPrevious())->toBeInstanceOf(ApiException::class)
+            ->and($exception->getPrevious()?->getHttpStatus())->toBe(404)
+            ->and($exception->context())->toBe([
+                'easypost_error_code' => 404,
+                'easypost_http_status' => 404,
+            ]);
+
+        return;
+    }
+
+    $this->fail('Expected tracker retrieval to fail.');
+});
+
+it('identifies transient tracker retrieval errors as retryable', function (int $httpStatus, string $errorCode) {
+    $apiException = new InvalidRequestException(
+        message: 'too many other errors',
+        httpStatus: $httpStatus,
+        httpBody: json_encode([
+            'error' => [
+                'code' => $errorCode,
+                'message' => 'too many other errors',
+            ],
+        ]),
+    );
+
+    $exception = ParcelTrackingFailed::withMessage($apiException->getMessage(), $apiException);
+
+    expect($exception)
+        ->isRetryable()->toBeTrue()
+        ->and($exception->getPrevious())->toBe($apiException)
+        ->and($exception->context())->toBe([
+            'easypost_error_code' => $errorCode,
+            'easypost_http_status' => $httpStatus,
+        ]);
+})->with([
+    'tracker retrieval error' => [422, 'TRACKER.RETRIEVE.ERROR'],
+    'rate limit' => [429, 'RATE.LIMIT'],
+    'server error' => [500, 'INTERNAL.ERROR'],
+]);
 
 it('can create a tracker', function () {
     mockApi([
